@@ -13593,7 +13593,8 @@ ul.profile-actions > li:last-child {
   display: none;
 }
 .sidebar-menu > li.active:hover > a i {
-  background-color: #ffffff;
+  /* background-color: #ffffff; */
+  background-color: #ffe9d4;
 }
 .sidebar-menu li.active > .treeview-menu {
   display: block;
@@ -13908,4 +13909,9 @@ ul.profile-actions > li:last-child {
 
 img.login-logo {
   width: 150px;
+}
+
+
+.sidebar-menu li.active a {
+  background-color: lightgray;
 }
