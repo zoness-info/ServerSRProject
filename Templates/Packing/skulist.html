@@ -1,0 +1,244 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<div class="app-body">
+
+    <div class="row">
+        <div class="col-xl-4 col-sm-6 col-12">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <div class="d-flex flex-row">
+                        <div class="icon-box lg rounded-3 bg-light mb-4">
+                            <i class="bi bi-bag-check text-primary fs-2"></i>
+                        </div>
+                        <div class="ms-4">
+                            <p class="mb-2 lh-1 d-flex align-items-center">
+                                <!-- <i class="bi bi-caret-up-fill text-success me-1 fs-3"></i><span class="text-success me-2">8%
+                                </span> from -->
+                                No of Brands
+                            </p>
+                            <h1 class="fw-bold mb-2">{{brandcount}}</h1>
+                            <!-- <h6 class="m-0 fw-normal opacity-50">Visitors</h6> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-4 col-sm-6 col-12">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <div class="d-flex flex-row">
+                        <div class="icon-box lg rounded-3 bg-light mb-4">
+                            <i class="bi bi-bag-check text-primary fs-2"></i>
+                        </div>
+                        <div class="ms-4">
+                            <p class="mb-2 lh-1 d-flex align-items-center">
+                                <!-- <i class="bi bi-caret-up-fill text-success me-1 fs-3"></i><span
+                                    class="text-success me-2">23% </span> from
+                                last week. -->
+                                No of Oil Category
+                            </p>
+                            <h1 class="fw-bold mb-2">{{categorycount}}</h1>
+                            <!-- <h6 class="m-0 fw-normal opacity-50">Subscribers</h6> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-4 col-lg-12 col-md-12 col-sm-12 col-12">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <div class="d-flex flex-row">
+                        <div class="icon-box lg rounded-3 bg-light mb-4">
+                            <i class="bi bi-bag-check text-primary fs-2"></i>
+                        </div>
+                        <div class="ms-4">
+                            <p class="mb-2 lh-1 d-flex align-items-center">
+                                <!-- <i class="bi bi-caret-down-fill text-danger me-1 fs-3"></i><span
+                                    class="text-danger me-2">18% </span> from
+                                last week. -->
+                                Total SKU's
+                            </p>
+                            <h1 class="fw-bold mb-2">{{skucount}}</h1>
+                            <!-- <h6 class="m-0 fw-normal opacity-50">Revenue</h6> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+
+    <div class="container-fluid">
+        <div class="row">
+<!-- Brands -->
+            <div class="col-md-12 col-lg-6">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col">
+                                <h4 class="card-title">Sunraja Brands</h4>
+                            </div>
+                            <div class="col-auto">
+                                <a href="#" class="btn btn-primary">+ Add</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                        <div class="border border-dark rounded-3">
+                            <table class="table align-middle table-hover m-0">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">S.No</th>
+                                        <th scope="col">Brand Name</th>
+                                        <th scope="col">Created On</th>
+                                        <th scope="col">Updated On</th>
+                                        <!-- <th scope="col">Start date</th>
+                                        <th scope="col">Progress</th>
+                                        <th scope="col">Salary</th> -->
+                                        <th scope="col">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for object in object_list %}
+                                    <tr>
+                                        <td>{{ forloop.counter }}</td>
+                                        <td>{{object.brandname}}</td>
+                                        <td>{{object.createdat}}</td>
+                                        <td>{{object.updatedat}}</td>
+                                        <td>
+                                            <div>
+                                                <a class="btn btn-info btn-sm" href="#"><i class="bi bi-pencil"></i></a>
+                                                <a class="btn btn-danger btn-icon btn-sm" href="#"><i class="bi bi-trash"></i></a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+<!-- Category -->
+            <div class="col-md-12 col-lg-6">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col">
+                                <h4 class="card-title">Oil Category</h4>
+                            </div>
+                            <div class="col-auto">
+                                <a href="#" class="btn btn-primary">+ Add</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <div class="border border-dark rounded-3">
+                                <table class="table align-middle table-hover m-0">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">S.No</th>
+                                            <th scope="col">Brand Name</th>
+                                            <th scope="col">Category Name</th>
+                                            <!-- <th scope="col">Created On</th> -->
+                                            <th scope="col">Updated On</th>
+                                            <!-- <th scope="col">Start date</th>
+                                            <th scope="col">Progress</th>
+                                            <th scope="col">Salary</th> -->
+                                            <th scope="col">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for object in oilcategorylists %}
+                                        <tr>
+                                            <td>{{ forloop.counter }}</td>
+                                            <td>{{object.brandname}}</td>
+                                            <td>{{object.oilcategoryname}}</td>
+                                            <!-- <td>{{object.createdat}}</td> -->
+                                            <td>{{object.updatedat}}</td>
+                                            <td>
+                                                <div>
+                                                    <a class="btn btn-info btn-sm" href="#"><i class="bi bi-pencil"></i></a>
+                                                    <a class="btn btn-danger btn-icon btn-sm" href="#"><i class="bi bi-trash"></i></a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<!-- SKU Name -->
+    <div class="container-fluid">
+        <!-- Row start -->
+        <div class="row"> 
+            <div class="col-12">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col">
+                                <h4 class="card-title">SKU Name List</h4>
+                            </div>
+                            <div class="col-auto">
+                                <a href="#" class="btn btn-primary">+ Add</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <div class="border border-dark rounded-3">
+                                <table class="table align-middle table-hover m-0">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">S.No</th>
+                                            <th scope="col">Brand Name</th>
+                                            <th scope="col">Category Name</th>
+                                            <th scope="col">SKU Name</th>
+                                            <th scope="col">SKU Code</th>
+                                            <th scope="col" class="d-none d-md-table-cell">Created On</th>
+                                            <th scope="col" class="d-none d-md-table-cell">Updated On</th>
+                                            <!-- <th scope="col">Start date</th>
+                                            <th scope="col">Progress</th>
+                                            <th scope="col">Salary</th> -->
+                                            <th scope="col">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for sku in skunamelist %}
+                                        <tr>
+                                            <td>{{ forloop.counter }}</td>
+                                            <td>{{sku.catgorty_id.brandname}}</td>
+                                            <td>{{sku.catgorty_id.oilcategoryname}}</td>
+                                            <td>{{sku.skuname}}</td>
+                                            <td>{{sku.skucode}}</td>
+                                            <td scope="col" class="d-none d-md-table-cell">{{sku.createdat}}</td>
+                                            <td scope="col" class="d-none d-md-table-cell">{{sku.updatedat}}</td>
+                                            <td>
+                                                <div>
+                                                    <a class="btn btn-info btn-sm" href="#"><i class="bi bi-pencil"></i></a>
+                                                    <a class="btn btn-danger btn-icon btn-sm" href="#"><i class="bi bi-trash"></i></a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

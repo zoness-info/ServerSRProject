@@ -1,0 +1,114 @@
+
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+
+	<head>
+		
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>SR Web</title>
+
+		<!-- Meta -->
+		<meta name="description" content="Marketplace for Bootstrap Admin Dashboards" />
+		<meta name="author" content="Bootstrap Gallery" />
+		<link rel="canonical" href="https://www.bootstrap.gallery/">
+		<meta property="og:url" content="https://www.bootstrap.gallery">
+		<meta property="og:title" content="Admin Templates - Dashboard Templates | Bootstrap Gallery">
+		<meta property="og:description" content="Marketplace for Bootstrap Admin Dashboards">
+		<meta property="og:type" content="Website">
+		<meta property="og:site_name" content="Bootstrap Gallery">
+		<link rel="shortcut icon" href="{% static 'assets/images/favicon.svg' %}" />
+
+		<!-- *************
+			************ CSS Files *************
+		************* -->
+		<link rel="stylesheet" href="{% static 'assets/fonts/bootstrap/bootstrap-icons.css' %}" />
+		<link rel="stylesheet" href="{% static 'assets/css/main.min.css' %}" />
+
+		<!-- *************
+			************ Vendor Css Files *************
+		************ -->
+
+		<!-- Scrollbar CSS -->
+		<link rel="stylesheet" href="{% static 'assets/vendor/overlay-scroll/OverlayScrollbars.min.css' %}" />
+
+		<!-- Toastify CSS -->
+		<link rel="stylesheet" href="{% static 'assets/vendor/toastify/toastify.css' %}" />
+
+		
+    	
+
+	</head>
+
+	<body>
+		
+		<!-- Page wrapper start -->
+		<div class="page-wrapper">
+
+			<!-- Main container start -->
+			<div class="main-container">
+
+				<!-- Sidebar wrapper start -->
+				{% include 'sidebar.html' %}
+				<!-- Sidebar wrapper end -->
+
+				<!-- App container starts -->
+				<div class="app-container">
+
+					<!-- App header starts -->
+					{% include 'headernavbar.html' %}
+					<!-- App header ends -->
+
+					<!-- App body starts -->
+					{% block content %} {% endblock %}
+					<!-- App body ends -->
+
+					<!-- App footer start -->
+					<div class="app-footer">
+						<span>© Bootstrap Gallery 2023</span>
+					</div>
+					<!-- App footer end -->
+
+				</div>
+				<!-- App container ends -->
+
+			</div>
+			<!-- Main container end -->
+
+		</div>
+		<!-- Page wrapper end -->
+
+		<!-- *************
+			************ JavaScript Files *************
+		************* -->
+		<!-- Required jQuery first, then Bootstrap Bundle JS -->
+		<script src="{% static 'assets/js/jquery.min.js' %}"></script>
+		<script src="{% static 'assets/js/bootstrap.bundle.min.js' %}"></script>
+
+		<!-- *************
+			************ Vendor Js Files *************
+		************* -->
+
+		<!-- Overlay Scroll JS -->
+		<script src="{% static 'assets/vendor/overlay-scroll/jquery.overlayScrollbars.min.js' %}"></script>
+		<script src="{% static 'assets/vendor/overlay-scroll/custom-scrollbar.js' %}"></script>
+
+		<!-- Toastify JS -->
+		<script src="{% static 'assets/vendor/toastify/toastify.js' %}"></script>
+		<script src="{% static 'assets/vendor/toastify/custom.js' %}"></script>
+
+		<!-- Apex Charts -->
+		<script src="{% static 'assets/vendor/apex/apexcharts.min.js' %}"></script>
+		<script src="{% static 'assets/vendor/apex/custom/home/overview.js' %}"></script>
+		<script src="{% static 'assets/vendor/apex/custom/home/reachedAudience.js' %}"></script>
+		<script src="{% static 'assets/vendor/apex/custom/home/social.js' %}"></script>
+		<script src="{% static 'assets/vendor/apex/custom/home/sparkline.js' %}"></script>
+		<script src="{% static 'assets/vendor/apex/custom/home/sparkline2.js' %}"></script>
+		<script src="{% static 'assets/vendor/apex/custom/home/visitors.js' %}"></script>
+
+		<!-- Custom JS files -->
+		<script src="{% static 'assets/js/custom.js' %}"></script>
+	</body>
+
+</html>

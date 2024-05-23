@@ -1,0 +1,14 @@
+{% load static %}
+{% block breadcrumb %}
+<ol class="breadcrumb d-none d-lg-flex ms-3">
+    {% for crumb in breadcrumbs %}
+    {% if crumb.url %}
+    <li class="breadcrumb-item"><i class="bi bi-house lh-1"></i>
+        
+        <a href="{{ crumb.url }}" class="text-decoration-none">{{ crumb.label }}</a>
+        {% else %}
+        <li class="breadcrumb-item active" aria-current="page">{{ crumb.label }}</li>
+        {% endif %}
+        {% endfor %}
+</ol>
+{% endblock %}

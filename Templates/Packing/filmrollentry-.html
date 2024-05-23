@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+
+
+
+
+
+
+<div class="app-body">
+<form method="post">
+    {% csrf_token %}
+    {{ printingrolldetailsform1.as_p }}
+    <h2>Roll Details</h2>
+    {{ rolldetailsformset.management_form }}
+    {% for form in rolldetailsformset %}
+        {{ form.as_p }}
+    {% endfor %}
+    <button type="submit">Save</button>
+</form>
+    
+</div>
+{% endblock %}

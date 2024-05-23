@@ -1,0 +1,325 @@
+
+{% load static %}
+
+<!-- Sidebar wrapper start -->
+<nav id="sidebar" class="sidebar-wrapper">
+
+    <!-- App brand starts -->
+    <div class="app-brand px-3 py-2 d-flex align-items-center">
+        <a href="{% url 'packinghome' %}">
+            <img src="{% static 'assets/images/logo.svg' %}" class="logo" alt="Bootstrap Gallery" />
+        </a>
+    </div>
+    <!-- App brand ends -->
+
+    <!-- Sidebar menu starts -->
+    <div class="sidebarMenuScroll">
+        <ul class="sidebar-menu">
+        <!-- Dashboard -->
+            <li class="active current-page">
+                <a href="{% url 'packinghome' %}">
+                    <i class="bi bi-pie-chart"></i>
+                    <span class="menu-text">Dashboard</span>
+                </a>
+            </li>
+        <!-- SKU's -->
+            <li class="treeview">
+                <a href="#!">
+                    <i class="bi bi-pie-chart"></i>
+                    <span class="menu-text">SKU's</span>
+                </a>
+                <ul class="treeview-menu">
+                    <li>
+                        <a href="{% url 'skulists' %}">SKU's List</a>
+                    </li>
+                    <li>
+                        <a href="#">Chart&Report</a>
+                    </li>
+                </ul>
+            </li>
+        <!-- Printing -->
+            <li class="treeview">
+                <a href="#!">
+                    <i class="bi bi-pie-chart"></i>
+                    <span class="menu-text">Printing</span>
+                </a>
+                <ul class="treeview-menu">
+                    <li>
+                        <a href="{% url 'filmrolltable' %}">Filmroll Table</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'filmrollentry' %}">FilmRoll Entry</a>
+                    </li>
+                    <li>
+                        <a href="#">Chart&Report</a>
+                    </li>
+                </ul>
+            </li>
+        <!-- Production -->
+            <li class="treeview">
+                <a href="#!">
+                    <i class="bi bi-pie-chart"></i>
+                    <span class="menu-text">Production</span>
+                </a>
+                <ul class="treeview-menu">
+                    <li>
+                        <a href="{% url 'productionrolltable' %}" class="{% if request.resolver_match.view_name == 'productionrolltable' %}active{% endif %}">Production Table</a>
+                    </li>
+                    <li>
+                        <a href="#">Production Entry</a>
+                    </li>
+                    <li>
+                        <a href="#">Chart&Report</a>
+                    </li>
+                </ul>
+            </li>
+
+
+            <li>
+                <a href="{% static 'sales.html' %}">
+                    <i class="bi bi-bar-chart-line"></i>
+                    <span class="menu-text">Sales</span>
+                    <span class="badge border border-danger text-danger rounded-5 ms-2">New</span>
+                </a>
+            </li>
+            <li>
+                <a href="{% static 'subscribers.html' %}">
+                    <i class="bi bi-check-circle"></i>
+                    <span class="menu-text">Subscribers</span>
+                </a>
+            </li>
+            <li>
+                <a href="{% static 'contacts.html' %}">
+                    <i class="bi bi-telephone"></i>
+                    <span class="menu-text">Contacts</span>
+                </a>
+            </li>
+            <li>
+                <a href="{% static 'faq.html' %}">
+                    <i class="bi bi-box"></i>
+                    <span class="menu-text">FAQ's</span>
+                    <span class="badge border border-success text-success rounded-5 ms-2">New</span>
+                </a>
+            </li>
+            <li>
+                <a href="{% static 'calendar.html' %}">
+                    <i class="bi bi-calendar2"></i>
+                    <span class="menu-text">Calendar</span>
+                </a>
+            </li>
+            <li class="treeview">
+                <a href="#!">
+                    <i class="bi bi-stickies"></i>
+                    <span class="menu-text">Components</span>
+                </a>
+                <ul class="treeview-menu">
+                    <li>
+                        <a href="{% static 'accordions.html' %}">Accordions</a>
+                    </li>
+                    <li>
+                        <a href="{% static 'alerts.html' %}">Alerts</a>
+                    </li>
+                    <li>
+                        <a href="{% static 'buttons.html' %}">Buttons</a>
+                    </li>
+                    <li>
+                        <a href="{% static 'badges.html' %}">Badges</a>
+                    </li>
+                    <li>
+                        <a href="{% static 'carousel.html' %}">Carousel</a>
+                    </li>
+                    <li>
+                        <a href="{% static 'list-items.html' %}">List Items</a>
+                    </li>
+                    <li>
+                        <a href="{% static 'progress.html' %}">Progress Bars</a>
+                    </li>
+                    <li>
+                        <a href="{% static 'popovers.html' %}">Popovers</a>
+                    </li>
+                    <li>
+                        <a href="{% static 'tooltips.html' %}">Tooltips</a>
+                    </li>
+                </ul>
+            </li>
+            <li class="treeview">
+                <a href="#!">
+                    <i class="bi bi-ui-checks-grid"></i>
+                    <span class="menu-text">Forms</span>
+                </a>
+                <ul class="treeview-menu">
+                    <li>
+                        <a href="{% static 'form-inputs.html' %}">Basic Form Inputs</a>
+                    </li>
+                    <li>
+                        <a href="{% static 'form-checkbox-radio.html' %}">Checkbox &amp; Radio</a>
+                    </li>
+                    <li>
+                        <a href="{% static 'form-file-input.html' %}">File Input</a>
+                    </li>
+                    <li>
+                        <a href="{% static 'form-validations.html' %}">Validations</a>
+                    </li>
+                    <li>
+                        <a href="{% static 'date-time-pickers.html' %}">Date Time Pickers</a>
+                    </li>
+                    <li>
+                        <a href="{% static 'form-layouts.html' %}">Form Layouts</a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href="{% static 'tables.html' %}">
+                    <i class="bi bi-border-all"></i>
+                    <span class="menu-text">Tables</span>
+                </a>
+            </li>
+            <li>
+                <a href="{% static 'settings.html' %}">
+                    <i class="bi bi-gear"></i>
+                    <span class="menu-text">Settings</span>
+                </a>
+            </li>
+            <li>
+                <a href="{% static 'profile.html' %}">
+                    <i class="bi bi-postcard"></i>
+                    <span class="menu-text">Profile</span>
+                </a>
+            </li>
+            <li>
+                <a href="{% static 'starter-page.html' %}">
+                    <i class="bi bi-layout-text-window-reverse"></i>
+                    <span class="menu-text">Starter Page</span>
+                </a>
+            </li>
+            <li class="treeview">
+                <a href="#!">
+                    <i class="bi bi-code-square"></i>
+                    <span class="menu-text">Cards</span>
+                </a>
+                <ul class="treeview-menu">
+                    <li>
+                        <a href="{% static 'cards.html' %}">Cards</a>
+                    </li>
+                    <li>
+                        <a href="{% static 'advanced-cards.html' %}">Advanced Cards</a>
+                    </li>
+                </ul>
+            </li>
+            <li class="treeview">
+                <a href="#!">
+                    <i class="bi bi-pie-chart"></i>
+                    <span class="menu-text">Graphs</span>
+                </a>
+                <ul class="treeview-menu">
+                    <li>
+                        <a href="{% static 'apex.html' %}">Apex</a>
+                    </li>
+                    <li>
+                        <a href="{% static 'morris.html' %}">Morris</a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href="{% static 'maps.html' %}">
+                    <i class="bi bi-pin-map"></i>
+                    <span class="menu-text">Maps</span>
+                </a>
+            </li>
+            <li>
+                <a href="{% static 'tabs.html' %}">
+                    <i class="bi bi-slash-square"></i>
+                    <span class="menu-text">Tabs</span>
+                </a>
+            </li>
+            <li>
+                <a href="{% static 'modals.html' %}">
+                    <i class="bi bi-terminal"></i>
+                    <span class="menu-text">Modals</span>
+                </a>
+            </li>
+            <li>
+                <a href="{% static 'icons.html' %}">
+                    <i class="bi bi-textarea"></i>
+                    <span class="menu-text">Icons</span>
+                </a>
+            </li>
+            <li>
+                <a href="{% static 'typography.html' %}">
+                    <i class="bi bi-explicit"></i>
+                    <span class="menu-text">Typography</span>
+                </a>
+            </li>
+            <li class="treeview">
+                <a href="#!">
+                    <i class="bi bi-upc-scan"></i>
+                    <span class="menu-text">Login/Signup</span>
+                </a>
+                <ul class="treeview-menu">
+                    <li>
+                        <a href="{% static 'login.html' %}">Login</a>
+                    </li>
+                    <li>
+                        <a href="{% static 'signup.html' %}">Signup</a>
+                    </li>
+                    <li>
+                        <a href="{% static 'forgot-password.html' %}">Forgot Password</a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href="{% static 'page-not-found.html' %}">
+                    <i class="bi bi-exclamation-diamond"></i>
+                    <span class="menu-text">Page Not Found</span>
+                </a>
+            </li>
+            <li>
+                <a href="{% static 'maintenance.html' %}">
+                    <i class="bi bi-exclamation-octagon"></i>
+                    <span class="menu-text">Maintenance</span>
+                </a>
+            </li>
+            <li class="treeview">
+                <a href="#!">
+                    <i class="bi bi-code-square"></i>
+                    <span class="menu-text">Multi Level</span>
+                </a>
+                <ul class="treeview-menu">
+                    <li>
+                        <a href="#!">Level One Link</a>
+                    </li>
+                    <li>
+                        <a href="#!">
+                            Level One Menu
+                            <i class="bi bi-chevron-right"></i>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li>
+                                <a href="#!">Level Two Link</a>
+                            </li>
+                            <li>
+                                <a href="#!">Level Two Menu
+                                    <i class="bi bi-chevron-right"></i>
+                                </a>
+                                <ul class="treeview-menu">
+                                    <li>
+                                        <a href="#!">Level Three Link</a>
+                                    </li>
+                                    <li>
+                                        <a href="#!">Level Three Link</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#!">Level One Link</a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+    <!-- Sidebar menu ends -->
+
+</nav>
+<!-- Sidebar wrapper end -->

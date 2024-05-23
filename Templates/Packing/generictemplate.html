@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+    {% load static %}
+<head>
+    <title>{% block title %}Manage Items{% endblock %}</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container my-5">
+        <h1>{% block header %}Manage Items{% endblock %}</h1>
+
+        {% if view.action == "list" %}
+            <a href="{{ view.create_url }}" class="btn btn-primary mb-3">Create New {{ view.model_name }}</a>
+            <ul class="list-group">
+                {% for item in object_list %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        {{ item }}
+                        <div>
+                            <a href="{% url item.get_update_url_name item.pk %}" class="btn btn-sm btn-warning">Edit</a>
+                            <a href="{% url item.get_delete_url_name item.pk %}" class="btn btn-sm btn-danger">Delete</a>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+
+        {% elif view.action == "form" %}
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-primary mt-3">{{ view.submit_label }}</button>
+            </form>
+
+        {% elif view.action == "delete" %}
+            <p>Are you sure you want to delete {{ object }}?</p>
+            <form method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger">Yes, delete</button>
+                <a href="{{ view.cancel_url }}" class="btn btn-secondary">Cancel</a>
+            </form>
+        {% endif %}
+    </div>
+</body>
+</html>
