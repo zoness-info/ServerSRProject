@@ -2,7 +2,7 @@ from django.forms import ModelForm
 from django import forms
 from .models import branddetails, PrintingRollBatch, PrintingRollDetail, ProductionRollDetails
 from django.forms import inlineformset_factory
-from django_select2.forms import Select2Widget
+#from django_select2.forms import Select2Widget
 
 class branddetailsform(ModelForm):
     model = branddetails
