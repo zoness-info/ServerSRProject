@@ -41,7 +41,9 @@ class skudetails(ListView):
         context['categorycount'] = context['oilcategorylists'].count()
         context['skucount'] = context['skunamelist'].count()
         return context
-        
+
+
+    
 class filmrolltable(View):
     def get(self, request):
         query = PrintingRollDetail.objects.all().order_by('-updatedat')  # Order by the updated at in descending order
@@ -55,7 +57,15 @@ class filmrolltable(View):
             'datatable': query
         }
             
-        return render(request, 'Packing/filmrolltable.html',context)
+        return render(request, 'Packing/printingfilmrolltable.html',context)
+    
+    
+
+class filmrolltableUpdateView(View):
+   pass
+
+class filmrolltableDeleteView(DeleteView):
+    pass
     
 def filmrollentry(request):
     breadcrumbs = [
@@ -76,7 +86,7 @@ def filmrollentry(request):
     else:
         priniting_rolldetails_form = prinitingrolldetailsform()
         roll_detail_formset = RollDetailsFormset()
-    return render(request, 'Packing/filmrollentry.html',{'printingrolldetailsform1':priniting_rolldetails_form, 'rolldetailsformset':roll_detail_formset, 'breadcrumbs': breadcrumbs})#
+    return render(request, 'Packing/printingfilmrollentry.html',{'printingrolldetailsform1':priniting_rolldetails_form, 'rolldetailsformset':roll_detail_formset, 'breadcrumbs': breadcrumbs})#
     
         
 class productionrolltableListView(ListView):

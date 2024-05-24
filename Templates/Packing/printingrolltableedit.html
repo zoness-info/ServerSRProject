@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<div class="app-body">
+
+    <div class="row gx-3">
+        <div class="col-xxl-12">
+            <div class="card mb-3">
+                <form method="POST">
+                <div class="card-header">
+                    <h5 class="card-title">Printing Filmroll Edit</h5>
+                </div>
+                {{ form.non_field_errors }}
+                {% csrf_token %}
+                <div class="card-body">
+                    
+                    <form method="POST">
+                        <!-- Row start -->
+                        <div class="row gx-3">
+                            <div class="col-lg-3 col-sm-4 col-12">
+                                <div class="mb-3">
+                                    {{ form.runningdate.errors }}
+                                    <label class="form-label">Date</label>
+                                    {{ form.runningdate }}
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-sm-4 col-12">
+                                <div class="mb-3">
+                                    <label class="form-label">SKU Name</label>
+                                    {{ form.runningshift}}
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-sm-4 col-12">
+                                <div class="mb-3">
+                                    <label class="form-label">MRP.</label>
+                                    {{ form.runningmachine}}
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-sm-4 col-12">
+                                <div class="mb-3">
+                                    <label class="form-label">Batch No.</label>
+                                    {{ form.runningskuname}}
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-sm-4 col-12">
+                                <div class="mb-3">
+                                    <label class="form-label">Roll No.</label>
+                                    {{ form.runningrolltype}}
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-sm-4 col-12">
+                                <div class="mb-3">
+                                    <label class="form-label">Roll Gross Wt.</label>
+                                    {{ form.runningrollstarttime}}
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-sm-4 col-12">
+                                <div class="mb-3">
+                                    <label class="form-label">Roll Net Wt.</label>
+                                    {{ form.runningrollstoptime}}
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-sm-4 col-12">
+                                <div class="mb-3">
+                                    <label class="form-label">Operator Name</label>
+                                    {{ form.runningbatchno}}
+                                </div>
+                            </div>
+                            
+                            <!-- <div class="col-lg-3 col-sm-4 col-12">
+                                <div class="mb-3">
+                                    <label class="form-label">Roll Stop Time</label>
+                                    <select class="form-select">
+                                        <option value="0">Select</option>
+                                        <option value="1">One</option>
+                                    </select>
+                                </div>
+                            </div> -->
+                            
+                            
+                            
+                        </div>
+                    
+                    <!-- Row end -->
+                </div>
+                <div class="card-footer">
+                    <div class="d-flex gap-2 justify-content-end">
+                        <button type="button" class="btn btn-outline-secondary">
+                            Cancel
+                        </button>
+                        <button type="submit" class="btn btn-success">
+                            Submit
+                        </button>
+                    </div>
+                </div>
+            </form>
+            </div>
+        </div>
+    </div>
+   
+
+</div>
+
+{% endblock %}
+    
+    
+    
+       
+   
+    

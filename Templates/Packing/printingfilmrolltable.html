@@ -49,8 +49,8 @@
                                             <th>Gross.Wt</th>
                                             <th>Net.Wt</th>
                                             <th>Operator Name</th>
-                                            <th>Remarks</th>
                                             <th>Avg.Roll.Wt</th>
+                                            <th>Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -63,8 +63,7 @@
                                                 <td>{{data.filmrollno}}</td>
                                                 <td>{{data.grosswt}}</td>
                                                 <td>{{data.netwt}}</td>
-                                                <td>{{data.printingrollbatch.operator_name}}</td>
-                                                <td></td>
+                                                <td>{{data.printingrollbatch.operatorname}}</td>
                                                 <td>
                                                     {% with result=data.grosswt|subtract:data.netwt %}
                                                         {% if result < 0 %}
@@ -73,6 +72,12 @@
                                                             {{ result }}
                                                         {% endif %}
                                                     {% endwith %}
+                                                </td>
+                                                <td>
+                                                    <div>
+                                                        <a class="btn btn-info btn-sm mb-2" href="{% url 'printingfilmrolltable_update' data.pk %}"><i class="bi bi-pencil"></i></a>
+                                                        <a class="btn btn-danger btn-icon btn-sm" href="{% url 'printingfilmrolltable_delete' data.pk %}"><i class="bi bi-trash"></i></a>
+                                                    </div>
                                                 </td>
                                             </tr>
                                         {% endfor %}

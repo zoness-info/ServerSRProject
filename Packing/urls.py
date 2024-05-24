@@ -1,6 +1,6 @@
 from django.urls import path, include
 from .views import ( home,
-                    skudetails, filmrolltable, filmrollentry, productionrolltableListView,productionrolltableUpdateView,productionrolltableDeleteView
+                    skudetails, filmrolltable, filmrollentry, filmrolltableUpdateView,filmrolltableDeleteView,productionrolltableListView,productionrolltableUpdateView,productionrolltableDeleteView
     # BrandListView, BrandCreateView, BrandUpdateView, 
     # BrandDeleteView,OilCategoryListView, OilCategoryCreateView, 
     # OilCategoryUpdateView, OilCategoryDeleteView,SkuNameListView, 
@@ -9,15 +9,20 @@ from .views import ( home,
 
 urlpatterns = [
     path('',home.as_view(),name='packinghome'),
-    
+    #-------------------------------------------------Printing------------------------------------------------
     path('skulists/',skudetails.as_view(),name="skulists"),
-    path('filmrolltable/',filmrolltable.as_view(),name='filmrolltable'),
-    path('filmrollentry/',filmrollentry,name='filmrollentry'),
+    path('printingfilmrolltable/',filmrolltable.as_view(),name='printingfilmrolltable'),
+    path('printingfilemrolltable/<pk>/edit',filmrolltableUpdateView.as_view(),name='printingfilmrolltable_update'),
+    path('printingfilmrolltable/<pk>/delete',filmrolltableDeleteView.as_view(),name='printingfilmrolltable_delete'),
+    path('printingfilmrollentry/',filmrollentry,name='filmrollentry'),
+    #_________________________________________________________________________________________________________
+    
+    #----------------------------------------------------Production--------------------------------------------
     #path('select2/', include('django_select2.urls')),
     path('productionrolltable/',productionrolltableListView.as_view(),name='productionrolltable'),
     path('productionrolltable/<pk>/edit',productionrolltableUpdateView.as_view(),name='productionrolltable_update'),
     path('productionrolltable/<pk>/delete',productionrolltableDeleteView.as_view(),name='productionrolltable_delete'),
-    
+    #___________________________________________________________________________________________________________
     
     
     # path('brands/', BrandListView.as_view(), name='branddetails-list'),

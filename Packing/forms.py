@@ -6,7 +6,7 @@ from django.forms import inlineformset_factory
 
 class branddetailsform(ModelForm):
     model = branddetails
-    fields = ['date','shift','skuname','mrp','batch_no','operator_name']
+    fields = '__all__'
     
 class prinitingrolldetailsform(ModelForm):
     class Meta:
@@ -21,7 +21,7 @@ class prinitingrolldetailsform(ModelForm):
             'skuname': forms.Select(attrs={'class': 'form-select'}),
             'mrp': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'MRP'}),
             'batch_no': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Batch No'}),
-            'operator_name': forms.Select(attrs={'class': 'form-select'}),
+            'operatorname': forms.Select(attrs={'class': 'form-select'}),
         }
 
 class PrintingRollDetailForm(forms.ModelForm):

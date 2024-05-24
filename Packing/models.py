@@ -43,6 +43,17 @@ class DayNightshift(models.Model):
     
     def __str__(self):
         return self.shifttype
+
+class OperatorNameDetails(models.Model):
+    empid = models.CharField(_("Employee ID"), max_length=50, primary_key=True)
+    operatorname = models.CharField(_("Operator Name"), max_length=50)
+    mobileno = models.IntegerField(_("Mobile No"))
+    createdat = models.DateTimeField(_("Created At"),auto_now_add=True)
+    updatedat = models.DateTimeField(_("Updated AT"), auto_now=True)
+    isdelete = models.BooleanField(_("Deleted"),default=False)
+    
+    def __str__(self):
+        return self.operatorname
  
 class PrintingRollBatch(models.Model):
     date = models.DateField()
@@ -50,13 +61,13 @@ class PrintingRollBatch(models.Model):
     skuname = models.ForeignKey(skunamedetails, on_delete=models.CASCADE)
     mrp = models.DecimalField(max_digits=10, decimal_places=2)
     batch_no = models.CharField(max_length=100)
-    operator_name = models.CharField(max_length=100)
     createdat = models.DateTimeField(_("Created At"),auto_now_add=True)
     updatedat = models.DateTimeField(_("Updated AT"), auto_now=True)
+    operatorname = models.ForeignKey(OperatorNameDetails, on_delete=models.CASCADE)
     
 
     def __str__(self):
-        return f"{self.date} - {self.shift} - {self.skuname} - {self.mrp} - {self.batch_no} - {self.operator_name}"
+        return f"{self.date} - {self.shift} - {self.skuname} - {self.mrp} - {self.batch_no} - {self.operatorname}"
 
 class PrintingRollDetail(models.Model):
     printingrollbatch = models.ForeignKey(PrintingRollBatch, on_delete=models.CASCADE)
@@ -71,16 +82,7 @@ class PrintingRollDetail(models.Model):
     def __str__(self):
         return self.filmrollno
     
-class OperatorNameDetails(models.Model):
-    empid = models.CharField(_("Employee ID"), max_length=50, primary_key=True)
-    operatorname = models.CharField(_("Operator Name"), max_length=50)
-    mobileno = models.IntegerField(_("Mobile No"))
-    createdat = models.DateTimeField(_("Created At"),auto_now_add=True)
-    updatedat = models.DateTimeField(_("Updated AT"), auto_now=True)
-    isdelete = models.BooleanField(_("Deleted"),default=False)
-    
-    def __str__(self):
-        return self.operatorname
+
     
 class PackingMachineDetails(models.Model):
     machineid = models.CharField(_("Machine ID"), max_length=50,primary_key=True)
