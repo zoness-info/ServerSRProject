@@ -5,15 +5,16 @@ from Packing.models import (branddetails, oilcategorydetails, skunamedetails,
                             PrintingRollBatch,PrintingRollDetail, DayNightshift, 
                             FilmRollType, OperatorNameDetails, PackingMachineDetails, 
                             ProductionRollDetails, PackingSection,
-                            MainTankDetails, SubTankDetails,VitaminDetails,TMPSDetails,TBHQDetails,OilPumpingDetails,QCNameDetails)
-
+                            MainTankDetails, SubTankDetails,VitaminDetails,TMPSDetails,TBHQDetails,OilPumpingDetails,QCNameDetails,
+                            PackingManagerDetails,
+                            ChangeLog,)
 
 admin.site.register(CustomUser)
 
 
 class BrandDetailsAdmin(admin.ModelAdmin):
-    list_display = ('brandname', 'createdat', 'updatedat')
-    
+    list_display = [field.name for field in branddetails._meta.fields]
+        
     def save_model(self, request, obj, form, change):
         if change:  # If this is an update
             print(f'Updating: {obj}')
@@ -21,37 +22,85 @@ class BrandDetailsAdmin(admin.ModelAdmin):
         else:  # If this is a new record
             print(f'Creating new record: {obj}')
             obj.save()
-    
+admin.site.register(branddetails, BrandDetailsAdmin)    
 
 class OilCategoryDetailsAdmin(admin.ModelAdmin):
-    list_display = ('id','brandname', 'oilcategoryname',  'createdat', 'updatedat')
-    
+    list_display = [field.name for field in oilcategorydetails._meta.fields]
+admin.site.register(oilcategorydetails, OilCategoryDetailsAdmin)    
 
 class SkuNameDetailsAdmin(admin.ModelAdmin):
-    list_display = ('category_name', 'skuname',  'skucode_m', 'skucode_c','isdelete','createdat', 'updatedat')
-    
-
-admin.site.register(branddetails, BrandDetailsAdmin)
-admin.site.register(oilcategorydetails, OilCategoryDetailsAdmin)
+    list_display = [field.name for field in skunamedetails._meta.fields]
 admin.site.register(skunamedetails, SkuNameDetailsAdmin)
 
-admin.site.register(PrintingRollBatch)
-admin.site.register(PrintingRollDetail)
-admin.site.register(DayNightshift)
+class PrintingRollBatchsAdmin(admin.ModelAdmin):
+    list_display = [field.name for field in PrintingRollBatch._meta.fields]
+admin.site.register(PrintingRollBatch, PrintingRollBatchsAdmin)
 
-admin.site.register(FilmRollType)
-admin.site.register(OperatorNameDetails)
-admin.site.register(PackingMachineDetails)
-admin.site.register(ProductionRollDetails)
-admin.site.register(PackingSection)
+class PrintingRollDetailAdmin(admin.ModelAdmin):
+    list_display = [field.name for field in PrintingRollDetail._meta.fields]
+admin.site.register(PrintingRollDetail,PrintingRollDetailAdmin)
 
-admin.site.register(MainTankDetails)
-admin.site.register(SubTankDetails)
-admin.site.register(VitaminDetails)
-admin.site.register(TMPSDetails)
-admin.site.register(TBHQDetails)
-admin.site.register(OilPumpingDetails)
-admin.site.register(QCNameDetails)
+class DayNightshiftAdmin(admin.ModelAdmin):
+    list_display = [field.name for field in DayNightshift._meta.fields]
+admin.site.register(DayNightshift,DayNightshiftAdmin)
+
+class FilmRollTypeAdmin(admin.ModelAdmin):
+    list_display = [field.name for field in FilmRollType._meta.fields]
+admin.site.register(FilmRollType,FilmRollTypeAdmin)
+
+class OperatorNameDetailsAdmin(admin.ModelAdmin):
+    list_display = [field.name for field in OperatorNameDetails._meta.fields]
+admin.site.register(OperatorNameDetails,OperatorNameDetailsAdmin)
+
+
+class PackingMachineDetailsAdmin(admin.ModelAdmin):
+    list_display = [field.name for field in PackingMachineDetails._meta.fields]
+admin.site.register(PackingMachineDetails,PackingMachineDetailsAdmin)
+
+class ProductionRollDetailsAdmin(admin.ModelAdmin):
+    list_display = [field.name for field in ProductionRollDetails._meta.fields]
+admin.site.register(ProductionRollDetails,ProductionRollDetailsAdmin)
+
+class PackingSectionAdmin(admin.ModelAdmin):
+    list_display = [field.name for field in PackingSection._meta.fields]
+admin.site.register(PackingSection,PackingSectionAdmin)
+
+class MainTankDetailsAdmin(admin.ModelAdmin):
+    list_display = [field.name for field in MainTankDetails._meta.fields]
+admin.site.register(MainTankDetails,MainTankDetailsAdmin)
+
+class SubTankDetailsAdmin(admin.ModelAdmin):
+    list_display = [field.name for field in SubTankDetails._meta.fields]
+admin.site.register(SubTankDetails,SubTankDetailsAdmin)
+
+class VitaminDetailsAdmin(admin.ModelAdmin):
+    list_display = [field.name for field in VitaminDetails._meta.fields]
+admin.site.register(VitaminDetails,VitaminDetailsAdmin)
+
+class TMPSDetailsAdmin(admin.ModelAdmin):
+    list_display = [field.name for field in TMPSDetails._meta.fields]
+admin.site.register(TMPSDetails,TMPSDetailsAdmin)
+
+class TBHQDetailsAdmin(admin.ModelAdmin):
+    list_display = [field.name for field in TBHQDetails._meta.fields]
+admin.site.register(TBHQDetails,TBHQDetailsAdmin)
+
+class OilPumpingDetailsAdmin(admin.ModelAdmin):
+    list_display = [field.name for field in OilPumpingDetails._meta.fields]
+admin.site.register(OilPumpingDetails,OilPumpingDetailsAdmin)
+
+class QCNameDetailsAdmin(admin.ModelAdmin):
+    list_display = [field.name for field in QCNameDetails._meta.fields]
+admin.site.register(QCNameDetails,QCNameDetailsAdmin)
+
+class PackingManagerDetailsAdmin(admin.ModelAdmin):
+    list_display = [field.name for field in PackingManagerDetails._meta.fields]
+admin.site.register(PackingManagerDetails,PackingManagerDetailsAdmin)
+
+class ChangeLogAdmin(admin.ModelAdmin):
+    list_display = [field.name for field in ChangeLog._meta.fields]
+admin.site.register(ChangeLog,ChangeLogAdmin)
+
 
 
 # Register your models here.

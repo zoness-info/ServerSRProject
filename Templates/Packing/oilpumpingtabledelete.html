@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<div class="app-body">
+    <form method="POST">
+        {% csrf_token %}
+        {{ form }}
+
+    <div class="row gx-3">
+        <div class="col-xxl-12">
+            <div class="card mb-3">
+                <div class="card-body">
+                    <div class="modal modal-alert position-static d-block bg-primary rounded-3" tabindex="-1"
+                        role="dialog" id="modalChoice">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-body p-4 text-center">
+                                    <h5 class="text-primary">Are you sure want to delete</h5>
+                                    <p class="mb-0">
+                                        Note : permenently data will be delete, cannot retrive.
+                                    </p>
+                                </div>
+                                <div class="modal-footer flex-nowrap p-0">
+                                    <button type="submit" class="btn text-primary fs-6 col-6 m-0 border-end">
+                                        <strong>Yes, delete</strong>
+                                    </button>
+                                    <a type="button" class="btn text-secondary fs-6 col-6 m-0" href="{% url 'oilpumpingtable' %}">
+                                        No, Cancel
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </form>
+
+</div>
+
+{% endblock %}
+    
+    
+    
+       
+   
+    

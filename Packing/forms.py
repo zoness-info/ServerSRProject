@@ -1,6 +1,10 @@
 from django.forms import ModelForm
 from django import forms
-from .models import branddetails, PrintingRollBatch, PrintingRollDetail, ProductionRollDetails
+from .models import (branddetails, 
+                     PrintingRollBatch, 
+                     PrintingRollDetail, 
+                     ProductionRollDetails,
+                     OilPumpingDetails,)
 from django.forms import inlineformset_factory
 #from django_select2.forms import Select2Widget
 
@@ -48,8 +52,8 @@ class ProductionRollDetailsForm(forms.ModelForm):
             'runningmachine'    : forms.Select(attrs={'class': 'form-select'}),
             'runningskuname'    : forms.Select(attrs={'class': 'form-select'}),
             'runningrolltype'   : forms.Select(attrs={'class': 'form-select'}), 
-            'runningrollstarttime' : forms.DateTimeInput(attrs={'class': 'form-control datepicker-time',}),
-            'runningrollstoptime'  :forms.TextInput(attrs={'class': 'form-control datepicker-time',}),
+            'runningrollstarttime' : forms.DateTimeInput(attrs={'class': 'form-control datepicker-time','type': 'datetime-local'}),
+            'runningrollstoptime'  :forms.DateTimeInput(attrs={'class': 'form-control datepicker-time','type': 'datetime-local'}),
             'runningbatchno'    :  forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Batch No'}),
             'runningmrp'        : forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'MRP'}),
             'runningrollno'     : forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Film Roll No'}),
@@ -57,5 +61,33 @@ class ProductionRollDetailsForm(forms.ModelForm):
             'runningpouchcount' : forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Pouch Count'}),
         }
         
-        
+    def __init__(self, *args, **kwargs):
+        super(ProductionRollDetailsForm, self).__init__(*args, **kwargs)
+        self.fields['runningrollstarttime'].widget.attrs.update({'class': 'form-control datepicker'})
+        self.fields['runningrollstoptime'].widget.attrs.update({'class': 'form-control datepicker'})
+    
         # filmrolldate = forms.DateTimeField(label=_("Film Roll Date and Time"),widget=forms.DateTimeInput(attrs={'class': 'form-control', 'type': 'datetime-local'}),)
+
+class OilPumpingDetailsForm(forms.ModelForm):
+    class Meta:
+        model = OilPumpingDetails
+        fields = '__all__'
+        widgets = {
+            'motorontime': forms.DateTimeInput(attrs={'class': 'form-control','type': 'datetime-local'},),
+            'motorofftime': forms.DateTimeInput(attrs={'class': 'form-control','type': 'datetime-local'}),
+        }
+       
+    def __init__(self, *args, **kwargs):
+        super(OilPumpingDetailsForm, self).__init__(*args, **kwargs)
+        self.fields['motorontime'].widget.attrs.update({'class': 'form-control datepicker'})
+        self.fields['motorofftime'].widget.attrs.update({'class': 'form-control datepicker'})
+        self.fields['shift'].widget.attrs.update({'class': 'form-select'})
+        self.fields['maintank'].widget.attrs.update({'class': 'form-select'})
+        self.fields['vitaminunits'].widget.attrs.update({'class': 'form-select'})
+        self.fields['tmpsunits'].widget.attrs.update({'class': 'form-select'})
+        self.fields['operatorname'].widget.attrs.update({'class': 'form-select'})
+        self.fields['tbhqunits'].widget.attrs.update({'class': 'form-select'})
+        self.fields['qcname'].widget.attrs.update({'class': 'form-select'})
+        self.fields['subtank'].widget.attrs.update({'class': 'form-select'})
+        
+        self.fields['manager'].widget.attrs.update({'class': 'form-select',})

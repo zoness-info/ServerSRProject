@@ -3,6 +3,7 @@ from .views import ( home,
                     skudetails, 
                     filmrolltable, filmrollentry, filmrolltableUpdateView,filmrolltableDeleteView,
                     productionrolltableListView,productionrolltableUpdateView,productionrolltableDeleteView,productionrolltableCreateView,
+                    oilpumpListView,oilpumpCreateView,oilpumpUpdateView,oilpumpDeleteView,
     # BrandListView, BrandCreateView, BrandUpdateView, 
     # BrandDeleteView,OilCategoryListView, OilCategoryCreateView, 
     # OilCategoryUpdateView, OilCategoryDeleteView,SkuNameListView, 
@@ -25,6 +26,13 @@ urlpatterns = [
     path('productionrolltable/newentry',productionrolltableCreateView.as_view(),name='productionrolltable_entry'),
     path('productionrolltable/<pk>/edit',productionrolltableUpdateView.as_view(),name='productionrolltable_update'),
     path('productionrolltable/<pk>/delete',productionrolltableDeleteView.as_view(),name='productionrolltable_delete'),
+    #___________________________________________________________________________________________________________
+    
+    #---------------------------------------------------Oil Pumping---------------------------------------------
+    path('oilpumpingtable/',oilpumpListView.as_view(),name='oilpumpingtable'),
+    path('oilpumpingtable/newentry/',oilpumpCreateView.as_view(),name='oilpumpingtable_entry'),
+    path('oilpumpingtable/<pk>/edit/',oilpumpUpdateView.as_view(),name='oilpumpingtable_update'),
+    path('oilpumpingtable/<pk>/delete/',oilpumpDeleteView.as_view(),name='oilpumpingtable_delete'),
     #___________________________________________________________________________________________________________
     
     

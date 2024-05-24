@@ -2,6 +2,7 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 import datetime
 from django.utils import timezone
+from django.contrib.auth.models import User
 
 class branddetails(models.Model):
     brandname = models.CharField(_("Brand Name"), max_length=50)
@@ -225,16 +226,30 @@ class OilPumpingDetails(models.Model):
     shift = models.ForeignKey(DayNightshift, on_delete=models.CASCADE)
     maintank = models.ForeignKey(MainTankDetails, on_delete=models.CASCADE)
     subtank = models.ForeignKey(SubTankDetails, on_delete=models.CASCADE)
-    vitaminunits = models.ForeignKey(VitaminDetails, on_delete=models.CASCADE)
+    vitaminunits = models.ForeignKey(VitaminDetails, on_delete=models.CASCADE, blank=True, null=True)
     tmpsunits = models.ForeignKey(TMPSDetails, on_delete=models.CASCADE)
     tbhqunits = models.ForeignKey(TBHQDetails, on_delete=models.CASCADE)
     operatorname = models.ForeignKey(OperatorNameDetails, on_delete=models.CASCADE)
     qcname = models.ForeignKey(QCNameDetails, on_delete=models.CASCADE)
-    manager = models.ForeignKey(PackingManagerDetails, on_delete=models.CASCADE)
+    manager = models.ForeignKey(PackingManagerDetails, on_delete=models.CASCADE)    
+    createdat = models.DateTimeField(_("Created At"),auto_now_add=True)
+    updatedat = models.DateTimeField(_("Updated AT"), auto_now=True)
+    isdelete = models.BooleanField(_("Deleted"),default=False)
     
-    
-    
-    
+    def __str__(self):
+        return str(self.maintank)
     
     pass
+
+
+class ChangeLog(models.Model):
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    model = models.CharField(max_length=255)
+    instance_id = models.PositiveIntegerField()
+    timestamp = models.DateTimeField(auto_now_add=True)
+    action = models.CharField(max_length=50)
+    changes = models.TextField()
+
+    def __str__(self):
+        return f"{self.user} {self.action} {self.model} {self.instance_id} at {self.timestamp}"
 # Create your models here.

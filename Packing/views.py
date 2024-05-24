@@ -2,8 +2,17 @@ from django.shortcuts import get_object_or_404, redirect, render, HttpResponse, 
 from django.views import View
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
-from .models import branddetails, oilcategorydetails, skunamedetails, PrintingRollBatch, PrintingRollDetail, ProductionRollDetails
-from .forms import branddetailsform,prinitingrolldetailsform,RollDetailsFormset, ProductionRollDetailsForm
+from .models import (branddetails, oilcategorydetails, skunamedetails, 
+                     PrintingRollBatch, PrintingRollDetail, 
+                     ProductionRollDetails,
+                     OilPumpingDetails, 
+                     ChangeLog,
+                     )
+from .forms import (branddetailsform,
+                    prinitingrolldetailsform,RollDetailsFormset, 
+                    ProductionRollDetailsForm,
+                    OilPumpingDetailsForm
+                    )
 
 class home(View):
     def get(self, request):
@@ -143,8 +152,62 @@ class productionrolltableDeleteView(DeleteView):
         context['breadcrumbs'] = self.breadcrumbs
         return context
    
+class oilpumpListView(ListView):
+    model = OilPumpingDetails
+    template_name = 'Packing/oilpumpingtable.html'
+    context_object_name = 'datatable'
+    breadcrumbs = [
+        {'label': 'Home', 'url': '/Packing'},
+        {'label': 'Oil Pumping', 'url': '/Packing/oilpumpingtable'},
+        {'label': 'Oil Pumping Table', 'url': None},  # Assuming current page doesn't have a URL
+        ] 
     
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['breadcrumbs'] = self.breadcrumbs
+        return context
+    pass   
+class oilpumpCreateView(CreateView):
+    model = OilPumpingDetails
+    form_class = OilPumpingDetailsForm
+    template_name = 'Packing/oilpumpingentry.html'
+    success_url = reverse_lazy('oilpumpingtable')
     
+    pass 
+class oilpumpUpdateView(UpdateView):
+    model = OilPumpingDetails
+    form_class = OilPumpingDetailsForm
+    template_name = 'Packing/oilpumpingtableedit.html'
+    success_url = reverse_lazy('oilpumpingtable')
+    breadcrumbs = [
+        {'label': 'Home', 'url': '/Packing'},
+        {'label': 'Oil Pumping', 'url': '/Packing/oilpumpingtable'},
+        {'label': 'Oil Pumping Edit', 'url': None},  # Assuming current page doesn't have a URL
+        ] 
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['breadcrumbs'] = self.breadcrumbs
+        return context
+    
+    pass 
+class oilpumpDeleteView(DeleteView):
+    model = OilPumpingDetails
+    template_name = 'Packing/oilpumpingtabledelete.html'
+    success_url = reverse_lazy('oilpumpingtable')
+    breadcrumbs = [
+        {'label': 'Home', 'url': '/Packing'},
+        {'label': 'Oil Pumping', 'url': '/Packing/productionrolltable'},
+        {'label': 'Oil Pumping Delete', 'url': None},  # Assuming current page doesn't have a URL
+        ] 
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['breadcrumbs'] = self.breadcrumbs
+        return context
+    
+    pass 
+
     
     # def get(self, request):
     #     query = ProductionRollDetails.objects.all().order_by('-updatedat')  # Order by the updated at in descending order
