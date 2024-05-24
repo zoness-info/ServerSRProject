@@ -48,6 +48,8 @@
                                                 </div>
                                                 <div class="card-body">
                                                      {{ form.as_p }}
+                                                     <label>Actual Wt : </label>
+                                                     <span id="actwt-{{ forloop.counter }}" class="actwt">0.00</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -68,7 +70,41 @@
     </div>
     <!-- App body ends -->
 
-   
+ <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const formsets = document.querySelectorAll('.card-body');
+    
+        formsets.forEach((set, index) => {
+            const grossWtInput = set.querySelector(`[id$='-grosswt']`);
+            const netWtInput = set.querySelector(`[id$='-netwt']`);
+            const actWtSpan = document.getElementById(`actwt-${index -1 }`);
+    
+            if (grossWtInput && netWtInput && actWtSpan) {
+                const calculateWeightDifference = () => {
+                    const grossWt = parseFloat(grossWtInput.value) || 0;
+                    const netWt = parseFloat(netWtInput.value) || 0;
+                    const actWt = grossWt - netWt;
+                    actWtSpan.textContent = actWt.toFixed(2);
+                    
+                    if (actWt < 0) {
+                        actWtSpan.style.color = 'red';
+                        actWtSpan.style.fontWeight = 'bold';
+                    } else {
+                        actWtSpan.style.color = 'black';
+                        actWtSpan.style.fontWeight = 'normal';
+                    }
+                };
+    
+                grossWtInput.addEventListener('input', calculateWeightDifference);
+                netWtInput.addEventListener('input', calculateWeightDifference);
+    
+                // Initialize the value
+                calculateWeightDifference();
+            }
+        });
+    });
+    
+ </script>
 
 
 {% endblock %}

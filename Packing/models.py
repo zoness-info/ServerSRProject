@@ -22,9 +22,10 @@ class oilcategorydetails(models.Model):
         return self.oilcategoryname
 
 class skunamedetails(models.Model):
-    catgorty_id = models.ForeignKey(oilcategorydetails, on_delete=models.CASCADE)
+    category_name = models.ForeignKey(oilcategorydetails, on_delete=models.CASCADE)
     skuname = models.CharField(_("SKU Name"), max_length=50)
-    skucode = models.CharField(_("SKU Code"), max_length=50, unique=True)
+    skucode_m = models.CharField(_("SKU Code Master"), max_length=50, unique=True)
+    skucode_c = models.CharField(_("SKU Code By Category"), max_length=50)
     createdat = models.DateTimeField(_("Created At"),auto_now_add=True)
     updatedat = models.DateTimeField(_("Updated AT"), auto_now=True)
     isdelete = models.BooleanField(_("Deleted"), default=False)
@@ -43,9 +44,35 @@ class DayNightshift(models.Model):
     
     def __str__(self):
         return self.shifttype
+class PackingManagerDetails(models.Model):
+    managername = models.CharField(_("Packing Manager Name"), max_length=50)
+    updatedat = models.DateTimeField(_("Updated AT"), auto_now=True)
+    isdelete = models.BooleanField(_("Deleted"),default=False)
+    
+    def __str__(self):
+        return self.managername
+
+class QCNameDetails(models.Model):
+    qcname = models.CharField(_("Pouch Section Name"), max_length=50)
+    updatedat = models.DateTimeField(_("Updated AT"), auto_now=True)
+    isdelete = models.BooleanField(_("Deleted"),default=False)
+    
+    def __str__(self):
+        return self.qcname
+       
+    
+class PackingSection(models.Model):
+    sectionname = models.CharField(_("Pouch Section Name"), max_length=50)
+    updatedat = models.DateTimeField(_("Updated AT"), auto_now=True)
+    isdelete = models.BooleanField(_("Deleted"),default=False)
+    
+    def __str__(self):
+        return self.sectionname
+    
 
 class OperatorNameDetails(models.Model):
     empid = models.CharField(_("Employee ID"), max_length=50, primary_key=True)
+    sectionname = models.ForeignKey(PackingSection, on_delete=models.CASCADE)
     operatorname = models.CharField(_("Operator Name"), max_length=50)
     mobileno = models.IntegerField(_("Mobile No"))
     createdat = models.DateTimeField(_("Created At"),auto_now_add=True)
@@ -134,9 +161,79 @@ class ProductionRollDetails(models.Model):
     #         self.rollstoptime = timezone.now()  # Update stop time for every update
     #     super().save(*args, **kwargs)
     
+
+class MainTankDetails(models.Model):
+    maintankname = models.CharField(_("Main Tank Name"), max_length=50)
+    oilname = models.CharField(_("Oil Name"), max_length=50)
+    desc = models.CharField(_("Description"), max_length=50, null=True, blank=True)
+    capacity = models.IntegerField(_("Tank Capacity in MT"))
+    createdat = models.DateTimeField(_("Created At"),auto_now_add=True)
+    updatedat = models.DateTimeField(_("Updated AT"), auto_now=True)
+    isdelete = models.BooleanField(_("Deleted"),default=False)
+    
+    def __str__(self):
+        return self.maintankname
+        
+class SubTankDetails(models.Model):
+    subtankname = models.CharField(_("Main Tank Name"), max_length=50)
+    oilname = models.CharField(_("Oil Name"), max_length=50)
+    desc = models.CharField(_("Description"), max_length=50, null=True, blank=True)
+    capacity = models.IntegerField(_("Tank Capacity in MT"))
+    createdat = models.DateTimeField(_("Created At"),auto_now_add=True)
+    updatedat = models.DateTimeField(_("Updated AT"), auto_now=True)
+    isdelete = models.BooleanField(_("Deleted"),default=False)
+    
+    def __str__(self):
+        return self.maintankname
+    
+    
+class VitaminDetails(models.Model):
+    vitaminname = models.CharField(_("Vitamin Name"), max_length=50)
+    units = models.IntegerField(_("Measure in Grams"))
+    desc = models.CharField(_("Description"), max_length=50, null=True, blank=True)
+    createdat = models.DateTimeField(_("Created At"),auto_now_add=True)
+    updatedat = models.DateTimeField(_("Updated AT"), auto_now=True)
+    isdelete = models.BooleanField(_("Deleted"),default=False)
+    
+    def __str__(self):
+        return self.vitaminname
+    
+class TMPSDetails(models.Model):
+    units = models.IntegerField(_("Measure in ml"))
+    desc = models.CharField(_("Description"), max_length=50, null=True, blank=True)
+    createdat = models.DateTimeField(_("Created At"),auto_now_add=True)
+    updatedat = models.DateTimeField(_("Updated AT"), auto_now=True)
+    isdelete = models.BooleanField(_("Deleted"),default=False)
+    
+    def __str__(self):
+        return self.units
+    
+class TBHQDetails(models.Model):
+    units = models.IntegerField(_("Measure in Grams"))
+    desc = models.CharField(_("Description"), max_length=50, null=True, blank=True)
+    createdat = models.DateTimeField(_("Created At"),auto_now_add=True)
+    updatedat = models.DateTimeField(_("Updated AT"), auto_now=True)
+    isdelete = models.BooleanField(_("Deleted"),default=False)
+    
+    def __str__(self):
+        return self.units
+    
+class OilPumpingDetails(models.Model):
+    motorontime = models.DateTimeField(_("Motor ON Time"), auto_now=False, auto_now_add=False)  
+    motorofftime = models.DateTimeField(_("Motor OFF Time"), auto_now=False, auto_now_add=False)
+    shift = models.ForeignKey(DayNightshift, on_delete=models.CASCADE)
+    maintank = models.ForeignKey(MainTankDetails, on_delete=models.CASCADE)
+    subtank = models.ForeignKey(SubTankDetails, on_delete=models.CASCADE)
+    vitaminunits = models.ForeignKey(VitaminDetails, on_delete=models.CASCADE)
+    tmpsunits = models.ForeignKey(TMPSDetails, on_delete=models.CASCADE)
+    tbhqunits = models.ForeignKey(TBHQDetails, on_delete=models.CASCADE)
+    operatorname = models.ForeignKey(OperatorNameDetails, on_delete=models.CASCADE)
+    qcname = models.ForeignKey(QCNameDetails, on_delete=models.CASCADE)
+    manager = models.ForeignKey(PackingManagerDetails, on_delete=models.CASCADE)
+    
+    
     
     
     
     pass
-
 # Create your models here.

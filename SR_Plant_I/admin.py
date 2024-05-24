@@ -1,7 +1,10 @@
 from django.contrib import admin
 
 from .models import CustomUser
-from Packing.models import branddetails, oilcategorydetails, skunamedetails, PrintingRollBatch,PrintingRollDetail, DayNightshift, FilmRollType, OperatorNameDetails, PackingMachineDetails, ProductionRollDetails
+from Packing.models import (branddetails, oilcategorydetails, skunamedetails, 
+                            PrintingRollBatch,PrintingRollDetail, DayNightshift, 
+                            FilmRollType, OperatorNameDetails, PackingMachineDetails, 
+                            ProductionRollDetails, PackingSection)
 
 
 admin.site.register(CustomUser)
@@ -24,7 +27,7 @@ class OilCategoryDetailsAdmin(admin.ModelAdmin):
     
 
 class SkuNameDetailsAdmin(admin.ModelAdmin):
-    list_display = ('catgorty_id', 'skuname',  'skucode', 'isdelete','createdat', 'updatedat')
+    list_display = ('category_name', 'skuname',  'skucode_m', 'skucode_c','isdelete','createdat', 'updatedat')
     
 
 admin.site.register(branddetails, BrandDetailsAdmin)
@@ -39,6 +42,7 @@ admin.site.register(FilmRollType)
 admin.site.register(OperatorNameDetails)
 admin.site.register(PackingMachineDetails)
 admin.site.register(ProductionRollDetails)
+admin.site.register(PackingSection)
 
 
 # Register your models here.

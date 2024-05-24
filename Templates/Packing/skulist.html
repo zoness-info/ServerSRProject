@@ -217,10 +217,10 @@
                                         {% for sku in skunamelist %}
                                         <tr>
                                             <td>{{ forloop.counter }}</td>
-                                            <td>{{sku.catgorty_id.brandname}}</td>
-                                            <td>{{sku.catgorty_id.oilcategoryname}}</td>
+                                            <td>{{sku.category_name.brandname}}</td>
+                                            <td>{{sku.category_name.oilcategoryname}}</td>
                                             <td>{{sku.skuname}}</td>
-                                            <td>{{sku.skucode}}</td>
+                                            <td>{{sku.skucode_c}}</td>
                                             <td scope="col" class="d-none d-md-table-cell">{{sku.createdat}}</td>
                                             <td scope="col" class="d-none d-md-table-cell">{{sku.updatedat}}</td>
                                             <td>
