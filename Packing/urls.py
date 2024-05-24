@@ -1,6 +1,8 @@
 from django.urls import path, include
 from .views import ( home,
-                    skudetails, filmrolltable, filmrollentry, filmrolltableUpdateView,filmrolltableDeleteView,productionrolltableListView,productionrolltableUpdateView,productionrolltableDeleteView
+                    skudetails, 
+                    filmrolltable, filmrollentry, filmrolltableUpdateView,filmrolltableDeleteView,
+                    productionrolltableListView,productionrolltableUpdateView,productionrolltableDeleteView,productionrolltableCreateView,
     # BrandListView, BrandCreateView, BrandUpdateView, 
     # BrandDeleteView,OilCategoryListView, OilCategoryCreateView, 
     # OilCategoryUpdateView, OilCategoryDeleteView,SkuNameListView, 
@@ -20,6 +22,7 @@ urlpatterns = [
     #----------------------------------------------------Production--------------------------------------------
     #path('select2/', include('django_select2.urls')),
     path('productionrolltable/',productionrolltableListView.as_view(),name='productionrolltable'),
+    path('productionrolltable/newentry',productionrolltableCreateView.as_view(),name='productionrolltable_entry'),
     path('productionrolltable/<pk>/edit',productionrolltableUpdateView.as_view(),name='productionrolltable_update'),
     path('productionrolltable/<pk>/delete',productionrolltableDeleteView.as_view(),name='productionrolltable_delete'),
     #___________________________________________________________________________________________________________

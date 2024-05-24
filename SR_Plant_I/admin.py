@@ -4,7 +4,8 @@ from .models import CustomUser
 from Packing.models import (branddetails, oilcategorydetails, skunamedetails, 
                             PrintingRollBatch,PrintingRollDetail, DayNightshift, 
                             FilmRollType, OperatorNameDetails, PackingMachineDetails, 
-                            ProductionRollDetails, PackingSection)
+                            ProductionRollDetails, PackingSection,
+                            MainTankDetails, SubTankDetails,VitaminDetails,TMPSDetails,TBHQDetails,OilPumpingDetails,QCNameDetails)
 
 
 admin.site.register(CustomUser)
@@ -43,6 +44,14 @@ admin.site.register(OperatorNameDetails)
 admin.site.register(PackingMachineDetails)
 admin.site.register(ProductionRollDetails)
 admin.site.register(PackingSection)
+
+admin.site.register(MainTankDetails)
+admin.site.register(SubTankDetails)
+admin.site.register(VitaminDetails)
+admin.site.register(TMPSDetails)
+admin.site.register(TBHQDetails)
+admin.site.register(OilPumpingDetails)
+admin.site.register(QCNameDetails)
 
 
 # Register your models here.

@@ -120,6 +120,7 @@ class PackingMachineDetails(models.Model):
     
     def __str__(self):
         return self.machinename
+    
 class FilmRollType(models.Model):
     choices = [
         ('Full(1)',1),
@@ -184,7 +185,7 @@ class SubTankDetails(models.Model):
     isdelete = models.BooleanField(_("Deleted"),default=False)
     
     def __str__(self):
-        return self.maintankname
+        return self.subtankname
     
     
 class VitaminDetails(models.Model):
@@ -196,7 +197,7 @@ class VitaminDetails(models.Model):
     isdelete = models.BooleanField(_("Deleted"),default=False)
     
     def __str__(self):
-        return self.vitaminname
+        return str(self.units)
     
 class TMPSDetails(models.Model):
     units = models.IntegerField(_("Measure in ml"))
@@ -206,7 +207,7 @@ class TMPSDetails(models.Model):
     isdelete = models.BooleanField(_("Deleted"),default=False)
     
     def __str__(self):
-        return self.units
+        return str(self.units)
     
 class TBHQDetails(models.Model):
     units = models.IntegerField(_("Measure in Grams"))
@@ -216,7 +217,7 @@ class TBHQDetails(models.Model):
     isdelete = models.BooleanField(_("Deleted"),default=False)
     
     def __str__(self):
-        return self.units
+        return str(self.units)
     
 class OilPumpingDetails(models.Model):
     motorontime = models.DateTimeField(_("Motor ON Time"), auto_now=False, auto_now_add=False)  

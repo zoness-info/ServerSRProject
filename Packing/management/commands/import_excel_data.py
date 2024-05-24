@@ -15,7 +15,8 @@ from Packing.models import (
                     branddetails, oilcategorydetails, skunamedetails, 
                             PrintingRollBatch,PrintingRollDetail, DayNightshift, 
                             FilmRollType, OperatorNameDetails, PackingMachineDetails, 
-                            ProductionRollDetails, PackingSection
+                            ProductionRollDetails, PackingSection,
+                            MainTankDetails,SubTankDetails,VitaminDetails,TBHQDetails,TMPSDetails,QCNameDetails
 )
 
 class Command(BaseCommand):
@@ -41,6 +42,12 @@ class Command(BaseCommand):
             self.import_oil_category_details(wb['oilcategory'])
             self.import_sku_name_details(wb['sku'])
             self.import_packing_machine_details(wb['packmachine'])
+            self.import_maintank(wb['maintank'])
+            self.import_subtank(wb['subtank'])
+            self.import_vitamin(wb['vitamin'])
+            self.import_tmps(wb['tmps'])
+            self.import_tbhq(wb['tbhq'])
+            self.import_qcname(wb['qcname'])  
             
 
             self.stdout.write(self.style.SUCCESS('All Data imported successfully'))
@@ -93,4 +100,34 @@ class Command(BaseCommand):
     def import_packing_machine_details(self, sheet):
         for row in sheet.iter_rows(min_row=2, values_only=True):
             PackingMachineDetails.objects.create(machineid=row[0],machinename=row[1])  # Adjust fields accordingly
-        self.stdout.write(self.style.SUCCESS('Packing Machine Details imported successfully'))
+        self.stdout.write(self.style.SUCCESS('Packing Machine Details imported successfully'))   
+        
+    def import_maintank(self, sheet):
+        for row in sheet.iter_rows(min_row=2, values_only=True):
+            MainTankDetails.objects.create(maintankname=row[0],oilname=row[1],desc=row[2],capacity=row[3])  # Adjust fields accordingly
+        self.stdout.write(self.style.SUCCESS('Main Tank Details imported successfully'))
+        
+    def import_subtank(self, sheet):
+        for row in sheet.iter_rows(min_row=2, values_only=True):
+            SubTankDetails.objects.create(subtankname=row[0],oilname=row[1],desc=row[2],capacity=row[3])  # Adjust fields accordingly
+        self.stdout.write(self.style.SUCCESS('SubTank Details imported successfully'))
+        
+    def import_vitamin(self, sheet):
+        for row in sheet.iter_rows(min_row=2, values_only=True):
+            VitaminDetails.objects.create(vitaminname=row[0],units=row[1],desc=row[2])  # Adjust fields accordingly
+        self.stdout.write(self.style.SUCCESS('Vitamin Details imported successfully'))
+    
+    def import_tmps(self, sheet):
+        for row in sheet.iter_rows(min_row=2, values_only=True):
+            TMPSDetails.objects.create(units=row[0],desc=row[1])  # Adjust fields accordingly
+        self.stdout.write(self.style.SUCCESS('TMPS Details imported successfully'))
+    
+    def import_tbhq(self, sheet):
+        for row in sheet.iter_rows(min_row=2, values_only=True):
+            TBHQDetails.objects.create(units=row[0],desc=row[1])  # Adjust fields accordingly
+        self.stdout.write(self.style.SUCCESS('TBHQ Details imported successfully'))
+    
+    def import_qcname(self, sheet):
+        for row in sheet.iter_rows(min_row=2, values_only=True):
+            QCNameDetails.objects.create(qcname=row[0],)  # Adjust fields accordingly
+        self.stdout.write(self.style.SUCCESS('QC Name Details imported successfully'))

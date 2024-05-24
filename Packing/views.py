@@ -61,7 +61,7 @@ class filmrolltable(View):
     
     
 
-class filmrolltableUpdateView(View):
+class filmrolltableUpdateView(CreateView):
    pass
 
 class filmrolltableDeleteView(DeleteView):
@@ -103,7 +103,14 @@ class productionrolltableListView(ListView):
         context = super().get_context_data(**kwargs)
         context['breadcrumbs'] = self.breadcrumbs
         return context
-    
+
+class productionrolltableCreateView(CreateView):
+    model = ProductionRollDetails
+    form_class = ProductionRollDetailsForm
+    template_name = 'Packing/productionrolltableentry.html'
+    success_url = reverse_lazy('productionrolltable')    
+    pass
+   
 class productionrolltableUpdateView(UpdateView):
     model = ProductionRollDetails
     form_class = ProductionRollDetailsForm
@@ -119,6 +126,8 @@ class productionrolltableUpdateView(UpdateView):
         context = super().get_context_data(**kwargs)
         context['breadcrumbs'] = self.breadcrumbs
         return context
+    
+    
 class productionrolltableDeleteView(DeleteView):
     model = ProductionRollDetails
     template_name = 'Packing/productionrolltabledelete.html'
