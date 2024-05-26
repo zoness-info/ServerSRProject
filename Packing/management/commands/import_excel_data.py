@@ -13,10 +13,11 @@ import openpyxl
 from django.core.management.base import BaseCommand
 from Packing.models import (
                     branddetails, oilcategorydetails, skunamedetails, 
-                            PrintingRollBatch,PrintingRollDetail, DayNightshift, 
+                             DayNightshift, 
                             FilmRollType, OperatorNameDetails, PackingMachineDetails, 
-                            ProductionRollDetails, PackingSection,
-                            MainTankDetails,SubTankDetails,VitaminDetails,TBHQDetails,TMPSDetails,QCNameDetails
+                            PackingSection,
+                            MainTankDetails,SubTankDetails,VitaminDetails,TBHQDetails,TMPSDetails,QCNameDetails,
+                            PouchLeakMistakesName,
 )
 
 class Command(BaseCommand):
@@ -48,6 +49,7 @@ class Command(BaseCommand):
             self.import_tmps(wb['tmps'])
             self.import_tbhq(wb['tbhq'])
             self.import_qcname(wb['qcname'])  
+            self.import_pouchmistakename(wb['mistakename'])
             
 
             self.stdout.write(self.style.SUCCESS('All Data imported successfully'))
@@ -130,4 +132,9 @@ class Command(BaseCommand):
     def import_qcname(self, sheet):
         for row in sheet.iter_rows(min_row=2, values_only=True):
             QCNameDetails.objects.create(qcname=row[0],)  # Adjust fields accordingly
-        self.stdout.write(self.style.SUCCESS('QC Name Details imported successfully'))
+        self.stdout.write(self.style.SUCCESS('QC Name Details imported successfully')) 
+    
+    def import_pouchname(self, sheet):
+        for row in sheet.iter_rows(min_row=2, values_only=True):
+            PouchLeakMistakesName.objects.create(qcname=row[0],)  # Adjust fields accordingly
+        self.stdout.write(self.style.SUCCESS('Pouch Mistake Details imported successfully'))

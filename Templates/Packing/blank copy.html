@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
+no content----
  <!-- App body starts -->
     <div class="app-body">
 
@@ -17,8 +18,16 @@
                         </div>
                         <div class="card-body">               
                             
-                            
-                            
+                            <form method="post">
+                                {% csrf_token %}
+                                {{ form.as_p }}
+                                {{ child_formset.management_form }}
+                                {% for form in child_formset %}
+                                    {{ form.as_p }}
+                                {% endfor %}
+                                <button type="submit">Save</button>
+                            </form>  
+                           
                         </div>
                     </div>
                     <!-- Card end -->

@@ -1,0 +1,31 @@
+
+
+
+                                    
+                                        {% for data in datatable %}
+                                            <tr>
+                                                <td>{{data.runningdate}}</td>
+                                                <td>{{data.runningshift}}</td>
+                                                <td>{{data.runningmachine}}</td>
+                                                <td>{{data.runningskuname}}</td>
+                                                <td>{{data.runningrolltype}}</td>
+                                                <td>{{data.runningrollstarttime}}</td>
+                                                <td>{{data.runningrollstoptime}}</td>
+                                                <td>{{data.runningbatchno}}</td>
+                                                <td>{{data.runningmrp}}</td>
+                                                <td>{{data.runningrollno}}</td>
+                                                <td>{{data.runningoperatorname}}</td>
+                                                <td>{{data.runningpouchcount}}</td>
+                                                <td>
+                                                    <div>
+                                                        
+                                                        <a class="btn btn-info btn-sm" href="{% url 'productionrolltable_update' data.pk%}"><i class="bi bi-pencil"></i></a>
+                                                        <a class="btn btn-danger btn-sm" href="{% url 'productionrolltable_delete' data.pk %}"><i class="bi bi-trash"></i></a>
+                                                    </div>
+                                                    
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                        
+                                    
+                                

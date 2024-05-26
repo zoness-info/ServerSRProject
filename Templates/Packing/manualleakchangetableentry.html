@@ -15,11 +15,11 @@
                         <!-- Card start -->
                         <div class="card">
                             <div class="card-header">
-                                <h4 class="card-title">SKU Details</h4>
+                                <h4 class="card-title">Manual Pouch Leak Change Details</h4>
                             </div>
                             <div class="card-body">  
                                 {% csrf_token %}
-                                {{ printingrolldetailsform1.as_p }}             
+                                {{ form.as_p }}             
                                 
                                 
                                 
@@ -30,15 +30,15 @@
                     <div class="col-xxl-9 col-md-8 col-sm-12 col-12">
                         <div class="card">
                             <div class="card-header">
-                                <h4 class="card-title">Roll Weight Details</h4>
+                                <h4 class="card-title">Leak Roll No and Pouch Details</h4>
                             </div>
                             <div class="card-body">
                                 <div class="container-fluid">
                                     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-xl-3 row-cols-xxl-5 g-4">
                                         <!-- <div class="row"> -->
                                         
-                                        {{ rolldetailsformset.management_form }}
-                                        {% for form in rolldetailsformset %}
+                                        {{ child_formset.management_form }}
+                                        {% for form in child_formset %}
                                         
                                         
                                       
@@ -49,8 +49,8 @@
                                                 </div>
                                                 <div class="card-body">
                                                      {{ form.as_p }}
-                                                     <label>Actual Wt : </label>
-                                                     <span id="actwt-{{ forloop.counter }}" class="actwt">0.00</span>
+                                                     <label hidden>Actual Wt : </label>
+                                                     <span id="actwt-{{ forloop.counter }}" class="actwt" hidden>0.00</span>
                                                 </div>
                                             </div>
                                         </div>

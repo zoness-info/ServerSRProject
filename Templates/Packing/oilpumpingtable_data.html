@@ -1,0 +1,24 @@
+
+                                        {% for data in datatable %}
+                                            <tr>
+                                                <td>{{data.date}}</td>
+                                                <td>{{data.motorontime}}</td>
+                                                <td>{{data.motorofftime}}</td>
+                                                <td>{{data.shift}}</td>
+                                                <td>{{data.maintank}}</td>
+                                                <td>{{data.subtank}}</td>
+                                                <td>{{data.vitaminunits}}</td>
+                                                <td>{{data.tmpsunits}}</td>
+                                                <td>{{data.tbhqunits}}</td>
+                                                <td>{{data.operatorname}}</td>
+                                                <td>{{data.qcname}}</td>
+                                                <td>
+                                                    <div>
+                                                        <a class="btn btn-info btn-sm" href="{% url 'oilpumpingtable_update' data.pk %}"><i class="bi bi-pencil"></i></a>
+                                                        <a class="btn btn-danger btn-sm" href="{% url 'oilpumpingtable_delete' data.pk %}"><i class="bi bi-trash"></i></a>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                        
+                                    

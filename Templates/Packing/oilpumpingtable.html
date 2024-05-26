@@ -4,7 +4,7 @@
 {% block content %}
  <!-- App body starts -->
  <div class="app-body">
-
+    
     <!-- Container starts -->
     <div class="container-fluid">
         <div class="row">
@@ -14,23 +14,29 @@
                         <div class="d-flex align-items-center">
                             <div class="">
                                 <h4 class="card-title">Oil Pumping Details</h4>
+                                <div class="col-auto">
+                                    <a href="{% url 'oilpumpingtable_entry' %}" class="btn btn-primary">+ Add</a>
+                                </div>
                             </div>
                             <div class="btn-group ms-auto" role="group" aria-label="Basic radio toggle button group">
 
-                                <input type="radio" class="btn-check" name="btnradio" id="btnradio1" checked="" />
-                                <label class="btn btn-outline-primary" for="btnradio1">Today</label>
+                                <input type="radio" class="btn-check" name="btnradio" id="btnradio1" value="all,OilPumpingDetails" hx-get="{% url 'toggle' %}" hx-trigger="change" hx-target="#toggle-response" checked="" />
+                                <label class="btn btn-outline-primary" for="btnradio1">All</label>
+                                
+                                <input type="radio" class="btn-check" name="btnradio" id="btnradio2" value="today,OilPumpingDetails" hx-get="{% url 'toggle' %}" hx-trigger="change"  hx-target="#toggle-response" />
+                                <label class="btn btn-outline-primary" for="btnradio2">Today</label>
 
-                                <input type="radio" class="btn-check" name="btnradio" id="btnradio2" />
-                                <label class="btn btn-outline-primary" for="btnradio2">7D</label>
+                                <input type="radio" class="btn-check" name="btnradio" id="btnradio3" value="7d,OilPumpingDetails" hx-get="{% url 'toggle' %}" hx-trigger="change" hx-target="#toggle-response" />
+                                <label class="btn btn-outline-primary" for="btnradio3">7D</label>
 
-                                <input type="radio" class="btn-check" name="btnradio" id="btnradio3" />
-                                <label class="btn btn-outline-primary" for="btnradio3">Last Month</label>
+                                <input type="radio" class="btn-check" name="btnradio" id="btnradio4" value="last_month,OilPumpingDetails" hx-get="{% url 'toggle' %}" hx-trigger="change" hx-target="#toggle-response" />
+                                <label class="btn btn-outline-primary" for="btnradio4">Last Month</label>
 
-                                <input type="radio" class="btn-check" name="btnradio" id="btnradio4" />
-                                <label class="btn btn-outline-primary" for="btnradio4">Last 3 Months</label>
+                                <input type="radio" class="btn-check" name="btnradio" id="btnradio5" value="last_3_months,OilPumpingDetails" hx-get="{% url 'toggle' %}" hx-trigger="change" hx-target="#toggle-response" />
+                                <label class="btn btn-outline-primary" for="btnradio5">Last 3 Months</label>
 
-                                <input type="radio" class="btn-check" name="btnradio" id="btnradio5" />
-                                <label class="btn btn-outline-primary" for="btnradio5">Last Year</label>
+                                <input type="radio" class="btn-check" name="btnradio" id="btnradio6" value="last_year,OilPumpingDetails" hx-get="{% url 'toggle' %}" hx-trigger="change" hx-target="#toggle-response" />
+                                <label class="btn btn-outline-primary" for="btnradio6">Last Year</label>
 
                             </div>
                         </div>
@@ -41,6 +47,7 @@
                                 <table class="table align-middle custom-table m-0">
                                     <thead>
                                         <tr>
+                                            <th>Date</th>
                                             <th>Motor ON</th>
                                             <th>Motor OFF</th>
                                             <th>Shift</th>
@@ -54,30 +61,28 @@
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
-                                        {% for data in datatable %}
-                                            <tr>
-                                                <td>{{data.motorontime}}</td>
-                                                <td>{{data.motorofftime}}</td>
-                                                <td>{{data.shift}}</td>
-                                                <td>{{data.maintank}}</td>
-                                                <td>{{data.subtank}}</td>
-                                                <td>{{data.vitaminunits}}</td>
-                                                <td>{{data.tmpsunits}}</td>
-                                                <td>{{data.tbhqunits}}</td>
-                                                <td>{{data.operatorname}}</td>
-                                                <td>{{data.qcname}}</td>
-                                                <td>
-                                                    <div>
-                                                        <a class="btn btn-info btn-sm" href="{% url 'oilpumpingtable_update' data.pk %}"><i class="bi bi-pencil"></i></a>
-                                                        <a class="btn btn-danger btn-sm" href="{% url 'oilpumpingtable_delete' data.pk %}"><i class="bi bi-trash"></i></a>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        {% endfor %}
+                                    <tbody id="toggle-response">
+                                        {% include 'Packing/oilpumpingtable_data.html' %}
                                         
                                     </tbody>
                                 </table>
+                                <!-- Pagination -->
+                                <!-- <nav aria-label="Page navigation" class="pagination-container">
+                                    <ul class="pagination">
+                                        {% if datatable.has_previous %}
+                                            <li class="page-item">
+                                                <a class="page-link" href="?page={{ datatable.previous_page_number }}">Previous</a>
+                                            </li>
+                                        {% endif %}
+                                        <li class="page-item"><span class="page-link">Page {{ datatable.number }} of {{ datatable.paginator.num_pages }}</span></li>
+                                        {% if datatable.has_next %}
+                                            <li class="page-item">
+                                                <a class="page-link" href="?page={{ datatable.next_page_number }}">Next</a>
+                                            </li>
+                                        {% endif %}
+                                    </ul>
+                                </nav> -->
+
                             </div>
                         </div>
                     </div>

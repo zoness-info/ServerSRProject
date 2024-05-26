@@ -4,6 +4,8 @@
 <div class="app-body">
 
     <div class="row">
+        <!-- Cards for Counts -->
+        <!-- No of Brands -->
         <div class="col-xl-4 col-sm-6 col-12">
             <div class="card mb-4">
                 <div class="card-body">
@@ -12,18 +14,14 @@
                             <i class="bi bi-bag-check text-primary fs-2"></i>
                         </div>
                         <div class="ms-4">
-                            <p class="mb-2 lh-1 d-flex align-items-center">
-                                <!-- <i class="bi bi-caret-up-fill text-success me-1 fs-3"></i><span class="text-success me-2">8%
-                                </span> from -->
-                                No of Brands
-                            </p>
-                            <h1 class="fw-bold mb-2">{{brandcount}}</h1>
-                            <!-- <h6 class="m-0 fw-normal opacity-50">Visitors</h6> -->
+                            <p class="mb-2 lh-1 d-flex align-items-center">No of Brands</p>
+                            <h1 class="fw-bold mb-2">{{ brandcount }}</h1>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        <!-- No of Oil Category -->
         <div class="col-xl-4 col-sm-6 col-12">
             <div class="card mb-4">
                 <div class="card-body">
@@ -32,19 +30,14 @@
                             <i class="bi bi-bag-check text-primary fs-2"></i>
                         </div>
                         <div class="ms-4">
-                            <p class="mb-2 lh-1 d-flex align-items-center">
-                                <!-- <i class="bi bi-caret-up-fill text-success me-1 fs-3"></i><span
-                                    class="text-success me-2">23% </span> from
-                                last week. -->
-                                No of Oil Category
-                            </p>
-                            <h1 class="fw-bold mb-2">{{categorycount}}</h1>
-                            <!-- <h6 class="m-0 fw-normal opacity-50">Subscribers</h6> -->
+                            <p class="mb-2 lh-1 d-flex align-items-center">No of Oil Category</p>
+                            <h1 class="fw-bold mb-2">{{ categorycount }}</h1>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        <!-- Total SKU's -->
         <div class="col-xl-4 col-lg-12 col-md-12 col-sm-12 col-12">
             <div class="card mb-4">
                 <div class="card-body">
@@ -53,25 +46,18 @@
                             <i class="bi bi-bag-check text-primary fs-2"></i>
                         </div>
                         <div class="ms-4">
-                            <p class="mb-2 lh-1 d-flex align-items-center">
-                                <!-- <i class="bi bi-caret-down-fill text-danger me-1 fs-3"></i><span
-                                    class="text-danger me-2">18% </span> from
-                                last week. -->
-                                Total SKU's
-                            </p>
-                            <h1 class="fw-bold mb-2">{{skucount}}</h1>
-                            <!-- <h6 class="m-0 fw-normal opacity-50">Revenue</h6> -->
+                            <p class="mb-2 lh-1 d-flex align-items-center">Total SKU's</p>
+                            <h1 class="fw-bold mb-2">{{ skucount }}</h1>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        
     </div>
 
+    <!-- Brands Table -->
     <div class="container-fluid">
         <div class="row">
-<!-- Brands -->
             <div class="col-md-12 col-lg-6">
                 <div class="card mb-4">
                     <div class="card-header">
@@ -85,44 +71,54 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <div class="table-responsive">
-                        <div class="border border-dark rounded-3">
-                            <table class="table align-middle table-hover m-0">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">S.No</th>
-                                        <th scope="col">Brand Name</th>
-                                        <th scope="col">Created On</th>
-                                        <th scope="col">Updated On</th>
-                                        <!-- <th scope="col">Start date</th>
-                                        <th scope="col">Progress</th>
-                                        <th scope="col">Salary</th> -->
-                                        <th scope="col">Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {% for object in object_list %}
-                                    <tr>
-                                        <td>{{ forloop.counter }}</td>
-                                        <td>{{object.brandname}}</td>
-                                        <td>{{object.createdat}}</td>
-                                        <td>{{object.updatedat}}</td>
-                                        <td>
-                                            <div>
-                                                <a class="btn btn-info btn-sm" href="#"><i class="bi bi-pencil"></i></a>
-                                                <a class="btn btn-danger btn-icon btn-sm" href="#"><i class="bi bi-trash"></i></a>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    {% endfor %}
-                                </tbody>
-                            </table>
-                        </div>
+                        <div class="table-responsive brand-table-responsive">
+                            <div class="border border-dark rounded-3">
+                                <table class="table align-middle table-hover m-0">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">S.No</th>
+                                            <th scope="col">Brand Name</th>
+                                            <th scope="col">Created On</th>
+                                            <th scope="col">Updated On</th>
+                                            <th scope="col">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for object in brandlists %}
+                                            <tr>
+                                                <td>{{ forloop.counter }}</td>
+                                                <td>{{ object.brandname }}</td>
+                                                <td>{{ object.createdat }}</td>
+                                                <td>{{ object.updatedat }}</td>
+                                                <td>
+                                                    <div>
+                                                        <a class="btn btn-info btn-sm" href="#"><i class="bi bi-pencil"></i></a>
+                                                        <a class="btn btn-danger btn-icon btn-sm" href="#"><i class="bi bi-trash"></i></a>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                                <div class="pagination brand-pagination">
+                                    <span class="step-links">
+                                        {% if brandlists.has_previous %}
+                                            <a href="?page_brand={{ brandlists.previous_page_number }}">&laquo; previous</a>
+                                        {% endif %}
+                                        <span class="current">
+                                            Page {{ brandlists.number }} of {{ brandlists.paginator.num_pages }}.
+                                        </span>
+                                        {% if brandlists.has_next %}
+                                            <a href="?page_brand={{ brandlists.next_page_number }}">next &raquo;</a>
+                                        {% endif %}
+                                    </span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-<!-- Category -->
+            <!-- Oil Category Table -->
             <div class="col-md-12 col-lg-6">
                 <div class="card mb-4">
                     <div class="card-header">
@@ -136,7 +132,7 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <div class="table-responsive">
+                        <div class="table-responsive oil-responsive">
                             <div class="border border-dark rounded-3">
                                 <table class="table align-middle table-hover m-0">
                                     <thead>
@@ -144,96 +140,42 @@
                                             <th scope="col">S.No</th>
                                             <th scope="col">Brand Name</th>
                                             <th scope="col">Category Name</th>
-                                            <!-- <th scope="col">Created On</th> -->
                                             <th scope="col">Updated On</th>
-                                            <!-- <th scope="col">Start date</th>
-                                            <th scope="col">Progress</th>
-                                            <th scope="col">Salary</th> -->
                                             <th scope="col">Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         {% for object in oilcategorylists %}
-                                        <tr>
-                                            <td>{{ forloop.counter }}</td>
-                                            <td>{{object.brandname}}</td>
-                                            <td>{{object.oilcategoryname}}</td>
-                                            <!-- <td>{{object.createdat}}</td> -->
-                                            <td>{{object.updatedat}}</td>
-                                            <td>
-                                                <div>
-                                                    <a class="btn btn-info btn-sm" href="#"><i class="bi bi-pencil"></i></a>
-                                                    <a class="btn btn-danger btn-icon btn-sm" href="#"><i class="bi bi-trash"></i></a>
-                                                </div>
-                                            </td>
-                                        </tr>
+                                            <tr>
+                                                <td>{{ forloop.counter }}</td>
+                                                <td>{{ object.brandname }}</td>
+                                                <td>{{ object.oilcategoryname }}</td>
+                                                <td>{{ object.updatedat }}</td>
+                                                <td>
+                                                    <div>
+                                                        <a class="btn btn-info btn-sm" href="#"><i class="bi bi-pencil"></i></a>
+                                                        <a class="btn btn-danger btn-icon btn-sm" href="#"><i class="bi bi-trash"></i></a>
+                                                    </div>
+                                                </td>
+                                            </tr>
                                         {% endfor %}
                                     </tbody>
                                 </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-<!-- SKU Name -->
-    <div class="container-fluid">
-        <!-- Row start -->
-        <div class="row"> 
-            <div class="col-12">
-                <div class="card mb-4">
-                    <div class="card-header">
-                        <div class="row">
-                            <div class="col">
-                                <h4 class="card-title">SKU Name List</h4>
-                            </div>
-                            <div class="col-auto">
-                                <a href="#" class="btn btn-primary">+ Add</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <div class="border border-dark rounded-3">
-                                <table class="table align-middle table-hover m-0">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col">S.No</th>
-                                            <th scope="col">Brand Name</th>
-                                            <th scope="col">Category Name</th>
-                                            <th scope="col">SKU Name</th>
-                                            <th scope="col">SKU Code</th>
-                                            <th scope="col" class="d-none d-md-table-cell">Created On</th>
-                                            <th scope="col" class="d-none d-md-table-cell">Updated On</th>
-                                            <!-- <th scope="col">Start date</th>
-                                            <th scope="col">Progress</th>
-                                            <th scope="col">Salary</th> -->
-                                            <th scope="col">Actions</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {% for sku in skunamelist %}
-                                        <tr>
-                                            <td>{{ forloop.counter }}</td>
-                                            <td>{{sku.category_name.brandname}}</td>
-                                            <td>{{sku.category_name.oilcategoryname}}</td>
-                                            <td>{{sku.skuname}}</td>
-                                            <td>{{sku.skucode_c}}</td>
-                                            <td scope="col" class="d-none d-md-table-cell">{{sku.createdat}}</td>
-                                            <td scope="col" class="d-none d-md-table-cell">{{sku.updatedat}}</td>
-                                            <td>
-                                                <div>
-                                                    <a class="btn btn-info btn-sm" href="#"><i class="bi bi-pencil"></i></a>
-                                                    <a class="btn btn-danger btn-icon btn-sm" href="#"><i class="bi bi-trash"></i></a>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        {% endfor %}
-                                    </tbody>
-                                </table>
-                            </div>
+                                <div class="pagination oil-pagination">
+                                    <span class="step-links">
+                                        {% if oilcategorylists.has_previous %}
+                                            <a href="?page_oil={{ oilcategorylists.previous_page_number }}">&laquo; previous</a>
+                                        {% endif %}
+                                        <span class="current">
+                                            Page {{ oilcategorylists.number }} of {{ oilcategorylists.paginator.num_pages }}.
+                                        </span>
+                                        {% if oilcategorylists.has_next %}
+                                            <a href="?page_oil={{ oilcategorylists.next_page_number }}">next &raquo;</a>
+                                        {% endif %}
+                                    </span>
+                                </div>
+                                
+                            </table>
                         </div>
                     </div>
                 </div>
@@ -241,4 +183,87 @@
         </div>
     </div>
 </div>
+
+<!-- SKU Name Table -->
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col">
+                            <h4 class="card-title">SKU Name List</h4>
+                        </div>
+                        <div class="col-auto">
+                            <a href="#" class="btn btn-primary">+ Add</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive sku-table-responsive">
+                        <div class="border border-dark rounded-3">
+                            <table class="table align-middle table-hover m-0">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">S.No</th>
+                                        <th scope="col">Brand Name</th>
+                                        <th scope="col">Category Name</th>
+                                        <th scope="col">SKU Name</th>
+                                        <th scope="col">SKU Code</th>
+                                        <th scope="col">Created On</th>
+                                        <th scope="col">Updated On</th>
+                                        <th scope="col">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for sku in skunamelists %}
+                                        <tr>
+                                            <td>{{ forloop.counter }}</td>
+                                            <td>{{ sku.category_name.brandname }}</td>
+                                            <td>{{ sku.category_name.oilcategoryname }}</td>
+                                            <td>{{ sku.skuname }}</td>
+                                            <td>{{ sku.skucode_c }}</td>
+                                            <td>{{ sku.createdat }}</td>
+                                            <td>{{ sku.updatedat }}</td>
+                                            <td>
+                                                <div>
+                                                    <a class="btn btn-info btn-sm" href="#"><i class="bi bi-pencil"></i></a>
+                                                    <a class="btn btn-danger btn-icon btn-sm" href="#"><i class="bi bi-trash"></i></a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                            
+                            <!-- Pagination -->
+                            <nav aria-label="Page navigation" class="pagination-container">
+                                <ul class="pagination">
+                                    {% if skunamelists.has_previous %}
+                                        <li class="page-item">
+                                            <a class="page-link" href="?page_sku={{ skunamelists.previous_page_number }}">Previous</a>
+                                        </li>
+                                    {% endif %}
+                                    <li class="page-item"><span class="page-link">Page {{ skunamelists.number }} of {{ skunamelists.paginator.num_pages }}</span></li>
+                                    {% if skunamelists.has_next %}
+                                        <li class="page-item">
+                                            <a class="page-link" href="?page_sku={{ skunamelists.next_page_number }}">Next</a>
+                                        </li>
+                                    {% endif %}
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+</div>
+
 {% endblock %}
+
+                           

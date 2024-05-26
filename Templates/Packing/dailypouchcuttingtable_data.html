@@ -1,0 +1,21 @@
+
+                                        {% for data in datatable %}
+                                            <tr>
+                                                <td>{{data.date}}</td>
+                                                <td>{{data.shift}}</td>
+                                                <td>{{data.operatorname}}</td>
+                                                <td>{{data.sfleakinmt}}</td>
+                                                <td>{{data.gnleakinmt}}</td>
+                                                <td>{{data.gnrleakinmt}}</td>
+                                                <td>{{data.rbleakinmt}}</td>
+                                                <td>{{data.palmleakinmt}}</td>
+                                                <td>{{data.ginleakinmt}}</td>
+                                                <td>{{data.remarks}}</td>
+                                                <td>
+                                                    <div>
+                                                        <a class="btn btn-info btn-sm" href="{% url 'pouchcuttingtable_update' data.pk %}"><i class="bi bi-pencil"></i></a>
+                                                        <a class="btn btn-danger btn-sm" href="{% url 'pouchcuttingtable_delete' data.pk %}"><i class="bi bi-trash"></i></a>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            {% endfor %}

@@ -5,11 +5,12 @@
 <div class="app-body">
 
     <div class="row gx-3">
+        <form method="POST">
         <div class="col-xxl-12">
             <div class="card mb-3">
-                <form method="POST">
+                
                 <div class="card-header">
-                    <h5 class="card-title">Production Packing Filmroll - Add New</h5>
+                    <h5 class="card-title">Manual Leak Change Edit</h5>
                 </div>
                 {{ form.non_field_errors }}
                 {% csrf_token %}
@@ -20,60 +21,36 @@
                         <div class="row gx-3">
                             <div class="col-lg-3 col-sm-4 col-12">
                                 <div class="mb-3">
-                                    {{ form.runningdate.errors }}
+                                    {{ form.date.errors }}
                                     <label class="form-label">Date</label>
-                                    {{ form.runningdate }}
+                                    {{ form.date }}
                                 </div>
                             </div>
                             <div class="col-lg-3 col-sm-4 col-12">
                                 <div class="mb-3">
                                     <label class="form-label">Shift</label>
-                                    {{ form.runningshift}}
+                                    {{ form.shift}}
                                 </div>
                             </div>
                             <div class="col-lg-3 col-sm-4 col-12">
                                 <div class="mb-3">
-                                    <label class="form-label">Machine No.</label>
-                                    {{ form.runningmachine}}
+                                    <label class="form-label">Damage Changed Box</label>
+                                    {{ form.changeddamagebox}}
                                 </div>
                             </div>
                             <div class="col-lg-3 col-sm-4 col-12">
                                 <div class="mb-3">
-                                    <label class="form-label">SKU Name</label>
-                                    {{ form.runningskuname}}
+                                    <label class="form-label">Hindi Manpower</label>
+                                    {{ form.hindimanpower}}
                                 </div>
                             </div>
                             <div class="col-lg-3 col-sm-4 col-12">
                                 <div class="mb-3">
-                                    <label class="form-label">Roll Type</label>
-                                    {{ form.runningrolltype}}
+                                    <label class="form-label">Ladies Manpower</label>
+                                    {{ form.ladiesmanpower}}
                                 </div>
                             </div>
-                            <div class="col-lg-3 col-sm-4 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label">Roll Start Time</label>
-                                    
-                                    {{ form.runningrollstarttime}}
-                                </div>
-                            </div>
-                            <div class="col-lg-3 col-sm-4 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label">Roll Stop Time</label>
-                                    {{ form.runningrollstoptime}}
-                                </div>
-                            </div>
-                            <div class="col-lg-3 col-sm-4 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label">Batch No</label>
-                                    {{ form.runningbatchno}}
-                                </div>
-                            </div>
-                            <div class="col-lg-3 col-sm-4 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label">MRP</label>
-                                    {{ form.runningmrp}}
-                                </div>
-                            </div>
+                            
                             <!-- <div class="col-lg-3 col-sm-4 col-12">
                                 <div class="mb-3">
                                     <label class="form-label">Roll Stop Time</label>
@@ -83,39 +60,75 @@
                                     </select>
                                 </div>
                             </div> -->
+                            
+                            
+                            
+                        </div>
+                    
+                    <!-- Row end -->
+                </div>
+                
+            
+            </div>
+        </div>
+        <div class="col-xxl-12">
+            <div class="card mb-3">
+                
+                <div class="card-header">
+                    <h5 class="card-title">Manual Leak Change Edit</h5>
+                </div>
+                {{ form.non_field_errors }}
+                <div class="card-body">
+                    
+                    <form method="POST">
+                        <!-- Row start -->
+                        <div class="row gx-3">
+                            {{ form.date.errors }}
+                                {{ child_formset.management_form }}
+                                {% for form in child_formset %}
+                                
+                            
                             <div class="col-lg-3 col-sm-4 col-12">
                                 <div class="mb-3">
-                                    <label class="form-label">Roll No.</label>
-                                    {{ form.runningrollno}}
+                                    <label class="form-label">Roll No{{forloop.counter}}</label>
+                                    {{ form.rollno}}
                                 </div>
                             </div>
                             <div class="col-lg-3 col-sm-4 col-12">
                                 <div class="mb-3">
-                                    <label class="form-label">Operator Name</label>
-                                    {{ form.runningoperatorname}}
+                                    <label class="form-label">No of Pouch</label>
+                                    {{ form.noofpouch}}
                                 </div>
                             </div>
                             <div class="col-lg-3 col-sm-4 col-12">
                                 <div class="mb-3">
-                                    <label class="form-label">Pouch Count</label>
-                                    {{ form.runningpouchcount}}
+                                    <label class="form-label">Mistake</label>
+                                    {{ form.mistakename}}
                                 </div>
                             </div>
-                            <div class="col-sm-6 col-12">
+                            {% endfor %}
+                            
+                            <!-- <div class="col-lg-3 col-sm-4 col-12">
                                 <div class="mb-3">
-                                    <label class="form-label">Message</label>
-                                    <textarea class="form-control" placeholder="Enter message" rows="3"></textarea>
+                                    <label class="form-label">Roll Stop Time</label>
+                                    <select class="form-select">
+                                        <option value="0">Select</option>
+                                        <option value="1">One</option>
+                                    </select>
                                 </div>
-                            </div>
+                            </div> -->
+                            
+                            
+                            
                         </div>
                     
                     <!-- Row end -->
                 </div>
                 <div class="card-footer">
                     <div class="d-flex gap-2 justify-content-end">
-                        <a type="button" class="btn btn-outline-secondary" href="{% url 'productionrolltable' %}">
+                        <button type="button" class="btn btn-outline-secondary">
                             Cancel
-                        </a>
+                        </button>
                         <button type="submit" class="btn btn-success">
                             Submit
                         </button>
@@ -123,12 +136,13 @@
                 </div>
             </form>
             </div>
+        
         </div>
+        </form>
     </div>
    
 
 </div>
-
 
 {% endblock %}
     

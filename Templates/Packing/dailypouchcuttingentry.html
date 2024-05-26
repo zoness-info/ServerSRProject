@@ -21,26 +21,12 @@
                             <div class="col-lg-3 col-sm-4 col-12">
                                 <div class="mb-3">
                                     {{ form.date.errors }}
-                                    <label class="form-label">Date</label>                                    
-                                    {{ form.date }}                                    
-                                </div>  
-                            </div>                      
-                            <div class="col-lg-3 col-sm-4 col-12">
-                                <div class="mb-3">
-                                    {{ form.motorontime.errors }}
-                                    <label class="form-label">Motor ON Time</label>
+                                    <label class="form-label">Date</label>
                                     <div class="input-group">
-                                        {{ form.motorontime }}
-                                    </div>                                    
+                                        {{ form.date }}
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-lg-3 col-sm-4 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label">Motor OFF Time</label>
-                                    {{ form.motorofftime }}
-                                </div>
-                            </div>
-
                             <div class="col-lg-3 col-sm-4 col-12">
                                 <div class="mb-3">
                                     <label class="form-label">Shift</label>
@@ -49,33 +35,39 @@
                             </div>
                             <div class="col-lg-3 col-sm-4 col-12">
                                 <div class="mb-3">
-                                    <label class="form-label">Main Tank</label>
-                                    {{ form.maintank }}
+                                    <label class="form-label">SF Leak in MT</label>
+                                    {{ form.sfleakinmt }}
                                 </div>
                             </div>
                             <div class="col-lg-3 col-sm-4 col-12">
                                 <div class="mb-3">
-                                    <label class="form-label">Sub Tank</label>
-                                    {{ form.subtank }}
+                                    <label class="form-label">GN Leak in MT</label>
+                                    {{ form.gnleakinmt }}
                                 </div>
                             </div>
                             <div class="col-lg-3 col-sm-4 col-12">
                                 <div class="mb-3">
-                                    <label class="form-label">Vitamin</label>
+                                    <label class="form-label">GNR Leak in MT</label>
+                                    {{ form.gnrleakinmt }}
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-sm-4 col-12">
+                                <div class="mb-3">
+                                    <label class="form-label">RB Leak in MT</label>
                                     
-                                    {{ form.vitaminunits }}
+                                    {{ form.rbleakinmt }}
                                 </div>
                             </div>
                             <div class="col-lg-3 col-sm-4 col-12">
                                 <div class="mb-3">
-                                    <label class="form-label">TMPS</label>
-                                    {{ form.tmpsunits }}
+                                    <label class="form-label">Palm Leak in MT</label>
+                                    {{ form.palmleakinmt }}
                                 </div>
                             </div>
                             <div class="col-lg-3 col-sm-4 col-12">
                                 <div class="mb-3">
-                                    <label class="form-label">TBHQ</label>
-                                    {{ form.tbhqunits }}
+                                    <label class="form-label">GINGELLY Leak in MT</label>
+                                    {{ form.ginleakinmt }}
                                 </div>
                             </div>
                             <div class="col-lg-3 col-sm-4 col-12">
@@ -84,18 +76,13 @@
                                     {{ form.operatorname }}
                                 </div>
                             </div>
-                            <div class="col-lg-3 col-sm-4 col-12">
+                            <div class="col-sm-6 col-12">
                                 <div class="mb-3">
-                                    <label class="form-label">QC Name</label>
-                                    {{ form.qcname }}
+                                    <label class="form-label">Remarks</label>
+                                    {{ form.remarks }}
                                 </div>
                             </div>
-                            <div class="col-lg-3 col-sm-4 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label">Manager Name</label>
-                                    {{ form.manager }}
-                                </div>
-                            </div>
+                            
                             
                         </div>
                     
@@ -103,7 +90,7 @@
                 </div>
                 <div class="card-footer">
                     <div class="d-flex gap-2 justify-content-end">
-                        <a type="button" class="btn btn-outline-secondary" href="{% url 'oilpumpingtable' %}">
+                        <a type="button" class="btn btn-outline-secondary" href="{% url 'pouchcuttingtable' %}">
                             Cancel
                         </a>
                         <button type="submit" class="btn btn-success">

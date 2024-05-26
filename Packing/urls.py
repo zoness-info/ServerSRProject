@@ -4,6 +4,9 @@ from .views import ( home,
                     filmrolltable, filmrollentry, filmrolltableUpdateView,filmrolltableDeleteView,
                     productionrolltableListView,productionrolltableUpdateView,productionrolltableDeleteView,productionrolltableCreateView,
                     oilpumpListView,oilpumpCreateView,oilpumpUpdateView,oilpumpDeleteView,
+                    DailyPouchCuttingDetailsListView,DailyPouchCuttingDetailsCreateView,DailyPouchCuttingDetailsUpdateView,DailyPouchCuttingDetailsDeleteView,
+                    ManualLeakChangeListView,ManualLeakChangeCreateView,ManualLeakChangeUpdateView,ManualLeakChangeDeleteView,
+                    autocomplete_skuname,toggle
     # BrandListView, BrandCreateView, BrandUpdateView, 
     # BrandDeleteView,OilCategoryListView, OilCategoryCreateView, 
     # OilCategoryUpdateView, OilCategoryDeleteView,SkuNameListView, 
@@ -12,8 +15,8 @@ from .views import ( home,
 
 urlpatterns = [
     path('',home.as_view(),name='packinghome'),
-    #-------------------------------------------------Printing------------------------------------------------
     path('skulists/',skudetails.as_view(),name="skulists"),
+    #-------------------------------------------------Printing------------------------------------------------
     path('printingfilmrolltable/',filmrolltable.as_view(),name='printingfilmrolltable'),
     path('printingfilemrolltable/<pk>/edit',filmrolltableUpdateView.as_view(),name='printingfilmrolltable_update'),
     path('printingfilmrolltable/<pk>/delete',filmrolltableDeleteView.as_view(),name='printingfilmrolltable_delete'),
@@ -34,6 +37,25 @@ urlpatterns = [
     path('oilpumpingtable/<pk>/edit/',oilpumpUpdateView.as_view(),name='oilpumpingtable_update'),
     path('oilpumpingtable/<pk>/delete/',oilpumpDeleteView.as_view(),name='oilpumpingtable_delete'),
     #___________________________________________________________________________________________________________
+    
+    #---------------------------------------------------Pouch Cutting---------------------------------------------
+    path('pouchcuttingtable/',DailyPouchCuttingDetailsListView.as_view(),name='pouchcuttingtable'),
+    path('pouchcuttingtable/newentry/',DailyPouchCuttingDetailsCreateView.as_view(),name='pouchcuttingtable_entry'),
+    path('pouchcuttingtable/<pk>/edit/',DailyPouchCuttingDetailsUpdateView.as_view(),name='pouchcuttingtable_update'),
+    path('pouchcuttingtable/<pk>/delete/',DailyPouchCuttingDetailsDeleteView.as_view(),name='pouchcuttingtable_delete'),
+    #___________________________________________________________________________________________________________
+    
+    #---------------------------------------------Manual Pouch Leak Change --------------------------------------
+    path('manualleakchangetable/',ManualLeakChangeListView.as_view(),name='manualleakchangetable'),
+    path('manualleakchangetable/newentry',ManualLeakChangeCreateView.as_view(),name='manualleakchangetable_entry'),
+    path('manualleakchangetable/<pk>/edit',ManualLeakChangeUpdateView.as_view(),name='manualleakchangetable_update'),
+    path('manualleakchangetable/<pk>/delete',ManualLeakChangeDeleteView.as_view(),name='manualleakchangetable_delete'),
+    
+    #____________________________________________________________________________________________________________
+    
+    
+    path('autocomplete-skuname/', autocomplete_skuname, name='autocomplete_skuname'),
+    path('printingfilmrolltable/Packing/toggle',toggle,name="toggle")
     
     
     # path('brands/', BrandListView.as_view(), name='branddetails-list'),

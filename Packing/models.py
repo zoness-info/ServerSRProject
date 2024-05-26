@@ -221,6 +221,7 @@ class TBHQDetails(models.Model):
         return str(self.units)
     
 class OilPumpingDetails(models.Model):
+    date =models.DateField(_("Date"), auto_now=False, auto_now_add=False)
     motorontime = models.DateTimeField(_("Motor ON Time"), auto_now=False, auto_now_add=False)  
     motorofftime = models.DateTimeField(_("Motor OFF Time"), auto_now=False, auto_now_add=False)
     shift = models.ForeignKey(DayNightshift, on_delete=models.CASCADE)
@@ -252,4 +253,65 @@ class ChangeLog(models.Model):
 
     def __str__(self):
         return f"{self.user} {self.action} {self.model} {self.instance_id} at {self.timestamp}"
+    
+    
+class DailyPouchCuttingDetails(models.Model):
+    date = models.DateField(_("Entry Date"), auto_now=False, auto_now_add=False)
+    shift = models.ForeignKey(DayNightshift, on_delete=models.CASCADE)
+    operatorname = models.ForeignKey(OperatorNameDetails, on_delete=models.CASCADE)
+    sfleakinmt = models.DecimalField(_("SF Leak in MT"), max_digits=8, decimal_places=2)
+    gnleakinmt = models.DecimalField(_("SF Leak in MT"), max_digits=8, decimal_places=2,blank=True, null=True)
+    gnrleakinmt = models.DecimalField(_("SF Leak in MT"), max_digits=8, decimal_places=2,blank=True, null=True)
+    rbleakinmt = models.DecimalField(_("SF Leak in MT"), max_digits=8, decimal_places=2,blank=True, null=True)
+    palmleakinmt = models.DecimalField(_("SF Leak in MT"), max_digits=8, decimal_places=2,blank=True, null=True)
+    ginleakinmt = models.DecimalField(_("SF Leak in MT"), max_digits=8, decimal_places=2,blank=True, null=True)
+    remarks = models.CharField(_("Remarks"), max_length=50,blank=True, null=True)
+    createdat = models.DateTimeField(_("Created At"),auto_now_add=True)
+    updatedat = models.DateTimeField(_("Updated AT"), auto_now=True)
+    isdelete = models.BooleanField(_("Deleted"),default=False)
+    
+    def __str__(self):
+        return f'{self.date} - {self.operatorname} - {self.shift} - {self.gnleakinmt}'
+
+class PouchLeakMistakesName(models.Model):
+    mistakename = models.CharField(_("Name of Mistake"), max_length=50)
+    createdat = models.DateTimeField(_("Created At"),auto_now_add=True)
+    updatedat = models.DateTimeField(_("Updated AT"), auto_now=True)
+    isdelete = models.BooleanField(_("Deleted"),default=False)
+    
+    def __str__(self):
+        return self.mistakename
+
+class ManualLeakChangeManpower(models.Model): #1
+    date = models.DateField(_("Leak Change Date"), auto_now=False, auto_now_add=False)
+    shift = models.ForeignKey(DayNightshift, on_delete=models.CASCADE)
+    hindimanpower = models.IntegerField(_("Total Hindi Manpower"))
+    ladiesmanpower = models.IntegerField(_("Total Ladies Manpower"))   
+    changeddamagebox = models.IntegerField(_("Total Leak Change Box"))
+    remarks = models.TextField(_("Remarks"), blank=True, null=True)
+    createdat = models.DateTimeField(_("Created At"),auto_now_add=True)
+    updatedat = models.DateTimeField(_("Updated AT"), auto_now=True)
+    isdelete = models.BooleanField(_("Deleted"),default=False)
+    
+    def __str__(self):
+        return f'Date : {self.date} -Shift :{self.shift} Ladies : {self.ladiesmanpower} Hindi : {self.hindimanpower} - Box : {self.changeddamagebox}'
+    
+
+
+class ManualLeakChangeRollPouchFS(models.Model): #2
+    manpower = models.ForeignKey(ManualLeakChangeManpower, on_delete=models.CASCADE)
+    rollno = models.ForeignKey(PrintingRollDetail, on_delete=models.CASCADE) 
+    noofpouch = models.IntegerField(_("No of Leak Pouch"))
+    mistakename = models.ForeignKey(PouchLeakMistakesName, on_delete=models.CASCADE)
+    createdat = models.DateTimeField(_("Created At"),auto_now_add=True)
+    updatedat = models.DateTimeField(_("Updated AT"), auto_now=True)
+    isdelete = models.BooleanField(_("Deleted"),default=False)
+    
+    def __str__(self):
+        return f'{self.rollno} - {self.noofpouch} - {self.mistakename}'
+    
+
+    
+    pass
+    
 # Create your models here.

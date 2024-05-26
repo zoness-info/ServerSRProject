@@ -4,7 +4,7 @@
 {% block content %}
  <!-- App body starts -->
  <div class="app-body">
-
+    
     <!-- Container starts -->
     <div class="container-fluid">
         <div class="row">
@@ -13,36 +13,31 @@
                     <div class="card-header">
                         <div class="d-flex align-items-center">
                             <div class="">
-                                <h4 class="card-title">Production Film Roll Details</h4>
+                                <h4 class="card-title">Film Roll Details</h4>
                                 <div class="col-auto">
-                                    <a href="{% url 'productionrolltable_entry' %}" class="btn btn-primary">+ Add</a>
+                                    <a href="#" class="btn btn-primary">+ Add</a>
                                 </div>
                             </div>
                             <div class="btn-group ms-auto" role="group" aria-label="Basic radio toggle button group">
 
-                                <input type="radio" class="btn-check" name="btnradio" id="btnradio1" value="all,ProductionRollDetails" hx-get="{% url 'toggle' %}" hx-trigger="change" hx-target="#toggle-response" checked="" />
-                                <label class="btn btn-outline-primary" for="btnradio1">All</label>
-                                
-                                <input type="radio" class="btn-check" name="btnradio" id="btnradio2" value="today,ProductionRollDetails" hx-get="{% url 'toggle' %}" hx-trigger="change"  hx-target="#toggle-response" />
-                                <label class="btn btn-outline-primary" for="btnradio2">Today</label>
+                                <input type="radio" class="btn-check" name="btnradio" id="btnradio1" checked="" />
+                                <label class="btn btn-outline-primary" for="btnradio1">Today</label>
 
-                                <input type="radio" class="btn-check" name="btnradio" id="btnradio3" value="7d,ProductionRollDetails" hx-get="{% url 'toggle' %}" hx-trigger="change" hx-target="#toggle-response" />
-                                <label class="btn btn-outline-primary" for="btnradio3">7D</label>
+                                <input type="radio" class="btn-check" name="btnradio" id="btnradio2" />
+                                <label class="btn btn-outline-primary" for="btnradio2">7D</label>
 
-                                <input type="radio" class="btn-check" name="btnradio" id="btnradio4" value="last_month,ProductionRollDetails" hx-get="{% url 'toggle' %}" hx-trigger="change" hx-target="#toggle-response" />
-                                <label class="btn btn-outline-primary" for="btnradio4">Last Month</label>
+                                <input type="radio" class="btn-check" name="btnradio" id="btnradio3" />
+                                <label class="btn btn-outline-primary" for="btnradio3">Last Month</label>
 
-                                <input type="radio" class="btn-check" name="btnradio" id="btnradio5" value="last_3_months,ProductionRollDetails" hx-get="{% url 'toggle' %}" hx-trigger="change" hx-target="#toggle-response" />
-                                <label class="btn btn-outline-primary" for="btnradio5">Last 3 Months</label>
+                                <input type="radio" class="btn-check" name="btnradio" id="btnradio4" />
+                                <label class="btn btn-outline-primary" for="btnradio4">Last 3 Months</label>
 
-                                <input type="radio" class="btn-check" name="btnradio" id="btnradio6" value="last_year,ProductionRollDetails" hx-get="{% url 'toggle' %}" hx-trigger="change" hx-target="#toggle-response" />
-                                <label class="btn btn-outline-primary" for="btnradio6">Last Year</label>
+                                <input type="radio" class="btn-check" name="btnradio" id="btnradio5" />
+                                <label class="btn btn-outline-primary" for="btnradio5">Last Year</label>
 
                             </div>
                         </div>
                     </div>
-                    
-                    
                     <div class="card-body">
                         <div class="border border-dark rounded-3">
                             <div class="table-responsive">
@@ -50,42 +45,66 @@
                                     <thead>
                                         <tr>
                                             <th>Date</th>
-                                            <th>Shift</th>
-                                            <th>Machine#</th>
                                             <th>SKU Name</th>
-                                            <th>Roll Type</th>
-                                            <th>Roll Start Timp</th>
-                                            <th>Roll Stop Time</th>
-                                            <th>Batch#</th>
                                             <th>MRP</th>
+                                            <th>Batch#</th>
                                             <th>Roll#</th>
-                                            <th>Opera.Name</th>
-                                            <th>Pouch Count</th>
-                                            <th>Action</th>
+                                            <th>Gross.Wt</th>
+                                            <th>Net.Wt</th>
+                                            <th>Operator Name</th>
+                                            <th>Avg.Roll.Wt</th>
+                                            <th>Actions</th>
                                         </tr>
                                     </thead>
-                                    <tbody id="toggle-response" >
-                                        {% include 'Packing/productionrolltable_data.html' %}
-                                        
+                                    <tbody>
+                                        {% for data in datatable %}
+                                            <tr>
+                                                <td>{{data.printingrollbatch.date}}</td>
+                                                <td>{{data.printingrollbatch.skuname}}</td>
+                                                <td>{{data.printingrollbatch.mrp}}</td>
+                                                <td>{{data.printingrollbatch.batch_no}}</td>
+                                                <td>{{data.filmrollno}}</td>
+                                                <td>{{data.grosswt}}</td>
+                                                <td>{{data.netwt}}</td>
+                                                <td>{{data.printingrollbatch.operatorname}}</td>
+                                                <td>
+                                                    {% with result=data.grosswt|subtract:data.netwt %}
+                                                        {% if result < 0 %}
+                                                            <span style="font-weight: bold; color: red;">{{ result }}</span>
+                                                        {% else %}
+                                                            {{ result }}
+                                                        {% endif %}
+                                                    {% endwith %}
+                                                </td>
+                                                <td>
+                                                    <div>
+                                                        <a class="btn btn-info btn-sm" href="#"><i class="bi bi-pencil"></i></a>
+                                                        <a class="btn btn-danger btn-sm" href="#"><i class="bi bi-trash"></i></a>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
                                         
                                     </tbody>
                                 </table>
-                                 <!-- Pagination
-                                 <nav aria-label="Page navigation" class="pagination-container">
-                                    <ul class="pagination">
-                                        {% if datatable.has_previous %}
-                                            <li class="page-item">
-                                                <a class="page-link" href="?page={{ datatable.previous_page_number }}">Previous</a>
-                                            </li>
-                                        {% endif %}
-                                        <li class="page-item"><span class="page-link">Page {{ datatable.number }} of {{ datatable.paginator.num_pages }}</span></li>
-                                        {% if datatable.has_next %}
-                                            <li class="page-item">
-                                                <a class="page-link" href="?page={{ datatable.next_page_number }}">Next</a>
-                                            </li>
-                                        {% endif %}
-                                    </ul>
-                                </nav> -->
+                                <!-- Pagination -->
+                                    
+                                        <nav aria-label="Page navigation" class="pagination-container">
+                                            <ul class="pagination">
+                                                {% if datatable.has_previous %}
+                                                    <li class="page-item">
+                                                        <a class="page-link" href="?page={{ datatable.previous_page_number }}">Previous</a>
+                                                    </li>
+                                                {% endif %}
+                                                <li class="page-item"><span class="page-link">Page {{ datatable.number }} of {{ datatable.paginator.num_pages }}</span></li>
+                                                {% if datatable.has_next %}
+                                                    <li class="page-item">
+                                                        <a class="page-link" href="?page={{ datatable.next_page_number }}">Next</a>
+                                                    </li>
+                                                {% endif %}
+                                            </ul>
+                                        </nav>
+                                    
                             </div>
                         </div>
                     </div>

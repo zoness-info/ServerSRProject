@@ -1,0 +1,35 @@
+
+{% load static %}
+{% load custom_filters %}
+
+    {% for data in datatable %}
+
+    <tr>
+        <td>{{data.printingrollbatch.date}}</td>
+        <td>{{data.printingrollbatch.skuname}}</td>
+        <td>{{data.printingrollbatch.mrp}}</td>
+        <td>{{data.printingrollbatch.batch_no}}</td>
+        <td>{{data.filmrollno}}</td>
+        <td>{{data.grosswt}}</td>
+        <td>{{data.netwt}}</td>
+        <td>{{data.printingrollbatch.operatorname}}</td>
+        <td>
+            {% with result=data.grosswt|subtract:data.netwt %}
+                {% if result < 0 %}
+                    <span style="font-weight: bold; color: red;">{{ result }}</span>
+                {% else %}
+                    {{ result }}
+                {% endif %}
+            {% endwith %}
+        </td>
+        <td>
+            <div>
+                <a class="btn btn-info btn-sm" href="#"><i class="bi bi-pencil"></i></a>
+                <a class="btn btn-danger btn-sm" href="#"><i class="bi bi-trash"></i></a>
+            </div>
+        </td>
+    </tr>
+    {% endfor %}
+                                   
+                                    
+                                

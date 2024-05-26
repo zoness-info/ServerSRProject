@@ -7,7 +7,11 @@ from Packing.models import (branddetails, oilcategorydetails, skunamedetails,
                             ProductionRollDetails, PackingSection,
                             MainTankDetails, SubTankDetails,VitaminDetails,TMPSDetails,TBHQDetails,OilPumpingDetails,QCNameDetails,
                             PackingManagerDetails,
-                            ChangeLog,)
+                            ChangeLog,
+                            DailyPouchCuttingDetails,
+                            PouchLeakMistakesName,
+                             ManualLeakChangeManpower, ManualLeakChangeRollPouchFS,
+                            )
 
 admin.site.register(CustomUser)
 
@@ -100,6 +104,24 @@ admin.site.register(PackingManagerDetails,PackingManagerDetailsAdmin)
 class ChangeLogAdmin(admin.ModelAdmin):
     list_display = [field.name for field in ChangeLog._meta.fields]
 admin.site.register(ChangeLog,ChangeLogAdmin)
+
+class DailyPouchCuttingDetailsAdmin(admin.ModelAdmin):
+    list_display = [field.name for field in DailyPouchCuttingDetails._meta.fields]
+admin.site.register(DailyPouchCuttingDetails,DailyPouchCuttingDetailsAdmin)
+
+class PouchLeakMistakesNameAdmin(admin.ModelAdmin):
+    list_display = [field.name for field in PouchLeakMistakesName._meta.fields]
+admin.site.register(PouchLeakMistakesName,PouchLeakMistakesNameAdmin)#-------
+
+class ManualLeakChangeManpowerAdmin(admin.ModelAdmin):
+    list_display = [field.name for field in ManualLeakChangeManpower._meta.fields]
+admin.site.register(ManualLeakChangeManpower,ManualLeakChangeManpowerAdmin)
+
+class ManualLeakChangeRollPouchFSAdmin(admin.ModelAdmin):
+    list_display = [field.name for field in ManualLeakChangeRollPouchFS._meta.fields]
+admin.site.register(ManualLeakChangeRollPouchFS,ManualLeakChangeRollPouchFSAdmin)
+
+
 
 
 

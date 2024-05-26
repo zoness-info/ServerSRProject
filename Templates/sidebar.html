@@ -91,7 +91,42 @@
                 </li>
             </ul>
         </li>
-
+        <!-- Pouch Cuttinng -->
+        <li class="treeview">
+            <a href="#!">
+                <i class="bi bi-pie-chart"></i>
+                <span class="menu-text">Pouch Cutting</span>
+            </a>
+            <ul class="treeview-menu">
+                <li>
+                    <a href="{% url 'pouchcuttingtable' %}">Pouch Cutting Table</a>
+                </li>
+                <li>
+                    <a href="{% url 'pouchcuttingtable_entry' %}">Pouch Cutting Entry</a>
+                </li>
+                <li>
+                    <a href="#">Chart&Report</a>
+                </li>
+            </ul>
+        </li>
+        <!-- Manual Leak Changing -->
+        <li class="treeview">
+            <a href="#!">
+                <i class="bi bi-pie-chart"></i>
+                <span class="menu-text">Manual Leak Change</span>
+            </a>
+            <ul class="treeview-menu">
+                <li>
+                    <a href="{% url 'manualleakchangetable' %}">Manual Leak Change Table</a>
+                </li>
+                <li>
+                    <a href="{% url 'manualleakchangetable_entry' %}">Manual Leak Change Entry</a>
+                </li>
+                <li>
+                    <a href="#">Chart&Report</a>
+                </li>
+            </ul>
+        </li>
 
             <li>
                 <a href="{% static 'sales.html' %}">

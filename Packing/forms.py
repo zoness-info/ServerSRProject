@@ -1,16 +1,23 @@
-from django.forms import ModelForm
+from django.forms import ModelForm, modelformset_factory
 from django import forms
-from .models import (branddetails, 
+from .models import (branddetails, skunamedetails,
                      PrintingRollBatch, 
                      PrintingRollDetail, 
                      ProductionRollDetails,
-                     OilPumpingDetails,)
+                     OilPumpingDetails,
+                     DailyPouchCuttingDetails,
+                     ManualLeakChangeManpower,ManualLeakChangeRollPouchFS,
+                     )
 from django.forms import inlineformset_factory
 #from django_select2.forms import Select2Widget
 
 class branddetailsform(ModelForm):
     model = branddetails
     fields = '__all__'
+class skunamedetailsForm(ModelForm):
+    class Meta:
+        model = skunamedetails
+        fields = ['skuname']
     
 class prinitingrolldetailsform(ModelForm):
     class Meta:
@@ -73,12 +80,14 @@ class OilPumpingDetailsForm(forms.ModelForm):
         model = OilPumpingDetails
         fields = '__all__'
         widgets = {
+            'date' : forms.DateInput(attrs={'class': 'form-control','type': 'date'},),
             'motorontime': forms.DateTimeInput(attrs={'class': 'form-control','type': 'datetime-local'},),
             'motorofftime': forms.DateTimeInput(attrs={'class': 'form-control','type': 'datetime-local'}),
         }
        
     def __init__(self, *args, **kwargs):
         super(OilPumpingDetailsForm, self).__init__(*args, **kwargs)
+        self.fields['date'].widget.attrs.update({'class': 'form-control','type':'date'})
         self.fields['motorontime'].widget.attrs.update({'class': 'form-control datepicker'})
         self.fields['motorofftime'].widget.attrs.update({'class': 'form-control datepicker'})
         self.fields['shift'].widget.attrs.update({'class': 'form-select'})
@@ -91,3 +100,62 @@ class OilPumpingDetailsForm(forms.ModelForm):
         self.fields['subtank'].widget.attrs.update({'class': 'form-select'})
         
         self.fields['manager'].widget.attrs.update({'class': 'form-select',})
+
+class DailyPouchCuttingDetailsForm(forms.ModelForm):
+    class Meta:
+        model = DailyPouchCuttingDetails
+        fields = '__all__'
+        widgets = {
+            'date': forms.DateTimeInput(attrs={'class': 'form-control','type': 'date'},),
+            'remarks' : forms.Textarea(attrs={'class' : 'form-control'})
+        }
+        
+    def __init__(self, *args, **kwargs):
+        super(DailyPouchCuttingDetailsForm, self).__init__(*args, **kwargs)
+        self.fields['date'].widget.attrs.update({'class': 'form-control','type':'date'})
+        self.fields['shift'].widget.attrs.update({'class': 'form-select'})
+        self.fields['operatorname'].widget.attrs.update({'class': 'form-select'})
+        self.fields['sfleakinmt'].widget.attrs.update({'class': 'form-control','type':'text'})
+        self.fields['gnleakinmt'].widget.attrs.update({'class': 'form-control','type':'text'})
+        self.fields['gnrleakinmt'].widget.attrs.update({'class': 'form-control','type':'text'})
+        self.fields['rbleakinmt'].widget.attrs.update({'class': 'form-control','type':'text'})
+        self.fields['palmleakinmt'].widget.attrs.update({'class': 'form-control','type':'text'})
+        self.fields['ginleakinmt'].widget.attrs.update({'class': 'form-control','type':'text'})
+        
+        self.fields['remarks'].widget.attrs.update({'class': 'form-control',})
+
+class ManualLeakChangeManpowerForm(forms.ModelForm):
+    class Meta:
+        model = ManualLeakChangeManpower
+        fields = '__all__'
+        widgets = {
+            'date': forms.DateInput(attrs={'class': 'form-control','type': 'date'},),
+            'remarks' : forms.Textarea(attrs={'class' : 'form-control'})
+        }
+    def __init__(self, *args, **kwargs):
+        super(ManualLeakChangeManpowerForm, self).__init__(*args, **kwargs)
+        self.fields['shift'].widget.attrs.update({'class': 'form-select'})
+        self.fields['date'].widget.attrs.update({'class': 'form-control','type':'date'})
+        self.fields['hindimanpower'].widget.attrs.update({'class': 'form-control','type':'number'})
+        self.fields['ladiesmanpower'].widget.attrs.update({'class': 'form-control','type':'number'})
+        self.fields['changeddamagebox'].widget.attrs.update({'class': 'form-control','type':'number'})
+        self.fields['remarks'].widget.attrs.update({'class': 'form-control','type':'text'})
+        
+        
+       
+        
+class ManualLeakChangeRollPouchFSForm(forms.ModelForm):
+    class Meta:
+        model = ManualLeakChangeRollPouchFS
+        fields = "__all__"
+        
+        widgets = {
+            'rollno': forms.NumberInput(attrs={'class': 'form-control'}),
+            'noofpouch' : forms.NumberInput(attrs={'class' : 'form-control'})
+        }
+    
+    def __init__(self, *args, **kwargs):
+        super(ManualLeakChangeRollPouchFSForm, self).__init__(*args, **kwargs)
+        self.fields['rollno'].widget.attrs.update({'class': 'form-control','type':'number'})
+        self.fields['noofpouch'].widget.attrs.update({'class': 'form-control','type':'number'})
+        self.fields['mistakename'].widget.attrs.update({'class': 'form-select'})

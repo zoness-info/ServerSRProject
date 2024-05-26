@@ -39,8 +39,21 @@
 		<!-- Toastify CSS -->
 		<link rel="stylesheet" href="{% static 'assets/vendor/toastify/toastify.css' %}" />
 
+		<!-- Database Table -->
+		<link rel="stylesheet" href="{% static 'assets/vendor/simple-datatables/style.css' %}" />
+
+		<!-- HTMX -->
+		<script src="https://unpkg.com/htmx.org@1.9.12" integrity="sha384-ujb1lZYygJmzgSwoxRggbCHcjc0rB2XoQrxeTUQyRjrOnlCoYta87iKBWq3EsdM2" crossorigin="anonymous"></script>
+	
 		
-    	
+    	<style>
+			.errorlist {
+				color: red; /* Set text color to red */
+				font-weight: bold; /* Make text bold */
+			}
+
+			
+		</style>
 
 	</head>
 
@@ -119,6 +132,8 @@
 
 		<!-- Moment JS -->
 		<script src="{% static 'assets/js/moment.min.js' %}"></script>
+
+		
 	</body>
 
 </html>

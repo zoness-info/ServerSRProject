@@ -1,5 +1,13 @@
-{% load static %}
 {% extends 'base.html' %}
+{% load static %}
+<form method="POST">
 {% block content %}
-{{form}}
+{% for obj in object_list %}
+            <li>{{ obj.name }}</li>
+        {% endfor %}
+    
+        {{object_list}}
+        <button type="submit">save</button>
+    </form>
+content
 {% endblock %}

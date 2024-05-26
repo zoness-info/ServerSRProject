@@ -1,0 +1,22 @@
+
+                                        {% for data in datatable %}
+                                            <tr>
+                                                <td>{{data.manpower.date}}</td>
+                                                <td>{{data.manpower.shift}}</td>
+                                                <td></td>
+                                                <td>{{data.manpower.changeddamagebox}}</td>
+                                                <td>{{data.rollno}}</td>
+                                                <td>{{data.noofpouch}}</td>
+                                                <td>{{data.mistakename}}</td>
+                                                <td>{{data.manpower.hindimanpower}}{{data.manpower.ladiesmanpower}}</td>
+                                                <td>{{data.manpower.remarks}}</td>
+                                                <td>
+                                                    <div>
+                                                        <a class="btn btn-info btn-sm" href="{% url 'manualleakchangetable_update' data.pk %}"><i class="bi bi-pencil"></i></a>
+                                                        <a class="btn btn-danger btn-sm" href="{% url 'manualleakchangetable_delete' data.pk %}"><i class="bi bi-trash"></i></a>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                        
+                                    
