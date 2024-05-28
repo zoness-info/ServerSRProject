@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>PPSR Details</title>
+</head>
+<body>
+    <h1>Enter PPSR Details</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ formset.management_form }}
+        <table>
+            {% for form in formset %}
+                <tr>
+                    {% for field in form %}
+                        <td>
+                            {{ field.label_tag }}
+                            {{ field }}
+                            {{ field.errors }}
+                        </td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </table>
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>

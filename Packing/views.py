@@ -27,6 +27,7 @@ from .models import (branddetails, oilcategorydetails, skunamedetails,
                      DailyPouchCuttingDetails,
                      ManualLeakChangeManpower,ManualLeakChangeRollPouchFS,
                      ExpVsActDetails,
+                     PPSRDetails,
                      )
 from .forms import (branddetailsform,
                     prinitingrolldetailsform,RollDetailsFormset, 
@@ -36,6 +37,7 @@ from .forms import (branddetailsform,
                     ManualLeakChangeManpowerForm,ManualLeakChangeRollPouchFSForm,
                     ExpVsActDetailsForm,
                     DispatchStockUploadForm,
+                    PPSRDetailsFormSet,
                     )
 
 class home(View):
@@ -1306,6 +1308,37 @@ class ExpVsActDetailsDeleteView(DeleteView):
     def form_valid(self, form):
         messages.info(self.request, "Expected Vs Actual details have been successfully Deleted.")
         return super().form_valid(form)
+
+def ppsr_details_view(request):
+    if request.method == 'POST':
+        formset = PPSRDetailsFormSet(request.POST)
+        if formset.is_valid():
+            print("form valid")
+            formset.save()
+            return redirect('ppsr_details')  # Replace with your success URL
+    else:
+        formset = PPSRDetailsFormSet(queryset=PPSRDetails.objects.none())
+        print("form not valid")
+    return render(request, 'Packing/template_name.html', {'formset': formset})  # Replace with your template name
+class PPSRDetailsListView(ListView):
+    model = PPSRDetails
+    template_name = 'Packing/ppsrtable.html'
+    context_object_name = 'datatable'
+class PPSRDetailsCreateView(CreateView):
+    model = PPSRDetails
+    form_class = PPSRDetailsFormSet
+    template_name = 'ppsr_details_form.html'
+    success_url = reverse_lazy('ppsr_details_list')
+class PPSRDetailsUpdateView(UpdateView):
+    model = PPSRDetails
+    form_class = PPSRDetailsFormSet
+    template_name = 'ppsr_details_form.html'
+    success_url = reverse_lazy('ppsr_details_list')
+class PPSRDetailsDeleteView(DeleteView):
+    model = PPSRDetails
+    template_name = 'ppsr_details_confirm_delete.html'
+    success_url = reverse_lazy('ppsr_details_list')
+
 
 # class GenericListView(ListView):
 #     template_name = 'Packing/generictemplate.html'

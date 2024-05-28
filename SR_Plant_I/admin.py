@@ -13,6 +13,7 @@ from Packing.models import (branddetails, oilcategorydetails, skunamedetails,
                              ManualLeakChangeManpower, ManualLeakChangeRollPouchFS,
                              ExpVsActDetails,
                              DispatchOpendingClosingStockDetails,
+                             PPSRDetails,ChampionNameDetails,
                             )
 
 admin.site.register(CustomUser)
@@ -131,5 +132,12 @@ class DispatchOpendingClosingStockDetailsAdmin(admin.ModelAdmin):
     list_display = [field.name for field in DispatchOpendingClosingStockDetails._meta.fields]
 admin.site.register(DispatchOpendingClosingStockDetails,DispatchOpendingClosingStockDetailsAdmin)
 
+class PPSRDetailsAdmin(admin.ModelAdmin):
+    list_display = [field.name for field in PPSRDetails._meta.fields]
+admin.site.register(PPSRDetails,PPSRDetailsAdmin)
+
+class ChampionNameDetailsAdmin(admin.ModelAdmin):
+    list_display = [field.name for field in ChampionNameDetails._meta.fields]
+admin.site.register(ChampionNameDetails,ChampionNameDetailsAdmin)
 
 # Register your models here.

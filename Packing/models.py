@@ -82,6 +82,17 @@ class OperatorNameDetails(models.Model):
     
     def __str__(self):
         return self.operatorname
+
+class ChampionNameDetails(models.Model):
+    contractorname = models.CharField(_("Contractor Name"), max_length=50)
+    championname = models.CharField(_("Champion Name"), max_length=50, unique=True)  
+    wtchecker = models.CharField(_("Weight Checker Name"), max_length=50)
+    createdat = models.DateTimeField(_("Created At"),auto_now_add=True)
+    updatedat = models.DateTimeField(_("Updated AT"), auto_now=True)
+    isdelete = models.BooleanField(_("Deleted"),default=False)
+    
+    def __str__(self):
+        return self.championname
  
 class PrintingRollBatch(models.Model):
     date = models.DateField()
@@ -114,19 +125,19 @@ class PrintingRollDetail(models.Model):
     
 class PackingMachineDetails(models.Model):
     machineid = models.CharField(_("Machine ID"), max_length=50,primary_key=True)
-    machinename = models.CharField(_("Machine Name"), max_length=50)
+    machine = models.CharField(_("Machine Name"), max_length=50)
     createdat = models.DateTimeField(_("Created At"),auto_now_add=True)
     updatedat = models.DateTimeField(_("Updated AT"), auto_now=True)
     isdelete = models.BooleanField(_("Deleted"),default=False)
     
     def __str__(self):
-        return self.machinename
+        return self.machine
     
 class FilmRollType(models.Model):
     choices = [
-        ('Full(1)',1),
-        ('Half(1/2)',0.5),
-        ('QUATER(1/4)',0.25),
+        ('FULL(1)',1),
+        ('HALF(1/2)',0.5),
+        ('QUATOR(1/4)',0.25),
         ('THREE-FOURTH(3/4)',0.75)
     ]
     rolltype = models.CharField(_("Roll type"), max_length=50, choices= choices)    
@@ -147,8 +158,10 @@ class ProductionRollDetails(models.Model):
     runningrollno = models.CharField(_("Roll No"), max_length=50)
     runningoperatorname = models.ForeignKey(OperatorNameDetails, on_delete=models.CASCADE)
     runningpouchcount = models.IntegerField(_("Pouch Count"),blank=True, null=True)
+    championname = models.ForeignKey(ChampionNameDetails, on_delete=models.CASCADE, null=True, blank=True)
     updatedat = models.DateTimeField(_("Updated AT"), auto_now=True)
     isdelete = models.BooleanField(_("Deleted"),default=False)
+    
     
     def __str__(self):
         return f"{self.runningdate} - {self.runningshift} - {self.runningmachine} - {self.runningskuname} - {self.runningoperatorname}"
@@ -298,7 +311,7 @@ class PouchLeakMistakesName(models.Model):
     def __str__(self):
         return self.mistakename
 
-class ManualLeakChangeManpower(models.Model): #1
+class ManualLeakChangeManpower(models.Model):
     date = models.DateField(_("Leak Change Date"), auto_now=False, auto_now_add=False)
     shift = models.ForeignKey(DayNightshift, on_delete=models.CASCADE)
     hindimanpower = models.IntegerField(_("Total Hindi Manpower"))
@@ -337,9 +350,45 @@ class ExpVsActDetails(models.Model):
     
     def __str__(self):
         return f'{self.date} - {self.expbox} - {self.actbox}'
+
     
+class PPSRDetails(models.Model):
+    CHOICES = {
+        ('ON','ON'),
+        ('OFF','OFF')
+    }
     
+    date = models.DateTimeField(_("Entry Date&Time"), auto_now=False, auto_now_add=False)
+    machine1_name = models.ForeignKey(PackingMachineDetails, on_delete=models.CASCADE,related_name='machine1_name') 
+    machine1_plan = models.IntegerField(_("Machine1 Plan"))
+    machine1_status = models.CharField(_("Machine1 ON or OFF Status"), max_length=50, choices=CHOICES)
+    machine1_runningsku = models.ForeignKey(skunamedetails, on_delete=models.CASCADE,related_name='machine1_runningsku')
+    machine1_pouchcount = models.IntegerField(_("Machine1 Pouch Count"))
+    machine1_operatorname = models.ForeignKey(OperatorNameDetails, on_delete=models.CASCADE,related_name='machine1_operatorname')
+    machine1_championname = models.ForeignKey(ChampionNameDetails, on_delete=models.CASCADE, related_name='championname1_details', blank=True, null=True)
+    machine1_wtcheckername = models.ForeignKey(ChampionNameDetails, on_delete=models.CASCADE, related_name='wtcheckername1_details',blank=True,null=True)
+    machine1_mornstarttime = models.TimeField(_("Machine1 Morning start Time"), auto_now=False, auto_now_add=False, null=True, blank=True)
+    machine1_afnoonstarttime = models.TimeField(_("Machine1 Afternoon start Time"), auto_now=False, auto_now_add=False, null=True, blank=True)
+    machine2_name = models.ForeignKey(PackingMachineDetails, on_delete=models.CASCADE,related_name='machine2_name') 
+    machine2_plan = models.IntegerField(_("Machine2 Plan"))
+    machine2_status = models.CharField(_("Machine1 ON or OFF Status"), max_length=50, choices=CHOICES)
+    machine2_runningsku = models.ForeignKey(skunamedetails, on_delete=models.CASCADE,related_name='machine2_runningsku')
+    machine2_pouchcount = models.IntegerField(_("Machine2 Pouch Count"))
+    machine2_operatorname = models.ForeignKey(OperatorNameDetails, on_delete=models.CASCADE,related_name='machine2_operatorname')
+    machine2_championname = models.ForeignKey(ChampionNameDetails, on_delete=models.CASCADE, related_name='championname2_details', blank=True, null=True)
+    machine2_wtcheckername = models.ForeignKey(ChampionNameDetails, on_delete=models.CASCADE, related_name='wtcheckername2_details',blank=True,null=True)
+    machine2_mornstarttime = models.TimeField(_("Machine1 Morning start Time"), auto_now=False, auto_now_add=False, null=True, blank=True)
+    machine2_afnoonstarttime = models.TimeField(_("Machine1 Afternoon start Time"), auto_now=False, auto_now_add=False, null=True, blank=True)
+    machine_plus = models.IntegerField(_("Machine Plus"))
+    machine_good = models.IntegerField(_("Machine Good"))
+    machine_minus = models.IntegerField(_("Machine Minus"))
+    machine_special = models.IntegerField(_("Machine Special"))
+    machine_stockbox = models.IntegerField(_("Machine Complaint Stock Box"))
+    createdat = models.DateTimeField(_("Created At"),auto_now_add=True)
+    updatedat = models.DateTimeField(_("Updated AT"), auto_now=True)
+    isdelete = models.BooleanField(_("Deleted"),default=False)
     
-    
+    def __str__(self):
+        return f"PPSR Details {self.id} - {self.date}"
     pass
 # Create your models here.

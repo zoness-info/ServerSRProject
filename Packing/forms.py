@@ -1,5 +1,6 @@
 from django.forms import ModelForm, modelformset_factory
 from django import forms
+from django.core.exceptions import ValidationError
 from .models import (branddetails, skunamedetails,
                      PrintingRollBatch, 
                      PrintingRollDetail, 
@@ -8,6 +9,7 @@ from .models import (branddetails, skunamedetails,
                      DailyPouchCuttingDetails,
                      ManualLeakChangeManpower,ManualLeakChangeRollPouchFS,
                      ExpVsActDetails,
+                     PPSRDetails
                      )
 from django.forms import inlineformset_factory
 #from django_select2.forms import Select2Widget
@@ -182,3 +184,35 @@ class ExpVsActDetailsForm(ModelForm):
 
 class DispatchStockUploadForm(forms.Form):
     file = forms.FileField(label='Select Excel File', required=True)
+    
+class PPSRDetailsForm(forms.ModelForm):
+    class Meta:
+        model = PPSRDetails
+        fields = '__all__'
+        
+        widgets = {
+            'date': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
+            }
+
+class UniqueOverallProductionPlanFormSet(forms.BaseModelFormSet):
+    def clean(self):
+        if any(self.errors):
+            return
+        return self.cleaned_data  # Return the cleaned data after validation
+
+        # overallproductionplan_set = set()
+        # for form in self.forms:
+        #     if self.can_delete and self._should_delete_form(form):
+        #         continue
+        #     overallproductionplan = form.cleaned_data.get('overallproductionplan')
+        #     if overallproductionplan:
+        #         if overallproductionplan in overallproductionplan_set:
+        #             raise ValidationError("The overall production plan must be unique.")
+        #         overallproductionplan_set.add(overallproductionplan)
+        
+PPSRDetailsFormSet = modelformset_factory(
+    PPSRDetails,
+    form=PPSRDetailsForm,
+    formset=UniqueOverallProductionPlanFormSet,
+    extra=3
+)

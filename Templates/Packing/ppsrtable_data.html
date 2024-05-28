@@ -1,0 +1,31 @@
+
+{% load static %}
+{% load custom_filters %}
+
+    {% for data in datatable %}
+
+    <tr>
+        <td>{{data.date}}</td>
+        <td>{{data.machine1_name.machine}}<br>{{data.machine2_name.machine}}</td>
+        <td>{{data.machine1_plan}}<br>{{data.machine2_plan}}</td>
+        <td>{{data.machine1_status}}<br>{{data.machine2_status}}</td>
+        <td>{{data.machine1_runningsku.skuname}}<br>{{data.machine2_runningsku.skuname}}</td>
+        <td>{{data.machine1_operatorname.operatorname}}<br>{{data.machine2_operatorname.operatorname}}</td>
+        <td>{{data.machine1_championname.championname}}<br>{{data.machine2_championname.championname}}</td>
+        <td>{{data.machine1_wtcheckername.wtchecker}}<br>{{data.machine2_wtcheckername.wtchecker}}</td>
+        <td>{{data.machine_plus}}<br>{{data.machine_plus}}</td>
+        <td>{{data.machine_good}}<br>{{data.machine_good}}</td>
+        <td>{{data.machine_minus}}<br>{{data.machine_minus}}</td>
+        <td>{{data.machine_special}}<br>{{data.machine_special}}</td>
+        <td>{{data.machine_stockbox}}</td>
+        <td>
+            <div>
+                <a class="btn btn-info btn-sm" href="#"><i class="bi bi-pencil"></i></a>
+                <a class="btn btn-danger btn-sm" href="#"><i class="bi bi-trash"></i></a>
+            </div>
+        </td>
+    </tr>
+    {% endfor %}
+                                   
+                                    
+                                
