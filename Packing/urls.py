@@ -3,11 +3,12 @@ from .views import ( home,
                     skudetails, 
                     filmrolltable, filmrollentry, filmrolltableUpdateView,filmrolltableDeleteView,
                     productionrolltableListView,productionrolltableUpdateView,productionrolltableDeleteView,productionrolltableCreateView,
-                    dispatchstocktableListView,
+                    dispatchstocktableListView,download_dispatchstocktable,
                     oilpumpListView,oilpumpCreateView,oilpumpUpdateView,oilpumpDeleteView,
                     DailyPouchCuttingDetailsListView,DailyPouchCuttingDetailsCreateView,DailyPouchCuttingDetailsUpdateView,DailyPouchCuttingDetailsDeleteView,
                     ManualLeakChangeListView,ManualLeakChangeCreateView,ManualLeakChangeUpdateView,ManualLeakChangeDeleteView,
-                    autocomplete_skuname,toggle,download_printingrolltable,download_productionrolltable,download_oilpumpingtable,download_pouchcuttingtable,download_manualleakchangetable,
+                    autocomplete_skuname,toggle,
+                    download_printingrolltable,download_productionrolltable,download_oilpumpingtable,download_pouchcuttingtable,download_manualleakchangetable,
                     chart_data,chart_view,download_ppsrtable,
                     PPSRListView,PPSRCreateView,PPSRUpdateView,PPSRDeleteView,)
 
@@ -28,10 +29,11 @@ urlpatterns = [
     path('productionrolltable/',productionrolltableListView.as_view(),name='productionrolltable'),
     path('productionrolltable/newentry',productionrolltableCreateView.as_view(),name='productionrolltable_entry'),
     path('productionrolltable/<pk>/edit',productionrolltableUpdateView.as_view(),name='productionrolltable_update'),
-    path('productionrolltable/<pk>/delete',productionrolltableDeleteView.as_view(),name='productionrolltable_delete'),
-    path('dispatchstocktable/',dispatchstocktableListView.as_view(),name='dispatchstocktable'),
+    path('productionrolltable/<pk>/delete',productionrolltableDeleteView.as_view(),name='productionrolltable_delete'),    
     path('productionrolltable/download_productionrolltable', download_productionrolltable, name='download_productionrolltable'),
     
+    path('dispatchstocktable/',dispatchstocktableListView.as_view(),name='dispatchstocktable'),
+    path('dispatchstocktable/download_dispatchstocktable', download_dispatchstocktable, name='download_dispatchstocktable'),
     #___________________________________________________________________________________________________________
     
     #---------------------------------------------------Oil Pumping---------------------------------------------

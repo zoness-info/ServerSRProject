@@ -173,6 +173,9 @@ class DispatchOpendingClosingStockDetails(models.Model):
     closingstock = models.IntegerField(_("Closing Stock"))
     production = models.IntegerField(_("Productin"))
     noofemptycottonbox = models.IntegerField(_("No of Empty Cotton Box"), null=True, blank=True)
+    createdat = models.DateTimeField(_("Created At"),auto_now_add=True)
+    updatedat = models.DateTimeField(_("Updated AT"), auto_now=True)
+    isdelete = models.BooleanField(_("Deleted"),default=False)
     
     def __str(self):
         return f'{self.date} - {self.skucode} - {self.categoryname} - {self.skuname} - {self.openingstock} - {self.sales} - {self.closingstock} - {self.production}'

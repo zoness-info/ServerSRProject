@@ -1130,7 +1130,7 @@ def download_ppsrtable(request):
             return HttpResponse("Invalid date format. Please use YYYY-MM-DD format.")
         
         data = PPSRDetails.objects.filter(date__range=[from_date,to_date])
-        print(data)
+        #print(data)
         
         
         
@@ -1167,7 +1167,58 @@ def download_ppsrtable(request):
             return HttpResponseRedirect('ppsrtable')
        
     return HttpResponseRedirect('ppsrtable')
+def download_dispatchstocktable(request):
+    if request.method == 'GET' and 'fromdate' in request.GET and 'todate' in request.GET:
+        #print("hit")
+        from_date_str = request.GET['fromdate']
+        to_date_str = request.GET['todate']
+        
+        print(from_date_str)
+        print(to_date_str)
+        
+        try:
+            from_date = datetime.strptime(from_date_str, '%Y-%m-%d')
+            to_date = datetime.strptime(to_date_str, '%Y-%m-%d')
+        except ValueError:
+            # Handle invalid date format
+            return HttpResponse("Invalid date format. Please use YYYY-MM-DD format.")
+        
+        data = DispatchOpendingClosingStockDetails.objects.filter(date__range=[from_date,to_date])
+        #print(data)
+        
+        
+        
+        if data.exists():
+        
+            wb = Workbook()
+            ws = wb.active
+            
+            headers = ['Date', 'SKU Code','Category', 'SKU Name','Opening stock','Sales','Closing Stock','Production','No of Empty Box']  # Adjust according to your model fields
+            ws.append(headers)
+            
+            for obj in data:
+                # created_at = obj.createdat.replace(tzinfo=None) if obj.createdat else None
+                updatedat = obj.updatedat.replace(tzinfo=None) if obj.updatedat else None
+                # print(dir(obj))
+                
+                def make_naive(dt):
+                    return dt.replace(tzinfo=None) if dt else None
 
+                #date = make_naive(obj.date) if hasattr(obj, 'date') else None  
+                row = [obj.date, obj.skucode,obj.categoryname,obj.skuname,obj.openingstock,obj.sales,obj.closingstock,obj.production,obj.noofemptycottonbox]  # Adjust according to your model fields
+                ws.append(row)
+            
+            response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+            response['Content-Disposition'] = 'attachment; filename="DispatchSalesSheet_table.xlsx"'
+            wb.save(response)
+            
+            return response
+        else :
+            print("Data not found") 
+            return HttpResponseRedirect('dispatchstocktable')
+       
+    return HttpResponseRedirect('dispatchstocktable')
+    pass
 def chart_data(request):
     # data = ProductionRollDetails.objects.values('runningdate').annotate(
     #     total_pouches=Sum('runningpouchcount'),
