@@ -1,0 +1,22 @@
+
+                                        {% for data in datatable %}
+                                            <tr>
+                                                <td>{{data.date}}</td>
+                                                <td>{{data.skucode}}</td>
+                                                <td>{{data.categoryname}}</td>
+                                                <td>{{data.skuname}}</td>
+                                                <td>{{data.openingstock}}</td>
+                                                <td>{{data.sales}}</td>
+                                                <td>{{data.closingstock}}</td>
+                                                <td>{{data.prouction}}</td>
+                                                <td>{{data.noofemptycottonbox}}</td>
+                                                <td>
+                                                    <div>
+                                                        <span data-bs-toggle="tooltip" data-bs-placement="top" title="Can't Edit"><a class="btn btn-info btn-sm" href="#"><i class="bi bi-pencil"></i></a></span>
+                                                        <span data-bs-toggle="tooltip" data-bs-placement="top" title="Cant' Delete"><a class="btn btn-danger btn-sm" href="#"><i class="bi bi-trash"></i></a></span>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                        
+                                    

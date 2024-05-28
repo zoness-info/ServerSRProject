@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Chart.js Example</title>
+</head>
+<body>
+    <h1>Production Data Visualization</h1>
+    <canvas id="myChart"></canvas>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        var ctx = document.getElementById('myChart').getContext('2d');
+        var chartData = {{ chart_data|safe }};
+        var myChart = new Chart(ctx, {
+            type: 'line',  // Change to the type you need
+            data: chartData,
+            options: {
+                responsive: true,
+                scales: {
+                    x: {
+                        type: 'time',
+                        time: {
+                            unit: 'day'
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

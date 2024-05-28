@@ -1,0 +1,28 @@
+
+{% load custom_filters %}
+                                        {% for data in datatable %}
+                                            <tr>
+                                                <td>{{data.date}}</td>
+                                                <td>{{data.expbox}}</td>
+                                                <td>{{data.actbox}}</td>
+                                                <th>
+                                                    {% with different=data.actbox|subtract:data.expbox %}
+                                                    {{different}}
+                                                    {% endwith %}
+                                                </th>
+                                                <th>
+                                                    {% with percentage=data.actbox|percentage:data.expbox %}
+                                                    {{percentage|floatformat:2}}
+                                                    {% endwith %}
+                                                </th>
+                                                <td>{{data.remarks}}</td>
+                                                <td>
+                                                    <div>
+                                                        <a class="btn btn-info btn-sm" href="{% url 'ppsrtable_update' data.pk %}"><i class="bi bi-pencil"></i></a>
+                                                        <a class="btn btn-danger btn-sm" href="{% url 'ppsrtable_delete' data.pk %}"><i class="bi bi-trash"></i></a>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                        
+                                    

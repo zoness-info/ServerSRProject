@@ -65,8 +65,12 @@
                     <li>
                         <a href="{% url 'productionrolltable' %}" class="{% if request.resolver_match.view_name == 'productionrolltable' %}active{% endif %}">Production Table</a>
                     </li>
+                    
                     <li>
                         <a href="{% url 'productionrolltable_entry' %}">Production Entry</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'dispatchstocktable' %}">Dispatch Stock</a>
                     </li>
                     <li>
                         <a href="#">Chart&Report</a>
@@ -121,6 +125,24 @@
                 </li>
                 <li>
                     <a href="{% url 'manualleakchangetable_entry' %}">Manual Leak Change Entry</a>
+                </li>
+                <li>
+                    <a href="#">Chart&Report</a>
+                </li>
+            </ul>
+        </li>
+        <!-- Manual Leak Changing -->
+        <li class="treeview">
+            <a href="#!">
+                <i class="bi bi-pie-chart"></i>
+                <span class="menu-text">PPSR</span>  <!--Pouch Production Summary Report-->
+            </a>
+            <ul class="treeview-menu">
+                <li>
+                    <a href="{% url 'ppsrtable' %}"> PPSR Table</a>
+                </li>
+                <li>
+                    <a href="{% url 'ppsrtable_entry' %}">PPSR Entry</a>
                 </li>
                 <li>
                     <a href="#">Chart&Report</a>

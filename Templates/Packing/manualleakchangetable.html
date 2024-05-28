@@ -4,20 +4,78 @@
 {% block content %}
  <!-- App body starts -->
  <div class="app-body">
-
+    {% include 'Packing/djangomessage.html' %}
     <!-- Container starts -->
     <div class="container-fluid">
         <div class="row">
             <div class="col-xl-12">
                 <div class="card mb-4">
                     <div class="card-header">
-                        <div class="d-flex align-items-center">
-                            <div class="">
-                                <h4 class="card-title">Manual Leak Change Details</h4>
-                                <div class="col-auto">
-                                    <a href="{% url 'manualleakchangetable_entry' %}" class="btn btn-primary">+ Add</a>
+                        <div class="d-flex align-items-center">                           
+                                <h4 class="card-title">Manual Leak Change Details</h4>                                
+                                    <a href="{% url 'manualleakchangetable_entry' %}" class="btn btn-primary mx-2">+ Add</a>
+                            <!-- Download Button --> 
+                                <div data-bs-toggle="tooltip" data-bs-placement="top" title="Download">                               
+                                    <button type="button" class="btn btn-outline-warning mx-2" data-bs-toggle="modal" data-bs-target="#modalSheet">
+                                        <i class="fs-3 bi bi-file-earmark-spreadsheet-fill"></i>
+                                    </button>
                                 </div>
-                            </div>
+                            <!-- Model Form-->
+                                <form action="download_manualleakchangetable">
+                                    {% csrf_token %}
+                                    <div class="modal " aria-labelledby="modal-title" tabindex="-1" role="dialog" id="modalSheet" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title">Download</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="card-body">
+                                                    <!-- Row start -->
+                                                    <div class="row gx-3">
+                                                        <div class="card mb-3">
+                                                            <div class="card-body">
+                                                                <div class="m-0">
+                                                                    <div class="form-label">From Date</div>
+                                                                    <div class="input-group">
+                                                                        <input type="date" class="form-control datepicker" name="fromdate" required />
+                                                                        <span class="input-group-text">
+                                                                            <i class="bi bi-calendar4"></i>
+                                                                        </span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="card mb-3">
+                                                            <div class="card-body">
+                                                                <div class="m-0">
+                                                                    <div class="form-label">To Date</div>
+                                                                    <div class="input-group">
+                                                                        <input type="date" class="form-control datepicker" name="todate" required />
+                                                                        <span class="input-group-text">
+                                                                            <i class="bi bi-calendar4"></i>
+                                                                        </span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!-- Row end -->
+                                                </div>
+                                                <div class="modal-footer flex-column">
+                                                    <button type="submit" class="btn btn-lg btn-primary w-100 mx-0 mb-2">
+                                                        Download
+                                                    </button>
+                                                    <button type="button" class="btn btn-lg btn-secondary w-100 mx-0" data-bs-dismiss="modal">
+                                                        Close
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                                
+                           
                             <div class="btn-group ms-auto" role="group" aria-label="Basic radio toggle button group">
 
                                 <input type="radio" class="btn-check" name="btnradio" id="btnradio1" value="all,ManualLeakChangeRollPouchFS" hx-get="{% url 'toggle' %}" hx-trigger="change" hx-target="#toggle-response" checked="" />

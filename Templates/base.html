@@ -42,10 +42,17 @@
 		<!-- Database Table -->
 		<link rel="stylesheet" href="{% static 'assets/vendor/simple-datatables/style.css' %}" />
 
+		<link rel="stylesheet" href="{% static 'assets/vendor/daterange/daterange.css' %}" />
+
+		<!-- Morris CSS -->
+		<link rel="stylesheet" href="{% static 'assets/vendor/morris/morris.css' %}" />
+								
+
 		<!-- HTMX -->
 		<script src="https://unpkg.com/htmx.org@1.9.12" integrity="sha384-ujb1lZYygJmzgSwoxRggbCHcjc0rB2XoQrxeTUQyRjrOnlCoYta87iKBWq3EsdM2" crossorigin="anonymous"></script>
 	
-		
+	
+
     	<style>
 			.errorlist {
 				color: red; /* Set text color to red */
@@ -77,7 +84,10 @@
 					<!-- App header ends -->
 
 					<!-- App body starts -->
-					{% block content %} {% endblock %}
+					{% block content %} 
+						
+					
+					{% endblock %}
 					<!-- App body ends -->
 
 					<!-- App footer start -->
@@ -93,6 +103,16 @@
 			<!-- Main container end -->
 
 		</div>
+
+		<!-- Tooltop -->
+		<script>
+			// Initialize tooltips
+			var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+			var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+			  return new bootstrap.Tooltip(tooltipTriggerEl);
+			});
+		  </script>
+
 		<!-- Page wrapper end -->
 
 		<!-- *************
@@ -123,6 +143,11 @@
 		<script src="{% static 'assets/vendor/apex/custom/home/sparkline2.js' %}"></script>
 		<script src="{% static 'assets/vendor/apex/custom/home/visitors.js' %}"></script>
 
+
+		<script src="{% static 'assets/vendor/morris/raphael-min.js' %}"></script>
+		<script src="{% static 'assets/vendor/morris/morris.min.js' %}"></script>
+		<script src="{% static 'assets/vendor/morris/custom/dayData.js' %}"></script>
+
 		<!-- Custom JS files -->
 		<script src="{% static 'assets/js/custom.js' %}"></script>
 
@@ -132,6 +157,9 @@
 
 		<!-- Moment JS -->
 		<script src="{% static 'assets/js/moment.min.js' %}"></script>
+
+		<script src="{% static 'assets/vendor/apex/apexcharts.min.js' %}"></script>
+		<script src="{% static 'assets/vendor/apex/custom/graphs/area.js' %}"></script>
 
 		
 	</body>

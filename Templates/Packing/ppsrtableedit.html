@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<div class="app-body">
+    {% include 'Packing/djangomessage.html' %}
+    <div class="row gx-3">
+        <div class="col-xxl-12">
+            <div class="card mb-3">
+                <form method="POST">
+                <div class="card-header">
+                    <h5 class="card-title">PPSR Table Entry</h5>
+                </div>
+                {{ form.non_field_errors }}
+                {% csrf_token %}
+                <div class="card-body">
+                    
+                    <form method="POST">
+                        <!-- Row start -->
+                        <div class="row gx-3">
+                            <div class="col-lg-3 col-sm-4 col-12">
+                                <div class="mb-3">
+                                    {{ form.date.errors }}
+                                    <label class="form-label">Date</label>
+                                    {{ form.date }}
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-sm-4 col-12">
+                                <div class="mb-3">
+                                    {{ form.expbox.errors }}
+                                    <label class="form-label">Expected Production Box</label>
+                                    {{ form.expbox }}
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-sm-4 col-12">
+                                <div class="mb-3">
+                                    <label class="form-label">Actual Production Box</label>
+                                    {{ form.actbox }}
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-sm-4 col-12">
+                                <div class="mb-3">
+                                    <label class="form-label">Remarks</label>
+                                    {{ form.remarks }}
+                                </div>
+                            </div>
+                            
+                        </div>
+                    
+                    <!-- Row end -->
+                </div>
+                <div class="card-footer">
+                    <div class="d-flex gap-2 justify-content-end">
+                        <a type="button" class="btn btn-outline-secondary" href="{% url 'ppsrtable' %}">
+                            Cancel
+                        </a>
+                        <button type="submit" class="btn btn-success">
+                            Submit
+                        </button>
+                    </div>
+                </div>
+            </form>
+            </div>
+        </div>
+    </div>
+   
+
+</div>
+
+{% endblock %}
+    
+    
+    
+       
+   
+    

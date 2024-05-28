@@ -134,7 +134,7 @@ class Command(BaseCommand):
             QCNameDetails.objects.create(qcname=row[0],)  # Adjust fields accordingly
         self.stdout.write(self.style.SUCCESS('QC Name Details imported successfully')) 
     
-    def import_pouchname(self, sheet):
+    def import_pouchmistakename(self, sheet):
         for row in sheet.iter_rows(min_row=2, values_only=True):
             PouchLeakMistakesName.objects.create(qcname=row[0],)  # Adjust fields accordingly
         self.stdout.write(self.style.SUCCESS('Pouch Mistake Details imported successfully'))

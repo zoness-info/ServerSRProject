@@ -143,7 +143,7 @@ class ProductionRollDetails(models.Model):
     runningrollstarttime = models.DateTimeField(_("Roll Start Time"), auto_now=False, auto_now_add=False)
     runningrollstoptime = models.DateTimeField(_("Roll Stop Time"), auto_now=False, auto_now_add=False)
     runningbatchno = models.CharField(_("Roll Batch No"), max_length=50)
-    runningmrp = models.CharField(_("Roll MRP"), max_length=50)
+    runningmrp = models.IntegerField(_("MRP"))
     runningrollno = models.CharField(_("Roll No"), max_length=50)
     runningoperatorname = models.ForeignKey(OperatorNameDetails, on_delete=models.CASCADE)
     runningpouchcount = models.IntegerField(_("Pouch Count"),blank=True, null=True)
@@ -162,7 +162,20 @@ class ProductionRollDetails(models.Model):
     #         # This is an existing instance, so it's being updated
     #         self.rollstoptime = timezone.now()  # Update stop time for every update
     #     super().save(*args, **kwargs)
+
+class DispatchOpendingClosingStockDetails(models.Model):
+    date = models.DateField(_("Date"), auto_now=False, auto_now_add=False)  
+    skucode = models.CharField(_("SKUCODE"), max_length=50)
+    categoryname = models.CharField(_("Category Name"), max_length=50)
+    skuname = models.CharField(_("SKU Name"), max_length=50)
+    openingstock = models.IntegerField(_("Opening Stock"))
+    sales = models.IntegerField(_("Sales"))
+    closingstock = models.IntegerField(_("Closing Stock"))
+    production = models.IntegerField(_("Productin"))
+    noofemptycottonbox = models.IntegerField(_("No of Empty Cotton Box"), null=True, blank=True)
     
+    def __str(self):
+        return f'{self.date} - {self.skucode} - {self.categoryname} - {self.skuname} - {self.openingstock} - {self.sales} - {self.closingstock} - {self.production}'
 
 class MainTankDetails(models.Model):
     maintankname = models.CharField(_("Main Tank Name"), max_length=50)
@@ -310,8 +323,20 @@ class ManualLeakChangeRollPouchFS(models.Model): #2
     def __str__(self):
         return f'{self.rollno} - {self.noofpouch} - {self.mistakename}'
     
-
+class PPSRDetails(models.Model):
+    date = models.DateField(_("PPSR Date"), auto_now=False, auto_now_add=False, unique=True)
+    expbox = models.IntegerField(_("Expected Box"))
+    actbox = models.IntegerField(_("Actual Box"))
+    remarks = models.CharField(_("Remarks"), max_length=50, null=True, blank=True) 
+    createdat = models.DateTimeField(_("Created At"),auto_now_add=True)
+    updatedat = models.DateTimeField(_("Updated AT"), auto_now=True)
+    isdelete = models.BooleanField(_("Deleted"),default=False)
+    
+    def __str__(self):
+        return f'{self.date} - {self.expbox} - {self.actbox}'
+    
+    
+    
     
     pass
-    
 # Create your models here.

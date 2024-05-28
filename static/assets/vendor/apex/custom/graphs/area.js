@@ -3,7 +3,7 @@ var options = {
 		height: 300,
 		type: "area",
 		toolbar: {
-			show: false,
+			show: true,
 		},
 	},
 	dataLabels: {
@@ -16,7 +16,7 @@ var options = {
 	series: [
 		{
 			name: "Sales",
-			data: [10, 40, 15, 40, 20, 35, 20, 10, 31, 43, 56, 29],
+			data: [10, 80, 40, 40, 20, 35, 20, 10, 31, 43, 56, 29],
 		},
 		{
 			name: "Revenue",

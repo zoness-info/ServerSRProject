@@ -8,12 +8,18 @@
                                                 <td>{{data.rollno}}</td>
                                                 <td>{{data.noofpouch}}</td>
                                                 <td>{{data.mistakename}}</td>
-                                                <td>{{data.manpower.hindimanpower}}{{data.manpower.ladiesmanpower}}</td>
+                                                <td>
+                                                    Hindi  : {{data.manpower.hindimanpower}}<br>
+                                                    Ladies : {{data.manpower.ladiesmanpower}}<br>
+                                                    {% with total_manpower=data.manpower.hindimanpower|add:data.manpower.ladiesmanpower %}
+                                                    Total  : {{ total_manpower }}
+                                                    {% endwith %}
+                                                </td>
                                                 <td>{{data.manpower.remarks}}</td>
                                                 <td>
                                                     <div>
-                                                        <a class="btn btn-info btn-sm" href="{% url 'manualleakchangetable_update' data.pk %}"><i class="bi bi-pencil"></i></a>
-                                                        <a class="btn btn-danger btn-sm" href="{% url 'manualleakchangetable_delete' data.pk %}"><i class="bi bi-trash"></i></a>
+                                                        <a class="btn btn-info btn-sm" href="#"><i class="bi bi-pencil"></i></a>
+                                                        <a class="btn btn-danger btn-sm" href="#"><i class="bi bi-trash"></i></a>
                                                     </div>
                                                 </td>
                                             </tr>

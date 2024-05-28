@@ -7,6 +7,7 @@ from .models import (branddetails, skunamedetails,
                      OilPumpingDetails,
                      DailyPouchCuttingDetails,
                      ManualLeakChangeManpower,ManualLeakChangeRollPouchFS,
+                     PPSRDetails,
                      )
 from django.forms import inlineformset_factory
 #from django_select2.forms import Select2Widget
@@ -62,7 +63,7 @@ class ProductionRollDetailsForm(forms.ModelForm):
             'runningrollstarttime' : forms.DateTimeInput(attrs={'class': 'form-control datepicker-time','type': 'datetime-local'}),
             'runningrollstoptime'  :forms.DateTimeInput(attrs={'class': 'form-control datepicker-time','type': 'datetime-local'}),
             'runningbatchno'    :  forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Batch No'}),
-            'runningmrp'        : forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'MRP'}),
+            'runningmrp'        : forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'MRP'}),
             'runningrollno'     : forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Film Roll No'}),
             'runningoperatorname'  : forms.Select(attrs={'class': 'form-select', 'placeholder' : 'Operator Name'}),
             'runningpouchcount' : forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Pouch Count'}),
@@ -74,6 +75,8 @@ class ProductionRollDetailsForm(forms.ModelForm):
         self.fields['runningrollstoptime'].widget.attrs.update({'class': 'form-control datepicker'})
     
         # filmrolldate = forms.DateTimeField(label=_("Film Roll Date and Time"),widget=forms.DateTimeInput(attrs={'class': 'form-control', 'type': 'datetime-local'}),)
+
+
 
 class OilPumpingDetailsForm(forms.ModelForm):
     class Meta:
@@ -159,3 +162,23 @@ class ManualLeakChangeRollPouchFSForm(forms.ModelForm):
         self.fields['rollno'].widget.attrs.update({'class': 'form-control','type':'number'})
         self.fields['noofpouch'].widget.attrs.update({'class': 'form-control','type':'number'})
         self.fields['mistakename'].widget.attrs.update({'class': 'form-select'})
+
+class PPSRDetailsForm(ModelForm):
+    class Meta:
+        model = PPSRDetails
+        fields = "__all__"
+        
+        widgets = {
+            'date'   : forms.DateInput(attrs={'class':'form-control','type':'date'}),
+            'expbox' : forms.NumberInput(attrs={'class' : 'form-control'}),
+            'act' : forms.NumberInput(attrs={'class' : 'form-control'})            
+        }
+    def __init__(self, *args, **kwargs):
+        super(PPSRDetailsForm,self).__init__(*args,**kwargs)
+        self.fields['date'].widget.attrs.update({'class':'form-control', 'type':'date'})
+        self.fields['expbox'].widget.attrs.update({'class':'form-control', 'type':'number'})
+        self.fields['actbox'].widget.attrs.update({'class':'form-control', 'type':'number'})
+        self.fields['remarks'].widget.attrs.update({'class':'form-control', 'type':'text'})
+
+class DispatchStockUploadForm(forms.Form):
+    file = forms.FileField(label='Select Excel File', required=True)

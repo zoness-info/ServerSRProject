@@ -11,6 +11,11 @@ var day_data = [
 	{ period: "2016-09-15", licensed: 3659, "Bootstrap Gallery": 656 },
 	{ period: "2016-09-10", licensed: 3380, "Bootstrap Gallery": 663 },
 ];
+
+document.addEventListener('DOMContentLoaded', function () {
+    var chartDataElement = document.getElementById('chart-data');
+    var chartData = JSON.parse(chartDataElement.textContent);
+
 Morris.Line({
 	element: "dayData",
 	data: day_data,

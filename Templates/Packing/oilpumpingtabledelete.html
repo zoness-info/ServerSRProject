@@ -4,6 +4,7 @@
 
 <div class="app-body">
     <form method="POST">
+        {% include 'Packing/djangomessage.html' %}
         {% csrf_token %}
         {{ form }}
 

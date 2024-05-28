@@ -1,0 +1,128 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+ <!-- App body starts -->
+    <div class="app-body">
+
+        <!-- Container starts -->
+        <div class="container-fluid">
+
+            <!-- Row start -->
+            <div class="row">
+                <div class="col-xxl-12 col-md-12 col-sm-12 col-12">
+                    <!-- Card start -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">Production Data Visualization</h4>
+                        </div>
+                        <div class="card-body">               
+                            
+                            <div id="chart"></div>
+                           
+                        </div>
+                    </div>
+                    <!-- Card end -->
+                </div>
+                <!-- <div class="col-xxl-6 col-md-6 col-sm-12 col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">Activity</h4>
+                        </div>
+                        <div class="card-body">
+                            <div id="dayData" class="chart-height-xl"></div>
+                        </div>
+                    </div>
+                </div> -->
+            </div>
+            <!-- Row end -->
+
+        </div>
+        <!-- Container ends -->
+
+    </div>
+    <!-- App body ends -->
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var options = {
+                chart: {
+                    type: 'line',
+                    height: 350,
+                    toolbar: {
+                        show: true
+                    }
+                },
+                series: [],
+                xaxis: {
+                    type: 'datetime',
+                    labels: {
+                        format: 'yyyy-MM-dd'
+                    }
+                },
+                yaxis: {
+                    title: {
+                        text: 'Count'
+                    }
+                },
+                grid: {
+                    borderColor: '#dfd6ff'
+                },
+                colors: ["#155cba", "#1a73e8"],
+                markers: {
+                    colors: ["#155cba"],
+                    strokeColors: ["#ffffff"]
+                },
+                stroke: {
+                    width: 2
+                },
+                tooltip: {
+                    shared: true,
+                    intersect: false,
+                    y: {
+                        formatter: function (value, { series, seriesIndex, dataPointIndex, w }) {
+                            const dataPoint = w.globals.initialSeries[seriesIndex].data[dataPointIndex];
+                            return value + '<br>Machines: ' + dataPoint.machines.join(', ') +
+                                '<br>Operators: ' + dataPoint.operators.join(', ');
+                        }
+                    }
+                }
+            };
+    
+            var chart = new ApexCharts(document.querySelector("#chart"), options);
+            chart.render();
+    
+            fetch("{% url 'chart_data' %}")
+                .then(response => response.json())
+                .then(data => {
+                    var seriesDataPouches = data.map(function(item) {
+                        return {
+                            x: new Date(item.runningdate),
+                            y: item.total_pouches,
+                            machines: item.machine_list,
+                            operators: item.operator_list
+                        };
+                    });
+    
+                    var seriesDataMachines = data.map(function(item) {
+                        return {
+                            x: new Date(item.runningdate),
+                            y: item.machines,
+                            machines: item.machine_list,
+                            operators: item.operator_list
+                        };
+                    });
+    
+                    chart.updateSeries([{
+                        name: 'Total Pouches',
+                        data: seriesDataPouches
+                    }, {
+                        name: 'Total Machines',
+                        data: seriesDataMachines
+                    }]);
+                });
+        });
+    </script>
+   
+    
+
+{% endblock %}

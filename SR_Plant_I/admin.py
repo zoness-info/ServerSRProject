@@ -11,6 +11,8 @@ from Packing.models import (branddetails, oilcategorydetails, skunamedetails,
                             DailyPouchCuttingDetails,
                             PouchLeakMistakesName,
                              ManualLeakChangeManpower, ManualLeakChangeRollPouchFS,
+                             PPSRDetails,
+                             DispatchOpendingClosingStockDetails,
                             )
 
 admin.site.register(CustomUser)
@@ -121,8 +123,13 @@ class ManualLeakChangeRollPouchFSAdmin(admin.ModelAdmin):
     list_display = [field.name for field in ManualLeakChangeRollPouchFS._meta.fields]
 admin.site.register(ManualLeakChangeRollPouchFS,ManualLeakChangeRollPouchFSAdmin)
 
+class PPSRDetailsAdmin(admin.ModelAdmin):
+    list_display = [field.name for field in PPSRDetails._meta.fields]
+admin.site.register(PPSRDetails,PPSRDetailsAdmin)
 
-
+class DispatchOpendingClosingStockDetailsAdmin(admin.ModelAdmin):
+    list_display = [field.name for field in DispatchOpendingClosingStockDetails._meta.fields]
+admin.site.register(DispatchOpendingClosingStockDetails,DispatchOpendingClosingStockDetailsAdmin)
 
 
 # Register your models here.

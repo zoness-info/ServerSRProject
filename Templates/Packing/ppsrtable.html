@@ -11,9 +11,9 @@
             <div class="col-xl-12">
                 <div class="card mb-4">
                     <div class="card-header">
-                        <div class="d-flex align-items-center">                           
-                                <h4 class="card-title">Pouch Cutting Details</h4>                                
-                                    <a href="{% url 'pouchcuttingtable_entry' %}" class="btn btn-primary mx-2">+ Add</a>
+                        <div class="d-flex align-items-center">                            
+                                <h4 class="card-title">Pouch Production Summary Report</h4>                                
+                                <a href="{% url 'ppsrtable_entry' %}" class="btn btn-primary mx-2">+ Add</a>
                             <!-- Download Button --> 
                                 <div data-bs-toggle="tooltip" data-bs-placement="top" title="Download">                               
                                     <button type="button" class="btn btn-outline-warning mx-2" data-bs-toggle="modal" data-bs-target="#modalSheet">
@@ -21,7 +21,7 @@
                                     </button>
                                 </div>
                             <!-- Model Form-->
-                                <form action="download_pouchcuttingtable">
+                                <form action="{% url 'download_ppsrtable' %}">
                                     {% csrf_token %}
                                     <div class="modal " aria-labelledby="modal-title" tabindex="-1" role="dialog" id="modalSheet" aria-hidden="true">
                                         <div class="modal-dialog" role="document">
@@ -73,31 +73,30 @@
                                             </div>
                                         </div>
                                     </div>
-                                </form>                               
+                                </form>
+                                <div class="btn-group ms-auto" role="group" aria-label="Basic radio toggle button group">
+
+                            <input type="radio" class="btn-check" name="btnradio" id="btnradio1" value="all,PPSRDetails" hx-get="{% url 'toggle' %}" hx-trigger="change" hx-target="#toggle-response" checked="" />
+                            <label class="btn btn-outline-primary" for="btnradio1">All</label>
                             
-                            <div class="btn-group ms-auto" role="group" aria-label="Basic radio toggle button group">
+                            <input type="radio" class="btn-check" name="btnradio" id="btnradio2" value="today,PPSRDetails" hx-get="{% url 'toggle' %}" hx-trigger="change"  hx-target="#toggle-response" />
+                            <label class="btn btn-outline-primary" for="btnradio2">Today</label>
 
-                                <input type="radio" class="btn-check" name="btnradio" id="btnradio1" value="all,DailyPouchCuttingDetails" hx-get="{% url 'toggle' %}" hx-trigger="change" hx-target="#toggle-response" checked="" />
-                                <label class="btn btn-outline-primary" for="btnradio1">All</label>
-                                
-                                <input type="radio" class="btn-check" name="btnradio" id="btnradio2" value="today,DailyPouchCuttingDetails" hx-get="{% url 'toggle' %}" hx-trigger="change"  hx-target="#toggle-response" />
-                                <label class="btn btn-outline-primary" for="btnradio2">Today</label>
+                            <input type="radio" class="btn-check" name="btnradio" id="btnradio3" value="thismonth,PPSRDetails" hx-get="{% url 'toggle' %}" hx-trigger="change" hx-target="#toggle-response" />
+                            <label class="btn btn-outline-primary" for="btnradio3">This Month</label>
 
-                                <input type="radio" class="btn-check" name="btnradio" id="btnradio3" value="7d,DailyPouchCuttingDetails" hx-get="{% url 'toggle' %}" hx-trigger="change" hx-target="#toggle-response" />
-                                <label class="btn btn-outline-primary" for="btnradio3">7D</label>
+                            <input type="radio" class="btn-check" name="btnradio" id="btnradio4" value="last_month,PPSRDetails" hx-get="{% url 'toggle' %}" hx-trigger="change" hx-target="#toggle-response" />
+                            <label class="btn btn-outline-primary" for="btnradio4">Last Month</label>
 
-                                <input type="radio" class="btn-check" name="btnradio" id="btnradio4" value="last_month,DailyPouchCuttingDetails" hx-get="{% url 'toggle' %}" hx-trigger="change" hx-target="#toggle-response" />
-                                <label class="btn btn-outline-primary" for="btnradio4">Last Month</label>
+                            <input type="radio" class="btn-check" name="btnradio" id="btnradio5" value="last_3_months,PPSRDetails" hx-get="{% url 'toggle' %}" hx-trigger="change" hx-target="#toggle-response" />
+                            <label class="btn btn-outline-primary" for="btnradio5">Last 3 Months</label>
 
-                                <input type="radio" class="btn-check" name="btnradio" id="btnradio5" value="last_3_months,DailyPouchCuttingDetails" hx-get="{% url 'toggle' %}" hx-trigger="change" hx-target="#toggle-response" />
-                                <label class="btn btn-outline-primary" for="btnradio5">Last 3 Months</label>
+                            <input type="radio" class="btn-check" name="btnradio" id="btnradio6" value="last_year,PPSRDetails" hx-get="{% url 'toggle' %}" hx-trigger="change" hx-target="#toggle-response" />
+                            <label class="btn btn-outline-primary" for="btnradio6">Last Year</label>
 
-                                <input type="radio" class="btn-check" name="btnradio" id="btnradio6" value="last_year,DailyPouchCuttingDetails" hx-get="{% url 'toggle' %}" hx-trigger="change" hx-target="#toggle-response" />
-                                <label class="btn btn-outline-primary" for="btnradio6">Last Year</label>
-
+                                </div>
                             </div>
                         </div>
-                    </div>
                     <div class="card-body">
                         <div class="border border-dark rounded-3">
                             <div class="table-responsive">
@@ -105,40 +104,36 @@
                                     <thead>
                                         <tr>
                                             <th>Date</th>
-                                            <th>Shift</th>
-                                            <th>Operator Name</th>
-                                            <th>SF Leak in MT</th>
-                                            <th>GN Leak in MT</th>
-                                            <th>GNR Leak in MT</th>
-                                            <th>RB Leak in MT</th>
-                                            <th>Palm Leak in MT</th>
-                                            <th>GIN Leak in MT</th>
+                                            <th>Expectex Box</th>
+                                            <th>Actual Box</th>
+                                            <th>Different</th>
+                                            <th>Percentage %</th>
                                             <th>Remarks</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody id="toggle-response">
-                                        {% include 'Packing/dailypouchcuttingtable_data.html' %}
+                                        {% include 'Packing/ppsrtable_data.html' %}
                                         
                                     </tbody>
                                 </table>
-                                
                                 <!-- Pagination -->
-                                <!-- <nav aria-label="Page navigation">
+                                <!-- <nav aria-label="Page navigation" class="pagination-container">
                                     <ul class="pagination">
-                                        {% if page_obj.has_previous %}
+                                        {% if datatable.has_previous %}
                                             <li class="page-item">
-                                                <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+                                                <a class="page-link" href="?page={{ datatable.previous_page_number }}">Previous</a>
                                             </li>
                                         {% endif %}
-                                        <li class="page-item"><span class="page-link">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span></li>
-                                        {% if page_obj.has_next %}
+                                        <li class="page-item"><span class="page-link">Page {{ datatable.number }} of {{ datatable.paginator.num_pages }}</span></li>
+                                        {% if datatable.has_next %}
                                             <li class="page-item">
-                                                <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
+                                                <a class="page-link" href="?page={{ datatable.next_page_number }}">Next</a>
                                             </li>
                                         {% endif %}
                                     </ul>
                                 </nav> -->
+
                             </div>
                         </div>
                     </div>
