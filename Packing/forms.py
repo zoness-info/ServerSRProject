@@ -7,7 +7,7 @@ from .models import (branddetails, skunamedetails,
                      OilPumpingDetails,
                      DailyPouchCuttingDetails,
                      ManualLeakChangeManpower,ManualLeakChangeRollPouchFS,
-                     PPSRDetails,
+                     ExpVsActDetails,
                      )
 from django.forms import inlineformset_factory
 #from django_select2.forms import Select2Widget
@@ -163,9 +163,9 @@ class ManualLeakChangeRollPouchFSForm(forms.ModelForm):
         self.fields['noofpouch'].widget.attrs.update({'class': 'form-control','type':'number'})
         self.fields['mistakename'].widget.attrs.update({'class': 'form-select'})
 
-class PPSRDetailsForm(ModelForm):
+class ExpVsActDetailsForm(ModelForm):
     class Meta:
-        model = PPSRDetails
+        model = ExpVsActDetails
         fields = "__all__"
         
         widgets = {
@@ -174,7 +174,7 @@ class PPSRDetailsForm(ModelForm):
             'act' : forms.NumberInput(attrs={'class' : 'form-control'})            
         }
     def __init__(self, *args, **kwargs):
-        super(PPSRDetailsForm,self).__init__(*args,**kwargs)
+        super(ExpVsActDetailsForm,self).__init__(*args,**kwargs)
         self.fields['date'].widget.attrs.update({'class':'form-control', 'type':'date'})
         self.fields['expbox'].widget.attrs.update({'class':'form-control', 'type':'number'})
         self.fields['actbox'].widget.attrs.update({'class':'form-control', 'type':'number'})

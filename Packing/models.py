@@ -326,7 +326,7 @@ class ManualLeakChangeRollPouchFS(models.Model): #2
     def __str__(self):
         return f'{self.rollno} - {self.noofpouch} - {self.mistakename}'
     
-class PPSRDetails(models.Model):
+class ExpVsActDetails(models.Model):
     date = models.DateField(_("PPSR Date"), auto_now=False, auto_now_add=False, unique=True)
     expbox = models.IntegerField(_("Expected Box"))
     actbox = models.IntegerField(_("Actual Box"))

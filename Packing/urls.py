@@ -9,8 +9,8 @@ from .views import ( home,
                     ManualLeakChangeListView,ManualLeakChangeCreateView,ManualLeakChangeUpdateView,ManualLeakChangeDeleteView,
                     autocomplete_skuname,toggle,
                     download_printingrolltable,download_productionrolltable,download_oilpumpingtable,download_pouchcuttingtable,download_manualleakchangetable,
-                    chart_data,chart_view,download_ppsrtable,
-                    PPSRListView,PPSRCreateView,PPSRUpdateView,PPSRDeleteView,)
+                    chart_data,chart_view,download_expvsacttable,
+                    ExpVsActDetailsListView,ExpVsActDetailsCreateView,ExpVsActDetailsUpdateView,ExpVsActDetailsDeleteView,)
 
 
 urlpatterns = [
@@ -75,12 +75,12 @@ urlpatterns = [
     #____________________________________________________________________________________________________________________________
     
     
-    #------------------------------------------------PPSR------------------------------------------------------
-    path('ppsrtable',PPSRListView.as_view(),name='ppsrtable'),
-    path('ppsrtable/newentry',PPSRCreateView.as_view(),name='ppsrtable_entry'),
-    path('ppsrtable/<pk>/edit',PPSRUpdateView.as_view(),name='ppsrtable_update'),
-    path('ppsrtable/<pk>/delete',PPSRDeleteView.as_view(),name='ppsrtable_delete'),
-    path('ppsrtable/download_ppsrtable', download_ppsrtable, name='download_ppsrtable'),
+    #------------------------------------------------ExpVsActDetails------------------------------------------------------
+    path('expvsacttable',ExpVsActDetailsListView.as_view(),name='expvsacttable'),
+    path('expvsacttable/newentry',ExpVsActDetailsCreateView.as_view(),name='expvsacttable_entry'),
+    path('expvsacttable/<pk>/edit',ExpVsActDetailsUpdateView.as_view(),name='expvsacttable_update'),
+    path('expvsacttable/<pk>/delete',ExpVsActDetailsDeleteView.as_view(),name='expvsacttable_delete'),
+    path('expvsacttable/download_expvsacttable', download_expvsacttable, name='download_expvsacttable'),
     
     #__________________________________________________________________________________________________________
     

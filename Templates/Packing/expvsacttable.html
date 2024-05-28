@@ -12,8 +12,8 @@
                 <div class="card mb-4">
                     <div class="card-header">
                         <div class="d-flex align-items-center">                            
-                                <h4 class="card-title">Pouch Production Summary Report</h4>                                
-                                <a href="{% url 'ppsrtable_entry' %}" class="btn btn-primary mx-2">+ Add</a>
+                                <h4 class="card-title">Expected Vs Actual Production Summary Report</h4>                                
+                                <a href="{% url 'expvsacttable_entry' %}" class="btn btn-primary mx-2">+ Add</a>
                             <!-- Download Button --> 
                                 <div data-bs-toggle="tooltip" data-bs-placement="top" title="Download">                               
                                     <button type="button" class="btn btn-outline-warning mx-2" data-bs-toggle="modal" data-bs-target="#modalSheet">
@@ -21,7 +21,7 @@
                                     </button>
                                 </div>
                             <!-- Model Form-->
-                                <form action="{% url 'download_ppsrtable' %}">
+                                <form action="{% url 'download_expvsacttable' %}">
                                     {% csrf_token %}
                                     <div class="modal " aria-labelledby="modal-title" tabindex="-1" role="dialog" id="modalSheet" aria-hidden="true">
                                         <div class="modal-dialog" role="document">
@@ -76,22 +76,22 @@
                                 </form>
                                 <div class="btn-group ms-auto" role="group" aria-label="Basic radio toggle button group">
 
-                            <input type="radio" class="btn-check" name="btnradio" id="btnradio1" value="all,PPSRDetails" hx-get="{% url 'toggle' %}" hx-trigger="change" hx-target="#toggle-response" checked="" />
+                            <input type="radio" class="btn-check" name="btnradio" id="btnradio1" value="all,ExpVsActDetails" hx-get="{% url 'toggle' %}" hx-trigger="change" hx-target="#toggle-response" checked="" />
                             <label class="btn btn-outline-primary" for="btnradio1">All</label>
                             
-                            <input type="radio" class="btn-check" name="btnradio" id="btnradio2" value="today,PPSRDetails" hx-get="{% url 'toggle' %}" hx-trigger="change"  hx-target="#toggle-response" />
+                            <input type="radio" class="btn-check" name="btnradio" id="btnradio2" value="today,ExpVsActDetails" hx-get="{% url 'toggle' %}" hx-trigger="change"  hx-target="#toggle-response" />
                             <label class="btn btn-outline-primary" for="btnradio2">Today</label>
 
-                            <input type="radio" class="btn-check" name="btnradio" id="btnradio3" value="thismonth,PPSRDetails" hx-get="{% url 'toggle' %}" hx-trigger="change" hx-target="#toggle-response" />
+                            <input type="radio" class="btn-check" name="btnradio" id="btnradio3" value="thismonth,ExpVsActDetails" hx-get="{% url 'toggle' %}" hx-trigger="change" hx-target="#toggle-response" />
                             <label class="btn btn-outline-primary" for="btnradio3">This Month</label>
 
-                            <input type="radio" class="btn-check" name="btnradio" id="btnradio4" value="last_month,PPSRDetails" hx-get="{% url 'toggle' %}" hx-trigger="change" hx-target="#toggle-response" />
+                            <input type="radio" class="btn-check" name="btnradio" id="btnradio4" value="last_month,ExpVsActDetails" hx-get="{% url 'toggle' %}" hx-trigger="change" hx-target="#toggle-response" />
                             <label class="btn btn-outline-primary" for="btnradio4">Last Month</label>
 
-                            <input type="radio" class="btn-check" name="btnradio" id="btnradio5" value="last_3_months,PPSRDetails" hx-get="{% url 'toggle' %}" hx-trigger="change" hx-target="#toggle-response" />
+                            <input type="radio" class="btn-check" name="btnradio" id="btnradio5" value="last_3_months,ExpVsActDetails" hx-get="{% url 'toggle' %}" hx-trigger="change" hx-target="#toggle-response" />
                             <label class="btn btn-outline-primary" for="btnradio5">Last 3 Months</label>
 
-                            <input type="radio" class="btn-check" name="btnradio" id="btnradio6" value="last_year,PPSRDetails" hx-get="{% url 'toggle' %}" hx-trigger="change" hx-target="#toggle-response" />
+                            <input type="radio" class="btn-check" name="btnradio" id="btnradio6" value="last_year,ExpVsActDetails" hx-get="{% url 'toggle' %}" hx-trigger="change" hx-target="#toggle-response" />
                             <label class="btn btn-outline-primary" for="btnradio6">Last Year</label>
 
                                 </div>
@@ -113,7 +113,7 @@
                                         </tr>
                                     </thead>
                                     <tbody id="toggle-response">
-                                        {% include 'Packing/ppsrtable_data.html' %}
+                                        {% include 'Packing/expvsacttable_data.html' %}
                                         
                                     </tbody>
                                 </table>

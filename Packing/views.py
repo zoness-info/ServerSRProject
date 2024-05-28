@@ -26,7 +26,7 @@ from .models import (branddetails, oilcategorydetails, skunamedetails,
                      ChangeLog,
                      DailyPouchCuttingDetails,
                      ManualLeakChangeManpower,ManualLeakChangeRollPouchFS,
-                     PPSRDetails,
+                     ExpVsActDetails,
                      )
 from .forms import (branddetailsform,
                     prinitingrolldetailsform,RollDetailsFormset, 
@@ -34,7 +34,7 @@ from .forms import (branddetailsform,
                     OilPumpingDetailsForm,
                     DailyPouchCuttingDetailsForm,
                     ManualLeakChangeManpowerForm,ManualLeakChangeRollPouchFSForm,
-                    PPSRDetailsForm,
+                    ExpVsActDetailsForm,
                     DispatchStockUploadForm,
                     )
 
@@ -782,40 +782,40 @@ def toggle(request):
             logger.info(f'Filtered data: {data}')
 
             return render(request, 'Packing/manualleakchangetable_data.html', {'datatable': data})
-        if dbname == "PPSRDetails":   
+        if dbname == "ExpVsActDetails":   
             today = datetime.now().date()
             if filter_option == 'all':
-                data = PPSRDetails.objects.all()
+                data = ExpVsActDetails.objects.all()
             elif filter_option == 'today':
-                data = PPSRDetails.objects.filter(date=today)
+                data = ExpVsActDetails.objects.filter(date=today)
             elif filter_option == 'thismonth':
                 current_year = datetime.now().year
                 current_month = datetime.now().month
 
                 # Filter records from the current month
-                data = PPSRDetails.objects.filter(date__year=current_year, date__month=current_month)
+                data = ExpVsActDetails.objects.filter(date__year=current_year, date__month=current_month)
             elif filter_option == 'last_month':
                 last_month_start = today.replace(day=1) - timedelta(days=1)
                 last_month_end = today.replace(day=1) - timedelta(days=1)
-                data = PPSRDetails.objects.filter(date__range=[last_month_start, last_month_end])
+                data = ExpVsActDetails.objects.filter(date__range=[last_month_start, last_month_end])
             elif filter_option == 'last_3_months':
                 three_months_ago = today.replace(day=1) - timedelta(days=1)
                 last_three_months_start = three_months_ago - timedelta(days=90)
-                data = PPSRDetails.objects.filter(date__gte=last_three_months_start)
+                data = ExpVsActDetails.objects.filter(date__gte=last_three_months_start)
             elif filter_option == 'last_year':
                 last_year_start = today.replace(year=today.year - 1, month=1, day=1)
                 last_year_end = today.replace(year=today.year - 1, month=12, day=31)
-                data = PPSRDetails.objects.filter(date__range=[last_year_start, last_year_end])
+                data = ExpVsActDetails.objects.filter(date__range=[last_year_start, last_year_end])
             else:
                 # Handle invalid filter options
-                data = PPSRDetails.objects.none()            
+                data = ExpVsActDetails.objects.none()            
             # Log the data for debugging
             logger.info(f'Filtered data: {data}')
-            return render(request, 'Packing/ppsrtable_data.html', {'datatable': data})
+            return render(request, 'Packing/expvsacttable_data.html', {'datatable': data})
     except Exception as e:
         logger.error(f'Error in toggle view: {e}')
         # Handle exceptions, e.g., log the error
-        return render(request, 'Packing/ppsrtable_data.html', {'datatable': []})
+        return render(request, 'Packing/expvsacttable_data.html', {'datatable': []})
     
     
 def download_printingrolltable(request):
@@ -1113,7 +1113,7 @@ def download_manualleakchangetable(request):
     #     }
             
     #     return render(request, 'Packing/productionrolltable.html',context)
-def download_ppsrtable(request):
+def download_expvsacttable(request):
     if request.method == 'GET' and 'fromdate' in request.GET and 'todate' in request.GET:
         #print("hit")
         from_date_str = request.GET['fromdate']
@@ -1129,7 +1129,7 @@ def download_ppsrtable(request):
             # Handle invalid date format
             return HttpResponse("Invalid date format. Please use YYYY-MM-DD format.")
         
-        data = PPSRDetails.objects.filter(date__range=[from_date,to_date])
+        data = ExpVsActDetails.objects.filter(date__range=[from_date,to_date])
         #print(data)
         
         
@@ -1158,15 +1158,15 @@ def download_ppsrtable(request):
                 ws.append(row)
             
             response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
-            response['Content-Disposition'] = 'attachment; filename="PPSR_table.xlsx"'
+            response['Content-Disposition'] = 'attachment; filename="ExpectedVsActualProduction_table.xlsx"'
             wb.save(response)
             
             return response
         else :
             print("Data not found") 
-            return HttpResponseRedirect('ppsrtable')
+            return HttpResponseRedirect('expvsacttable')
        
-    return HttpResponseRedirect('ppsrtable')
+    return HttpResponseRedirect('expvsacttable')
 def download_dispatchstocktable(request):
     if request.method == 'GET' and 'fromdate' in request.GET and 'todate' in request.GET:
         #print("hit")
@@ -1265,46 +1265,46 @@ def chart_view(request):
 
     return render(request, 'Packing/chart.html', {'chart_data': json.dumps(chart_data)})
 
-class PPSRListView(ListView):
-    model = PPSRDetails
-    template_name = 'Packing/ppsrtable.html'
+class ExpVsActDetailsListView(ListView):
+    model = ExpVsActDetails
+    template_name = 'Packing/expvsacttable.html'
     context_object_name = 'datatable'
     #paginate_by = 10
     breadcrumbs = [
         {'label': 'Home', 'url': '/Packing'},
-        {'label': 'PPSR', 'url': '/Packing/ppsrtable'},
-        {'label': 'PPSR Table', 'url': None},  # Assuming current page doesn't have a URL
+        {'label': 'Exp Vs Act', 'url': '/Packing/expvsacttable'},
+        {'label': 'Exp Vs Act Table', 'url': None},  # Assuming current page doesn't have a URL
         ] 
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['breadcrumbs'] = self.breadcrumbs
         return context
-class PPSRCreateView(CreateView):
-    model = PPSRDetails
-    form_class = PPSRDetailsForm
-    template_name = 'Packing/ppsrtableedit.html'
-    success_url = reverse_lazy('ppsrtable')
+class ExpVsActDetailsCreateView(CreateView):
+    model = ExpVsActDetails
+    form_class = ExpVsActDetailsForm
+    template_name = 'Packing/expvsacttableedit.html'
+    success_url = reverse_lazy('expvsacttable')
     
     def form_valid(self, form):
-        messages.success(self.request, 'PPSR details have been successfully created.')
+        messages.success(self.request, 'Expected Vs Actual Production have been successfully created.')
         return super().form_valid(form)
-class PPSRUpdateView(UpdateView):
-    model = PPSRDetails
-    form_class = PPSRDetailsForm
-    template_name = 'Packing/ppsrtableedit.html'
-    success_url = reverse_lazy('ppsrtable')
+class ExpVsActDetailsUpdateView(UpdateView):
+    model = ExpVsActDetails
+    form_class = ExpVsActDetailsForm
+    template_name = 'Packing/expvsacttableedit.html'
+    success_url = reverse_lazy('expvsacttable')
     
     def form_valid(self, form):
-        messages.success(self.request, 'PPSR details have been successfully updated.')
+        messages.success(self.request, 'Expected Vs Actual Production details have been successfully updated.')
         return super().form_valid(form)
-class PPSRDeleteView(DeleteView):
-    model = PPSRDetails
-    template_name = 'Packing/ppsrtabledelete.html'
-    success_url = reverse_lazy('ppsrtable')
+class ExpVsActDetailsDeleteView(DeleteView):
+    model = ExpVsActDetails
+    template_name = 'Packing/expvsacttabledelete.html'
+    success_url = reverse_lazy('expvsacttable')
     
     def form_valid(self, form):
-        messages.info(self.request, "PPSR details have been successfully Deleted.")
+        messages.info(self.request, "Expected Vs Actual details have been successfully Deleted.")
         return super().form_valid(form)
 
 # class GenericListView(ListView):

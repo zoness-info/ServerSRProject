@@ -9,7 +9,7 @@
             <div class="card mb-3">
                 <form method="POST">
                 <div class="card-header">
-                    <h5 class="card-title">PPSR Table Entry</h5>
+                    <h5 class="card-title">Expected Vs Actual Table Entry</h5>
                 </div>
                 {{ form.non_field_errors }}
                 {% csrf_token %}
@@ -51,7 +51,7 @@
                 </div>
                 <div class="card-footer">
                     <div class="d-flex gap-2 justify-content-end">
-                        <a type="button" class="btn btn-outline-secondary" href="{% url 'ppsrtable' %}">
+                        <a type="button" class="btn btn-outline-secondary" href="{% url 'expvsacttable' %}">
                             Cancel
                         </a>
                         <button type="submit" class="btn btn-success">
