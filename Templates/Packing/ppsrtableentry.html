@@ -1,0 +1,529 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+ <!-- App body starts -->
+    <div class="app-body">
+        {% include 'Packing/djangomessage.html' %}
+        <form method="POST">
+            {% csrf_token %}
+
+            <!-- Container starts -->
+            <div class="container-fluid">
+
+                <!-- Row start -->
+                <div class="row">
+                    <!-- <div class="col-xxl-3 col-md-4 col-sm-12 col-12">
+                        <!-- Card start -->
+                        <!-- <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title">SKU Details</h4>
+                            </div>
+                            <div class="card-body">  
+                                {% csrf_token %}
+                                {{ printingrolldetailsform1.as_p }}             
+                                
+                                
+                                
+                            </div>
+                        </div> -->
+                        <!-- Card end -->
+                    <!-- </div> -->
+                    <div class="col-xxl-3 col-md-6 col-sm-12 col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="container-fluid">
+                                    <div class="row">
+                                        <div class="col">
+                                            <h4 class="card-title text-center">PVR - 1</h4>
+                                        </div>
+                                        <div class="col">
+                                            <h4 class="card-title text-center">PVR - 2</h4>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <h4 class="card-title text-center">Status</h4>
+                                        </div>
+                                        <div class="col">
+                                            <h4 class="card-title text-center">Status</h4>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <h4 class="card-title text-center">SKU Name</h4>
+                                        </div>
+                                        <div class="col">
+                                            <h4 class="card-title text-center">SKU Name</h4>
+                                        </div>
+                                    </div>
+                                </div>                                
+                            </div>
+                            
+                            <div class="card-body">
+                                <div class="container-fluid">
+                                    <!-- <div class="row row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-xl-3 row-cols-xxl-5 g-4"> -->
+                                    <div class="row"><div class="col-12">Time</div></div>
+                                    <div class="row"><div class="col-12">Plan</div></div>
+                                    <div class="row">
+                                        <div class="col-6">PLUS</div>
+                                        <div class="col-6">plus</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-6">GOOD</div>
+                                        <div class="col-6">good</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-6">MINUS</div>
+                                        <div class="col-6">minus</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-6">SPECIAL</div>
+                                        <div class="col-6">special</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-6">ipk1Pouchcount</div>
+                                        <div class="col-6">ipl2pouchcount</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-6">STOCK BOX</div>
+                                        <div class="col-6">stkbox</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-6">ipk1operatorname</div>
+                                        <div class="col-6">ipk2operatorname</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-6">CHAMPION % WT.CHECKER NAME</div>
+                                        <div class="col-6">
+                                            <div class="row"><div class="col-12">Machine 1 Champion :  Name ipk1cham, ipk1cheker</div></div>
+                                            <div class="row"><div class="col-12">Machine 2 Champion : ipk2 champ, ipk2checker </div></div> 
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <div class="row">
+                                                <div class="col-6">MORNING START</div>
+                                                <div class="col-6">mnstrtime</div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-6">AF START</div>
+                                                <div class="col-6">aftrtime</div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-6">EVENING OFF</div>
+                                                <div class="col-6">mnstrtime</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="row">
+                                                <div class="col-6">MORNING START</div>
+                                                <div class="col-6">mnstrtime</div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-6">AF START</div>
+                                                <div class="col-6">aftrtime</div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-6">EVENING OFF</div>
+                                                <div class="col-6">mnstrtime</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                Over All Plan
+                                <button class="btn btn-primary mx-2 my-2" type="submit">Save</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xxl-3 col-md-6 col-sm-12 col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="container-fluid">
+                                    <div class="row">
+                                        <div class="col">
+                                            <h4 class="card-title">PVR - 1</h4>
+                                        </div>
+                                        <div class="col">
+                                            <h4 class="card-title">PVR - 2</h4>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <h4 class="card-title">Status</h4>
+                                        </div>
+                                        <div class="col">
+                                            <h4 class="card-title">Status</h4>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <h4 class="card-title">SKU Name</h4>
+                                        </div>
+                                        <div class="col">
+                                            <h4 class="card-title">SKU Name</h4>
+                                        </div>
+                                    </div>
+                                </div>                                
+                            </div>
+                            <div class="card-body">
+                                <div class="container-fluid">
+                                    <!-- <div class="row row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-xl-3 row-cols-xxl-5 g-4"> -->
+                                    <div class="row"><div class="col-12">Time</div></div>
+                                    <div class="row"><div class="col-12">Plan</div></div>
+                                    <div class="row">
+                                        <div class="col-6">PLUS</div>
+                                        <div class="col-6">plus</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-6">GOOD</div>
+                                        <div class="col-6">good</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-6">MINUS</div>
+                                        <div class="col-6">minus</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-6">SPECIAL</div>
+                                        <div class="col-6">special</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-6">ipk1Pouchcount</div>
+                                        <div class="col-6">ipl2pouchcount</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-6">STOCK BOX</div>
+                                        <div class="col-6">stkbox</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-6">ipk1operatorname</div>
+                                        <div class="col-6">ipk2operatorname</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-6">CHAMPION % WT.CHECKER NAME</div>
+                                        <div class="col-6">
+                                            <div class="row"><div class="col-12">Machine 1 Champion :  Name ipk1cham, ipk1cheker</div></div>
+                                            <div class="row"><div class="col-12">Machine 2 Champion : ipk2 champ, ipk2checker </div></div> 
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <div class="row">
+                                                <div class="col-6">MORNING START</div>
+                                                <div class="col-6">mnstrtime</div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-6">AF START</div>
+                                                <div class="col-6">aftrtime</div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-6">EVENING OFF</div>
+                                                <div class="col-6">mnstrtime</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="row">
+                                                <div class="col-6">MORNING START</div>
+                                                <div class="col-6">mnstrtime</div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-6">AF START</div>
+                                                <div class="col-6">aftrtime</div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-6">EVENING OFF</div>
+                                                <div class="col-6">mnstrtime</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                Over All Plan
+                                <button class="btn btn-primary mx-2 my-2" type="submit">Save</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xxl-3 col-md-6 col-sm-12 col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="container-fluid">
+                                    <div class="row">
+                                        <div class="col">
+                                            <h4 class="card-title">PVR - 1</h4>
+                                        </div>
+                                        <div class="col">
+                                            <h4 class="card-title">PVR - 2</h4>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <h4 class="card-title">Status</h4>
+                                        </div>
+                                        <div class="col">
+                                            <h4 class="card-title">Status</h4>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <h4 class="card-title">SKU Name</h4>
+                                        </div>
+                                        <div class="col">
+                                            <h4 class="card-title">SKU Name</h4>
+                                        </div>
+                                    </div>
+                                </div>                                
+                            </div>
+                            <div class="card-body">
+                                <div class="container-fluid">
+                                    <!-- <div class="row row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-xl-3 row-cols-xxl-5 g-4"> -->
+                                    <div class="row"><div class="col-12">Time</div></div>
+                                    <div class="row"><div class="col-12">Plan</div></div>
+                                    <div class="row">
+                                        <div class="col-6">PLUS</div>
+                                        <div class="col-6">plus</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-6">GOOD</div>
+                                        <div class="col-6">good</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-6">MINUS</div>
+                                        <div class="col-6">minus</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-6">SPECIAL</div>
+                                        <div class="col-6">special</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-6">ipk1Pouchcount</div>
+                                        <div class="col-6">ipl2pouchcount</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-6">STOCK BOX</div>
+                                        <div class="col-6">stkbox</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-6">ipk1operatorname</div>
+                                        <div class="col-6">ipk2operatorname</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-6">CHAMPION % WT.CHECKER NAME</div>
+                                        <div class="col-6">
+                                            <div class="row"><div class="col-12">Machine 1 Champion :  Name ipk1cham, ipk1cheker</div></div>
+                                            <div class="row"><div class="col-12">Machine 2 Champion : ipk2 champ, ipk2checker </div></div> 
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <div class="row">
+                                                <div class="col-6">MORNING START</div>
+                                                <div class="col-6">mnstrtime</div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-6">AF START</div>
+                                                <div class="col-6">aftrtime</div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-6">EVENING OFF</div>
+                                                <div class="col-6">mnstrtime</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="row">
+                                                <div class="col-6">MORNING START</div>
+                                                <div class="col-6">mnstrtime</div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-6">AF START</div>
+                                                <div class="col-6">aftrtime</div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-6">EVENING OFF</div>
+                                                <div class="col-6">mnstrtime</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                Over All Plan
+                                <button class="btn btn-primary mx-2 my-2" type="submit">Save</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xxl-3 col-md-6 col-sm-12 col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="container-fluid">
+                                    <div class="row">
+                                        <div class="col">
+                                            <h4 class="card-title">PVR - 1</h4>
+                                        </div>
+                                        <div class="col">
+                                            <h4 class="card-title">PVR - 2</h4>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <h4 class="card-title">Status</h4>
+                                        </div>
+                                        <div class="col">
+                                            <h4 class="card-title">Status</h4>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <h4 class="card-title">SKU Name</h4>
+                                        </div>
+                                        <div class="col">
+                                            <h4 class="card-title">SKU Name</h4>
+                                        </div>
+                                    </div>
+                                </div>                                
+                            </div>
+                            <div class="card-body">
+                                <div class="container-fluid">
+                                    <!-- <div class="row row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-xl-3 row-cols-xxl-5 g-4"> -->
+                                    <div class="row"><div class="col-12">Time</div></div>
+                                    <div class="row"><div class="col-12">Plan</div></div>
+                                    <div class="row">
+                                        <div class="col-6">PLUS</div>
+                                        <div class="col-6">plus</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-6">GOOD</div>
+                                        <div class="col-6">good</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-6">MINUS</div>
+                                        <div class="col-6">minus</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-6">SPECIAL</div>
+                                        <div class="col-6">special</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-6">ipk1Pouchcount</div>
+                                        <div class="col-6">ipl2pouchcount</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-6">STOCK BOX</div>
+                                        <div class="col-6">stkbox</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-6">ipk1operatorname</div>
+                                        <div class="col-6">ipk2operatorname</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-6">CHAMPION % WT.CHECKER NAME</div>
+                                        <div class="col-6">
+                                            <div class="row"><div class="col-12">Machine 1 Champion :  Name ipk1cham, ipk1cheker</div></div>
+                                            <div class="row"><div class="col-12">Machine 2 Champion : ipk2 champ, ipk2checker </div></div> 
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <div class="row">
+                                                <div class="col-6">MORNING START</div>
+                                                <div class="col-6">mnstrtime</div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-6">AF START</div>
+                                                <div class="col-6">aftrtime</div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-6">EVENING OFF</div>
+                                                <div class="col-6">mnstrtime</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="row">
+                                                <div class="col-6">MORNING START</div>
+                                                <div class="col-6">mnstrtime</div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-6">AF START</div>
+                                                <div class="col-6">aftrtime</div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-6">EVENING OFF</div>
+                                                <div class="col-6">mnstrtime</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                Over All Plan
+                                <button class="btn btn-primary mx-2 my-2" type="submit">Save</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- Row end -->
+
+            </div>
+            <!-- Container ends -->
+        </form>
+        
+    </div>
+    <!-- App body ends -->
+
+ <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const formsets = document.querySelectorAll('.card-body');
+    
+        formsets.forEach((set, index) => {
+            const grossWtInput = set.querySelector(`[id$='-grosswt']`);
+            const netWtInput = set.querySelector(`[id$='-netwt']`);
+            const actWtSpan = document.getElementById(`actwt-${index -1 }`);
+    
+            if (grossWtInput && netWtInput && actWtSpan) {
+                const calculateWeightDifference = () => {
+                    const grossWt = parseFloat(grossWtInput.value) || 0;
+                    const netWt = parseFloat(netWtInput.value) || 0;
+                    const actWt = grossWt - netWt;
+                    actWtSpan.textContent = actWt.toFixed(2);
+                    
+                    if (actWt < 0) {
+                        actWtSpan.style.color = 'red';
+                        actWtSpan.style.fontWeight = 'bold';
+                    } else {
+                        actWtSpan.style.color = 'black';
+                        actWtSpan.style.fontWeight = 'normal';
+                    }
+                };
+    
+                grossWtInput.addEventListener('input', calculateWeightDifference);
+                netWtInput.addEventListener('input', calculateWeightDifference);
+    
+                // Initialize the value
+                calculateWeightDifference();
+            }
+        });
+    });
+    
+ </script>
+
+
+{% endblock %}
+{{ rolldetailsformset.management_form }}
+                                         {% for field in form %}
+                                            {{ field.errors }}
+                                            {{ field.label_tag }}
+                                            {{ field }}
+                                        {% endfor %}
+
+                                        {% for form in rolldetailsformset %}
+                                       
+                                        
+                                      
+                                        <div class="col">
+                                            <div class="card">
+                                                <div class="card-header" style="text-align: center; height : 10px;">
+                                                    <h6 class="card-title">{{ forloop.counter }}</h6>
+                                                </div>
+                                                <div class="card-body">
+                                                     {{ form.as_p }}
+                                                     <label>Actual Wt : </label>
+                                                     <span id="actwt-{{ forloop.counter }}" class="actwt">0.00</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {% endfor %}

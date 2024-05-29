@@ -11,7 +11,7 @@ from .views import ( home,
                     download_printingrolltable,download_productionrolltable,download_oilpumpingtable,download_pouchcuttingtable,download_manualleakchangetable,
                     chart_data,chart_view,download_expvsacttable,
                     ExpVsActDetailsListView,ExpVsActDetailsCreateView,ExpVsActDetailsUpdateView,ExpVsActDetailsDeleteView,
-                    ppsr_details_view,PPSRDetailsListView,PPSRDetailsCreateView,PPSRDetailsUpdateView,PPSRDetailsDeleteView
+                    ppsr_details_view,ppsr_details_edit,PPSRDetailsListView,PPSRDetailsCreateView,PPSRDetailsUpdateView,PPSRDetailsDeleteView
                     )
 
 
@@ -87,12 +87,13 @@ urlpatterns = [
     
     #--------------------------------------------------PPSR Details-------------------------------------------------------
     path('ppsrtable',PPSRDetailsListView.as_view(),name='ppsrtable'),
-    path('ppsrtable/newentry',PPSRDetailsCreateView.as_view(),name='ppsrtable_entry'),
+    #path('ppsrtable/newentry',PPSRDetailsCreateView.as_view(),name='ppsrtable_entry'),
     path('ppsrtable/<pk>/edit',PPSRDetailsUpdateView.as_view(),name='ppsrtable_update'),
     path('ppsrtable/<pk>/delete',PPSRDetailsDeleteView.as_view(),name='ppsrtable_delete'),
     #_____________________________________________________________________________________________________________________
     
     path('ppsr-details/', ppsr_details_view, name='ppsr_details'),
+    path('ppsrtable/newentry',ppsr_details_edit,name='ppsrtable_entry'),
     
     # path('brands/', BrandListView.as_view(), name='branddetails-list'),
     # path('brands/new/', BrandCreateView.as_view(), name='branddetails-create'),

@@ -193,6 +193,53 @@ class PPSRDetailsForm(forms.ModelForm):
         widgets = {
             'date': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
             }
+        
+    def clean(self):
+        cleaned_data = super().clean()
+        ipk1_status = cleaned_data.get('ipk1_status')
+        ipk1_runningsku = cleaned_data.get('ipk1_runningsku')
+        ipk2_status = cleaned_data.get('ipk2_status')
+        ipk2_runningsku = cleaned_data.get('ipk2_runningsku')
+        ipk3_status = cleaned_data.get('ipk3_status')
+        ipk3_runningsku = cleaned_data.get('ipk3_runningsku')
+        ipk4_status = cleaned_data.get('ipk4_status')
+        ipk4_runningsku = cleaned_data.get('ipk4_runningsku')
+        ipk5_status = cleaned_data.get('ipk5_status')
+        ipk5_runningsku = cleaned_data.get('ipk5_runningsku')
+        ipk6_status = cleaned_data.get('ipk6_status')
+        ipk6_runningsku = cleaned_data.get('ipk6_runningsku')
+        ipk7_status = cleaned_data.get('ipk7_status')
+        ipk7_runningsku = cleaned_data.get('ipk7_runningsku')
+        ipk8_status = cleaned_data.get('ipk8_status')
+        ipk8_runningsku = cleaned_data.get('ipk8_runningsku')
+        ipk9_status = cleaned_data.get('ipk9_status')
+        ipk9_runningsku = cleaned_data.get('ipk9_runningsku')
+        ipk10_status = cleaned_data.get('ipk10_status')
+        ipk10_runningsku = cleaned_data.get('ipk10_runningsku')
+        
+        if ipk1_status == 'ON' and not ipk1_runningsku:
+            self.add_error('ipk1_runningsku', "Running SKU must be selected if IPK1 is ON.")
+        if ipk2_status == 'ON' and not ipk2_runningsku:
+            self.add_error('ipk2_runningsku', "Running SKU must be selected if IPK2 is ON.")
+        if ipk3_status == 'ON' and not ipk3_runningsku:
+            self.add_error('ipk3_runningsku', "Running SKU must be selected if IPK3 is ON.")
+        if ipk4_status == 'ON' and not ipk4_runningsku:
+            self.add_error('ipk4_runningsku', "Running SKU must be selected if IPK4 is ON.")
+        if ipk5_status == 'ON' and not ipk5_runningsku:
+            self.add_error('ipk5_runningsku', "Running SKU must be selected if IPK5 is ON.")
+        if ipk6_status == 'ON' and not ipk6_runningsku:
+            self.add_error('ipk6_runningsku', "Running SKU must be selected if IPK6 is ON.")
+        if ipk7_status == 'ON' and not ipk7_runningsku:
+            self.add_error('ipk7_runningsku', "Running SKU must be selected if IPK7 is ON.")
+        if ipk8_status == 'ON' and not ipk8_runningsku:
+            self.add_error('ipk8_runningsku', "Running SKU must be selected if IPK8 is ON.")
+        if ipk9_status == 'ON' and not ipk9_runningsku:
+            self.add_error('ipk9_runningsku', "Running SKU must be selected if IPK9 is ON.")
+        if ipk10_status == 'ON' and not ipk10_runningsku:
+            self.add_error('ipk10_runningsku', "Running SKU must be selected if IPK10 is ON.")
+    
+        return cleaned_data
+  
 
 class UniqueOverallProductionPlanFormSet(forms.BaseModelFormSet):
     def clean(self):
@@ -214,5 +261,5 @@ PPSRDetailsFormSet = modelformset_factory(
     PPSRDetails,
     form=PPSRDetailsForm,
     formset=UniqueOverallProductionPlanFormSet,
-    extra=3
+    extra=1
 )
