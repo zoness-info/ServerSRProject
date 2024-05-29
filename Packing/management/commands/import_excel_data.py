@@ -136,5 +136,5 @@ class Command(BaseCommand):
     
     def import_pouchmistakename(self, sheet):
         for row in sheet.iter_rows(min_row=2, values_only=True):
-            PouchLeakMistakesName.objects.create(qcname=row[0],)  # Adjust fields accordingly
+            PouchLeakMistakesName.objects.create(mistakename=row[0],)  # Adjust fields accordingly
         self.stdout.write(self.style.SUCCESS('Pouch Mistake Details imported successfully'))

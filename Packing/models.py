@@ -125,13 +125,13 @@ class PrintingRollDetail(models.Model):
     
 class PackingMachineDetails(models.Model):
     machineid = models.CharField(_("Machine ID"), max_length=50,primary_key=True)
-    machine = models.CharField(_("Machine Name"), max_length=50)
+    machinename = models.CharField(_("Machine Name"), max_length=50)
     createdat = models.DateTimeField(_("Created At"),auto_now_add=True)
     updatedat = models.DateTimeField(_("Updated AT"), auto_now=True)
     isdelete = models.BooleanField(_("Deleted"),default=False)
     
     def __str__(self):
-        return self.machine
+        return self.machinename
     
 class FilmRollType(models.Model):
     choices = [
