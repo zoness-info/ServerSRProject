@@ -1,0 +1,127 @@
+<div class="col-xxl-4 col-md-6 col-sm-12 col-12">
+    <div class="card">
+        
+        <div class="card-header">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col"><div class="mb-1"><label class="form-label">IPK-9</label>{{ form.ipk9_name.errors }}{{ form.ipk9_name }}</div></div>
+                    <div class="col"><div class="mb-1"><label class="form-label">IPK-10</label>{{ form.ipk10_name.errors }}{{ form.ipk10_name }}</div></div>
+                </div>
+                <div class="row">
+                    <div class="col"><div class="mb-1"><label class="form-label">stockbox</label>{{ form.ipk9_stockbox.errors }}{{ form.ipk9_stockbox }}</div></div>
+                    <div class="col"><div class="mb-1"><label class="form-label">stockbox</label>{{ form.ipk10_stockbox.errors }}{{ form.ipk10_stockbox }}</div></div>
+                </div>
+                <div class="row">
+                    <div class="col"><div class="mb-1"><label class="form-label">SKU Name</label>{{ form.ipk9_stockbox.errors }}{{ form.ipk9_stockbox }}</div></div>
+                    <div class="col"><div class="mb-1"><label class="form-label">SKU Name</label>{{ form.ipk10_stockbox.errors }}{{ form.ipk10_stockbox }}</div></div>
+                </div>
+            </div>                                
+        </div>
+        
+        <div class="card-body">
+            <div class="container-fluid">
+                <!-- <div class="row row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-xl-3 row-cols-xxl-7 g-4"> -->
+                <div class="row"><div class="col-12"><div class="mb-1"><label class="form-label">Time</label>{{ form.date.errors }}{{ form.date }}</div></div></div>
+                <div class="row">
+                    <div class="col-6"><div class="mb-1"><label class="form-label">IPK-9 stockbox</label>{{ form.ipk9_stockbox.errors }}{{ form.ipk9_stockbox }}</div></div>
+                    <div class="col-6"><div class="mb-1"><label class="form-label">IPK-10 stockbox</label>{{ form.ipk10_stockbox.errors }}{{ form.ipk10_stockbox }}</div></div>
+                </div>
+                <div class="row"><div class="col-12"><div class="mb-1"><label class="form-label">stockbox</label>{{ form.wtmachine5_stockbox.errors }}{{ form.wtmachine5_stockbox }}</div></div></div>
+                <div class="row"><div class="col-12"><div class="mb-1"><label class="form-label">stockbox</label>{{ form.wtmachine5_stockbox.errors }}{{ form.wtmachine5_stockbox }}</div></div></div>
+                <div class="row"><div class="col-12"><div class="mb-1"><label class="form-label">Minus</label>{{ form.wtmachine5_minus.errors }}{{ form.wtmachine5_minus }}</div></div></div>
+                <div class="row"><div class="col-12"><div class="mb-1"><label class="form-label">stockbox</label>{{ form.wtmachine5_stockbox.errors }}{{ form.wtmachine5_stockbox }}</div></div></div>
+                <div class="row">
+                    <div class="col-6"><div class="mb-1"><label class="form-label">IPK-9 Pouch Count</label>{{ form.ipk9_pouchcount.errors }}{{ form.ipk9_pouchcount }}</div></div>
+                    <div class="col-6"><div class="mb-1"><label class="form-label">IPK-10 Pouch Count</label>{{ form.ipk10_pouchcount.errors }}{{ form.ipk10_pouchcount }}</div></div>
+                </div>
+                <div class="row"><div class="col-12"><div class="mb-1"><label class="form-label">Stock Box</label>{{ form.wtmachine5_stockbox.errors }}{{ form.wtmachine5_stockbox }}</div></div></div>
+                <div class="row">
+                    <div class="col-6"><div class="mb-1"><label class="form-label">IPK-9 Operator Name</label>{{ form.ipk9_stockbox.errors }}{{ form.ipk9_stockbox }}</div></div>
+                    <div class="col-6"><div class="mb-1"><label class="form-label">IPK-10 Operator Name</label>{{ form.ipk10_stockbox.errors }}{{ form.ipk10_stockbox }}</div></div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <div class="col-12">
+                            <div class="mb-1">
+                                <label class="form-label">9 Champion</label> {{form.ipk9_stockbox}}
+                            </div>
+                            <div class="mb-1">
+                                <label class="form-label">Machine-9 Wt.Checker</label> {{form.ipk9_wtcheckername}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6"> 
+                        <div class="mb-1">
+                            <label class="form-label">Machine-10 Champion</label> {{form.ipk10_stockbox}}
+                        </div>
+                        <div class="mb-1">
+                            <label class="form-label">Machine-10 Wt.Checker</label> {{form.ipk10_wtcheckername}}
+                        </div>                                                
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-6">
+                        <div class="col-12">
+                            <div class="mb-1">
+                                <label class="form-label">IPK-9 Morning start</label> {{form.ipk9_mornstarttime}}
+                            </div>
+                            <div class="mb-1">
+                                <label class="form-label">Machine-9 Wt.Checker</label> {{form.ipk9_afnoonstarttime}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6"> 
+                        <div class="mb-1">
+                            <label class="form-label">Machine-10 Champion</label> {{form.ipk10_mornstarttime}}
+                        </div>
+                        <div class="mb-1">
+                            <label class="form-label">Machine-10 Wt.Checker</label> {{form.ipk10_afnoonstarttime}}
+                        </div>                                                
+                    </div>
+                </div>                                    
+            </div>
+            <button class="btn btn-primary mx-2 my-2" type="submit">Save</button>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+<td>
+    <div class="fieldWrapper">
+        <span class="fs-6">{{ data.wtmachine1_stockbox }}</span>
+    </div>
+    <div class="fieldWrapper">
+        <span class="fs-6"></span>
+    </div>
+    <div class="fieldWrapper">
+        <span class="fs-6">{{ data.wtmachine2_stockbox }}</span>
+    </div>
+    <div class="fieldWrapper">
+        <span class="fs-6"></span>
+    </div>
+    <div class="fieldWrapper">
+        <span class="fs-6">{{ data.wtmachine3_stockbox }}</span>
+    </div>
+    <div class="fieldWrapper">
+        <span class="fs-6"></span>
+    </div>
+    <div class="fieldWrapper">
+        <span class="fs-6">{{ data.stockbox }}</span>
+    </div>
+    <div class="fieldWrapper">
+        <span class="fs-6"></span>
+    </div>
+    <div class="fieldWrapper">
+        <span class="fs-6"></span>
+    </div>
+    <div class="fieldWrapper">
+        <span class="fs-6"></span>
+    </div>
+</td>

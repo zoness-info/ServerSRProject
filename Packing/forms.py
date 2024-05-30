@@ -191,8 +191,150 @@ class PPSRDetailsForm(forms.ModelForm):
         fields = '__all__'
         
         widgets = {
+            'shiftoverallplan' : forms.NumberInput(attrs=({'class':'form-control'})),
             'date': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
+            'ipk1_name'     : forms.Select(attrs={'class': 'form-select'}),
+            'ipk1_plan'     : forms.NumberInput(attrs={'class':'form-control'}),
+            'ipk1_status'   : forms.Select(attrs={'class':'form-select'}),
+            'ipk1_runningsku': forms.Select(attrs={'class':'form-select'}),
+            'ipk1_pouchcount' : forms.NumberInput(attrs={'class':'form-control'}),
+            'ipk1_operatorname' : forms.Select(attrs={'class':'form-select'}),
+            'ipk1_championname' : forms.Select(attrs={'class':'form-select'}),
+            'ipk1_wtcheckername' : forms.Select(attrs={'class':'form-select'}),
+            'ipk1_mornstarttime' : forms.TimeInput(attrs={'class':'form-control','type':'time'}),
+            'ipk1_afnoonstarttime' : forms.TimeInput(attrs={'class':'form-control','type':'time'}),
+            'ipk2_name'     : forms.Select(attrs={'class': 'form-select'}),
+            'ipk2_plan'     : forms.NumberInput(attrs={'class':'form-control'}),
+            'ipk2_status'   : forms.Select(attrs={'class':'form-select'}),
+            'ipk2_runningsku': forms.Select(attrs={'class':'form-select'}),
+            'ipk2_pouchcount' : forms.NumberInput(attrs={'class':'form-control'}),
+            'ipk2_operatorname' : forms.Select(attrs={'class':'form-select'}),
+            'ipk2_championname' : forms.Select(attrs={'class':'form-select'}),
+            'ipk2_wtcheckername' : forms.Select(attrs={'class':'form-select'}),
+            'ipk2_mornstarttime' : forms.TimeInput(attrs={'class':'form-control','type':'time'}),
+            'ipk2_afnoonstarttime' : forms.TimeInput(attrs={'class':'form-control','type':'time'}),
+            'wtmachine1_plus' : forms.NumberInput(attrs={'class':'form-control'}),
+            'wtmachine1_good' : forms.NumberInput(attrs={'class':'form-control'}),
+            'wtmachine1_minus' : forms.NumberInput(attrs={'class':'form-control'}),
+            'wtmachine1_special' : forms.NumberInput(attrs={'class':'form-control'}),
+            'wtmachine1_stockbox' : forms.NumberInput(attrs={'class':'form-control'}),
+            
+            'ipk3_name'     : forms.Select(attrs={'class': 'form-select'}),
+            'ipk3_plan'     : forms.NumberInput(attrs={'class':'form-control'}),
+            'ipk3_status'   : forms.Select(attrs={'class':'form-select'}),
+            'ipk3_runningsku': forms.Select(attrs={'class':'form-select'}),
+            'ipk3_pouchcount' : forms.NumberInput(attrs={'class':'form-control'}),
+            'ipk3_operatorname' : forms.Select(attrs={'class':'form-select'}),
+            'ipk3_championname' : forms.Select(attrs={'class':'form-select'}),
+            'ipk3_wtcheckername' : forms.Select(attrs={'class':'form-select'}),
+            'ipk3_mornstarttime' : forms.TimeInput(attrs={'class':'form-control','type':'time'}),
+            'ipk3_afnoonstarttime' : forms.TimeInput(attrs={'class':'form-control','type':'time'}),
+            'ipk4_name'     : forms.Select(attrs={'class': 'form-select'}),
+            'ipk4_plan'     : forms.NumberInput(attrs={'class':'form-control'}),
+            'ipk4_status'   : forms.Select(attrs={'class':'form-select'}),
+            'ipk4_runningsku': forms.Select(attrs={'class':'form-select'}),
+            'ipk4_pouchcount' : forms.NumberInput(attrs={'class':'form-control'}),
+            'ipk4_operatorname' : forms.Select(attrs={'class':'form-select'}),
+            'ipk4_championname' : forms.Select(attrs={'class':'form-select'}),
+            'ipk4_wtcheckername' : forms.Select(attrs={'class':'form-select'}),
+            'ipk4_mornstarttime' : forms.TimeInput(attrs={'class':'form-control','type':'time'}),
+            'ipk4_afnoonstarttime' : forms.TimeInput(attrs={'class':'form-control','type':'time'}),
+            'wtmachine2_plus' : forms.NumberInput(attrs={'class':'form-control'}),
+            'wtmachine2_good' : forms.NumberInput(attrs={'class':'form-control'}),
+            'wtmachine2_minus' : forms.NumberInput(attrs={'class':'form-control'}),
+            'wtmachine2_special' : forms.NumberInput(attrs={'class':'form-control'}),
+            'wtmachine2_stockbox' : forms.NumberInput(attrs={'class':'form-control'}),
+                        
+    
+            'ipk5_name'     : forms.Select(attrs={'class': 'form-select'}),
+            'ipk5_plan'     : forms.NumberInput(attrs={'class':'form-control'}),
+            'ipk5_status'   : forms.Select(attrs={'class':'form-select'}),
+            'ipk5_runningsku': forms.Select(attrs={'class':'form-select'}),
+            'ipk5_pouchcount' : forms.NumberInput(attrs={'class':'form-control'}),
+            'ipk5_operatorname' : forms.Select(attrs={'class':'form-select'}),
+            'ipk5_championname' : forms.Select(attrs={'class':'form-select'}),
+            'ipk5_wtcheckername' : forms.Select(attrs={'class':'form-select'}),
+            'ipk5_mornstarttime' : forms.TimeInput(attrs={'class':'form-control','type':'time'}),
+            'ipk5_afnoonstarttime' : forms.TimeInput(attrs={'class':'form-control','type':'time'}),
+            'ipk6_name'     : forms.Select(attrs={'class': 'form-select'}),
+            'ipk6_plan'     : forms.NumberInput(attrs={'class':'form-control'}),
+            'ipk6_status'   : forms.Select(attrs={'class':'form-select'}),
+            'ipk6_runningsku': forms.Select(attrs={'class':'form-select'}),
+            'ipk6_pouchcount' : forms.NumberInput(attrs={'class':'form-control'}),
+            'ipk6_operatorname' : forms.Select(attrs={'class':'form-select'}),
+            'ipk6_championname' : forms.Select(attrs={'class':'form-select'}),
+            'ipk6_wtcheckername' : forms.Select(attrs={'class':'form-select'}),
+            'ipk6_mornstarttime' : forms.TimeInput(attrs={'class':'form-control','type':'time'}),
+            'ipk6_afnoonstarttime' : forms.TimeInput(attrs={'class':'form-control','type':'time'}),
+            'wtmachine3_plus' : forms.NumberInput(attrs={'class':'form-control'}),
+            'wtmachine3_good' : forms.NumberInput(attrs={'class':'form-control'}),
+            'wtmachine3_minus' : forms.NumberInput(attrs={'class':'form-control'}),
+            'wtmachine3_special' : forms.NumberInput(attrs={'class':'form-control'}),
+            'wtmachine3_stockbox' : forms.NumberInput(attrs={'class':'form-control'}),
+            
+            'ipk7_name'     : forms.Select(attrs={'class': 'form-select'}),
+            'ipk7_plan'     : forms.NumberInput(attrs={'class':'form-control'}),
+            'ipk7_status'   : forms.Select(attrs={'class':'form-select'}),
+            'ipk7_runningsku': forms.Select(attrs={'class':'form-select'}),
+            'ipk7_pouchcount' : forms.NumberInput(attrs={'class':'form-control'}),
+            'ipk7_operatorname' : forms.Select(attrs={'class':'form-select'}),
+            'ipk7_championname' : forms.Select(attrs={'class':'form-select'}),
+            'ipk7_wtcheckername' : forms.Select(attrs={'class':'form-select'}),
+            'ipk7_mornstarttime' : forms.TimeInput(attrs={'class':'form-control','type':'time'}),
+            'ipk7_afnoonstarttime' : forms.TimeInput(attrs={'class':'form-control','type':'time'}),
+            'ipk8_name'     : forms.Select(attrs={'class': 'form-select'}),
+            'ipk8_plan'     : forms.NumberInput(attrs={'class':'form-control'}),
+            'ipk8_status'   : forms.Select(attrs={'class':'form-select'}),
+            'ipk8_runningsku': forms.Select(attrs={'class':'form-select'}),
+            'ipk8_pouchcount' : forms.NumberInput(attrs={'class':'form-control'}),
+            'ipk8_operatorname' : forms.Select(attrs={'class':'form-select'}),
+            'ipk8_championname' : forms.Select(attrs={'class':'form-select'}),
+            'ipk8_wtcheckername' : forms.Select(attrs={'class':'form-select'}),
+            'ipk8_mornstarttime' : forms.TimeInput(attrs={'class':'form-control','type':'time'}),
+            'ipk8_afnoonstarttime' : forms.TimeInput(attrs={'class':'form-control','type':'time'}),
+            'wtmachine4_plus' : forms.NumberInput(attrs={'class':'form-control'}),
+            'wtmachine4_good' : forms.NumberInput(attrs={'class':'form-control'}),
+            'wtmachine4_minus' : forms.NumberInput(attrs={'class':'form-control'}),
+            'wtmachine4_special' : forms.NumberInput(attrs={'class':'form-control'}),
+            'wtmachine4_stockbox' : forms.NumberInput(attrs={'class':'form-control'}),
+           
+            'ipk9_name'     : forms.Select(attrs={'class': 'form-select'}),
+            'ipk9_plan'     : forms.NumberInput(attrs={'class':'form-control'}),
+            'ipk9_status'   : forms.Select(attrs={'class':'form-select'}),
+            'ipk9_runningsku': forms.Select(attrs={'class':'form-select'}),
+            'ipk9_pouchcount' : forms.NumberInput(attrs={'class':'form-control'}),
+            'ipk9_operatorname' : forms.Select(attrs={'class':'form-select'}),
+            'ipk9_championname' : forms.Select(attrs={'class':'form-select'}),
+            'ipk9_wtcheckername' : forms.Select(attrs={'class':'form-select'}),
+            'ipk9_mornstarttime' : forms.TimeInput(attrs={'class':'form-control','type':'time'}),
+            'ipk9_afnoonstarttime' : forms.TimeInput(attrs={'class':'form-control','type':'time'}),
+            'ipk10_name'     : forms.Select(attrs={'class': 'form-select'}),
+            'ipk10_plan'     : forms.NumberInput(attrs={'class':'form-control'}),
+            'ipk10_status'   : forms.Select(attrs={'class':'form-select'}),
+            'ipk10_runningsku': forms.Select(attrs={'class':'form-select'}),
+            'ipk10_pouchcount' : forms.NumberInput(attrs={'class':'form-control'}),
+            'ipk10_operatorname' : forms.Select(attrs={'class':'form-select'}),
+            'ipk10_championname' : forms.Select(attrs={'class':'form-select'}),
+            'ipk10_wtcheckername' : forms.Select(attrs={'class':'form-select'}),
+            'ipk10_mornstarttime' : forms.TimeInput(attrs={'class':'form-control','type':'time'}),
+            'ipk10_afnoonstarttime' : forms.TimeInput(attrs={'class':'form-control','type':'time'}),
+            'wtmachine5_plus' : forms.NumberInput(attrs={'class':'form-control'}),
+            'wtmachine5_good' : forms.NumberInput(attrs={'class':'form-control'}),
+            'wtmachine5_minus' : forms.NumberInput(attrs={'class':'form-control'}),
+            'wtmachine5_special' : forms.NumberInput(attrs={'class':'form-control'}),
+            'wtmachine5_stockbox' : forms.NumberInput(attrs={'class':'form-control'}),
+              
+            
+           
+            
+            
             }
+        
+    def __init__(self, *args, **kwargs):
+        super(PPSRDetailsForm,self).__init__(*args,**kwargs)
+        self.fields['date'].widget.attrs.update({'class':'form-control', 'type':'date'})
+        self.fields['ipk1_status'].widget.attrs.update({'class':'form-select'})  
+        
         
     def clean(self):
         cleaned_data = super().clean()
@@ -239,27 +381,27 @@ class PPSRDetailsForm(forms.ModelForm):
             self.add_error('ipk10_runningsku', "Running SKU must be selected if IPK10 is ON.")
     
         return cleaned_data
-  
 
-class UniqueOverallProductionPlanFormSet(forms.BaseModelFormSet):
-    def clean(self):
-        if any(self.errors):
-            return
-        return self.cleaned_data  # Return the cleaned data after validation
 
-        # overallproductionplan_set = set()
-        # for form in self.forms:
-        #     if self.can_delete and self._should_delete_form(form):
-        #         continue
-        #     overallproductionplan = form.cleaned_data.get('overallproductionplan')
-        #     if overallproductionplan:
-        #         if overallproductionplan in overallproductionplan_set:
-        #             raise ValidationError("The overall production plan must be unique.")
-        #         overallproductionplan_set.add(overallproductionplan)
+# class UniqueOverallProductionPlanFormSet(forms.BaseModelFormSet):
+#     def clean(self):
+#         if any(self.errors):
+#             return
+#         return self.cleaned_data  # Return the cleaned data after validation
+
+#         # overallproductionplan_set = set()
+#         # for form in self.forms:
+#         #     if self.can_delete and self._should_delete_form(form):
+#         #         continue
+#         #     overallproductionplan = form.cleaned_data.get('overallproductionplan')
+#         #     if overallproductionplan:
+#         #         if overallproductionplan in overallproductionplan_set:
+#         #             raise ValidationError("The overall production plan must be unique.")
+#         #         overallproductionplan_set.add(overallproductionplan)
         
-PPSRDetailsFormSet = modelformset_factory(
-    PPSRDetails,
-    form=PPSRDetailsForm,
-    formset=UniqueOverallProductionPlanFormSet,
-    extra=1
-)
+# PPSRDetailsFormSet = modelformset_factory(
+#     PPSRDetails,
+#     form=PPSRDetailsForm,
+#     formset=UniqueOverallProductionPlanFormSet,
+#     extra=1
+# )

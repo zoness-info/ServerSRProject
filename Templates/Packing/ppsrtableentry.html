@@ -10,7 +10,7 @@
 
             <!-- Container starts -->
             <div class="container-fluid">
-
+                {{ form.non_field_error}}
                 <!-- Row start -->
                 <div class="row">
                     <!-- <div class="col-xxl-3 col-md-4 col-sm-12 col-12">
@@ -29,33 +29,23 @@
                         </div> -->
                         <!-- Card end -->
                     <!-- </div> -->
-                    <div class="col-xxl-3 col-md-6 col-sm-12 col-12">
+                   
+                    <div class="col-xxl-4 col-md-6 col-sm-12 col-12">
                         <div class="card">
+                            
                             <div class="card-header">
                                 <div class="container-fluid">
                                     <div class="row">
-                                        <div class="col">
-                                            <h4 class="card-title text-center">PVR - 1</h4>
-                                        </div>
-                                        <div class="col">
-                                            <h4 class="card-title text-center">PVR - 2</h4>
-                                        </div>
+                                        <div class="col"><div class="mb-1"><label class="form-label">IPK-1</label>{{ form.ipk1_name.errors }}{{ form.ipk1_name }}</div></div>
+                                        <div class="col"><div class="mb-1"><label class="form-label">IPK-2</label>{{ form.ipk2_name.errors }}{{ form.ipk2_name }}</div></div>
                                     </div>
                                     <div class="row">
-                                        <div class="col">
-                                            <h4 class="card-title text-center">Status</h4>
-                                        </div>
-                                        <div class="col">
-                                            <h4 class="card-title text-center">Status</h4>
-                                        </div>
+                                        <div class="col"><div class="mb-1"><label class="form-label">Status</label>{{ form.ipk1_status.errors }}{{ form.ipk1_status }}</div></div>
+                                        <div class="col"><div class="mb-1"><label class="form-label">Status</label>{{ form.ipk2_status.errors }}{{ form.ipk2_status }}</div></div>
                                     </div>
                                     <div class="row">
-                                        <div class="col">
-                                            <h4 class="card-title text-center">SKU Name</h4>
-                                        </div>
-                                        <div class="col">
-                                            <h4 class="card-title text-center">SKU Name</h4>
-                                        </div>
+                                        <div class="col"><div class="mb-1"><label class="form-label">SKU Name</label>{{ form.ipk1_runningsku.errors }}{{ form.ipk1_runningsku }}</div></div>
+                                        <div class="col"><div class="mb-1"><label class="form-label">SKU Name</label>{{ form.ipk2_runningsku.errors }}{{ form.ipk2_runningsku }}</div></div>
                                     </div>
                                 </div>                                
                             </div>
@@ -63,398 +53,420 @@
                             <div class="card-body">
                                 <div class="container-fluid">
                                     <!-- <div class="row row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-xl-3 row-cols-xxl-5 g-4"> -->
-                                    <div class="row"><div class="col-12">Time</div></div>
-                                    <div class="row"><div class="col-12">Plan</div></div>
+                                    <div class="row"><div class="col-12"><div class="mb-1"><label class="form-label">Time</label>{{ form.date.errors }}{{ form.date }}</div></div></div>
                                     <div class="row">
-                                        <div class="col-6">PLUS</div>
-                                        <div class="col-6">plus</div>
+                                        <div class="col-6"><div class="mb-1"><label class="form-label">IPK-1 Plan</label>{{ form.ipk1_plan.errors }}{{ form.ipk1_plan }}</div></div>
+                                        <div class="col-6"><div class="mb-1"><label class="form-label">IPK2 - Plan</label>{{ form.ilk1_plan.errors }}{{ form.ipk1_plan }}</div></div>
                                     </div>
+                                    <div class="row"><div class="col-12"><div class="mb-1"><label class="form-label">Plus</label>{{ form.wtmachine1_plus.errors }}{{ form.wtmachine1_plus }}</div></div></div>
+                                    <div class="row"><div class="col-12"><div class="mb-1"><label class="form-label">Good</label>{{ form.wtmachine1_good.errors }}{{ form.wtmachine1_good }}</div></div></div>
+                                    <div class="row"><div class="col-12"><div class="mb-1"><label class="form-label">Minus</label>{{ form.wtmachine1_minus.errors }}{{ form.wtmachine1_minus }}</div></div></div>
+                                    <div class="row"><div class="col-12"><div class="mb-1"><label class="form-label">Special</label>{{ form.wtmachine1_special.errors }}{{ form.wtmachine1_special }}</div></div></div>
                                     <div class="row">
-                                        <div class="col-6">GOOD</div>
-                                        <div class="col-6">good</div>
+                                        <div class="col-6"><div class="mb-1"><label class="form-label">IPK-1 Pouch Count</label>{{ form.ipk1_pouchcount.errors }}{{ form.ipk1_pouchcount }}</div></div>
+                                        <div class="col-6"><div class="mb-1"><label class="form-label">IPK-2 Pouch Count</label>{{ form.ipk2_pouchcount.errors }}{{ form.ipk2_pouchcount }}</div></div>
                                     </div>
+                                    <div class="row"><div class="col-12"><div class="mb-1"><label class="form-label">Stock Box</label>{{ form.wtmachine1_stockbox.errors }}{{ form.wtmachine1_stockbox }}</div></div></div>
                                     <div class="row">
-                                        <div class="col-6">MINUS</div>
-                                        <div class="col-6">minus</div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-6">SPECIAL</div>
-                                        <div class="col-6">special</div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-6">ipk1Pouchcount</div>
-                                        <div class="col-6">ipl2pouchcount</div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-6">STOCK BOX</div>
-                                        <div class="col-6">stkbox</div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-6">ipk1operatorname</div>
-                                        <div class="col-6">ipk2operatorname</div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-6">CHAMPION % WT.CHECKER NAME</div>
-                                        <div class="col-6">
-                                            <div class="row"><div class="col-12">Machine 1 Champion :  Name ipk1cham, ipk1cheker</div></div>
-                                            <div class="row"><div class="col-12">Machine 2 Champion : ipk2 champ, ipk2checker </div></div> 
-                                        </div>
+                                        <div class="col-6"><div class="mb-1"><label class="form-label">IPK-1 Operator Name</label>{{ form.ipk1_operatorname.errors }}{{ form.ipk1_operatorname }}</div></div>
+                                        <div class="col-6"><div class="mb-1"><label class="form-label">IPK-2 Operator Name</label>{{ form.ipk2_operatorname.errors }}{{ form.ipk2_operatorname }}</div></div>
                                     </div>
                                     <div class="row">
                                         <div class="col-6">
-                                            <div class="row">
-                                                <div class="col-6">MORNING START</div>
-                                                <div class="col-6">mnstrtime</div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-6">AF START</div>
-                                                <div class="col-6">aftrtime</div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-6">EVENING OFF</div>
-                                                <div class="col-6">mnstrtime</div>
+                                            <div class="col-12">
+                                                <div class="mb-1">
+                                                    <label class="form-label">Machine-1 Champion</label> {{form.ipk1_championname}}
+                                                </div>
+                                                <div class="mb-1">
+                                                    <label class="form-label">Machine-1 Wt.Checker</label> {{form.ipk1_wtcheckername}}
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="col-6">
-                                            <div class="row">
-                                                <div class="col-6">MORNING START</div>
-                                                <div class="col-6">mnstrtime</div>
+                                        <div class="col-6"> 
+                                            <div class="mb-1">
+                                                <label class="form-label">Machine-2 Champion</label> {{form.ipk2_championname}}
                                             </div>
-                                            <div class="row">
-                                                <div class="col-6">AF START</div>
-                                                <div class="col-6">aftrtime</div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-6">EVENING OFF</div>
-                                                <div class="col-6">mnstrtime</div>
-                                            </div>
+                                            <div class="mb-1">
+                                                <label class="form-label">Machine-2 Wt.Checker</label> {{form.ipk2_wtcheckername}}
+                                            </div>                                                
                                         </div>
                                     </div>
-                                </div>
-                                Over All Plan
-                                <button class="btn btn-primary mx-2 my-2" type="submit">Save</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xxl-3 col-md-6 col-sm-12 col-12">
-                        <div class="card">
-                            <div class="card-header">
-                                <div class="container-fluid">
-                                    <div class="row">
-                                        <div class="col">
-                                            <h4 class="card-title">PVR - 1</h4>
-                                        </div>
-                                        <div class="col">
-                                            <h4 class="card-title">PVR - 2</h4>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col">
-                                            <h4 class="card-title">Status</h4>
-                                        </div>
-                                        <div class="col">
-                                            <h4 class="card-title">Status</h4>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col">
-                                            <h4 class="card-title">SKU Name</h4>
-                                        </div>
-                                        <div class="col">
-                                            <h4 class="card-title">SKU Name</h4>
-                                        </div>
-                                    </div>
-                                </div>                                
-                            </div>
-                            <div class="card-body">
-                                <div class="container-fluid">
-                                    <!-- <div class="row row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-xl-3 row-cols-xxl-5 g-4"> -->
-                                    <div class="row"><div class="col-12">Time</div></div>
-                                    <div class="row"><div class="col-12">Plan</div></div>
-                                    <div class="row">
-                                        <div class="col-6">PLUS</div>
-                                        <div class="col-6">plus</div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-6">GOOD</div>
-                                        <div class="col-6">good</div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-6">MINUS</div>
-                                        <div class="col-6">minus</div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-6">SPECIAL</div>
-                                        <div class="col-6">special</div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-6">ipk1Pouchcount</div>
-                                        <div class="col-6">ipl2pouchcount</div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-6">STOCK BOX</div>
-                                        <div class="col-6">stkbox</div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-6">ipk1operatorname</div>
-                                        <div class="col-6">ipk2operatorname</div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-6">CHAMPION % WT.CHECKER NAME</div>
-                                        <div class="col-6">
-                                            <div class="row"><div class="col-12">Machine 1 Champion :  Name ipk1cham, ipk1cheker</div></div>
-                                            <div class="row"><div class="col-12">Machine 2 Champion : ipk2 champ, ipk2checker </div></div> 
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-6">
-                                            <div class="row">
-                                                <div class="col-6">MORNING START</div>
-                                                <div class="col-6">mnstrtime</div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-6">AF START</div>
-                                                <div class="col-6">aftrtime</div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-6">EVENING OFF</div>
-                                                <div class="col-6">mnstrtime</div>
-                                            </div>
-                                        </div>
-                                        <div class="col-6">
-                                            <div class="row">
-                                                <div class="col-6">MORNING START</div>
-                                                <div class="col-6">mnstrtime</div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-6">AF START</div>
-                                                <div class="col-6">aftrtime</div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-6">EVENING OFF</div>
-                                                <div class="col-6">mnstrtime</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                Over All Plan
-                                <button class="btn btn-primary mx-2 my-2" type="submit">Save</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xxl-3 col-md-6 col-sm-12 col-12">
-                        <div class="card">
-                            <div class="card-header">
-                                <div class="container-fluid">
-                                    <div class="row">
-                                        <div class="col">
-                                            <h4 class="card-title">PVR - 1</h4>
-                                        </div>
-                                        <div class="col">
-                                            <h4 class="card-title">PVR - 2</h4>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col">
-                                            <h4 class="card-title">Status</h4>
-                                        </div>
-                                        <div class="col">
-                                            <h4 class="card-title">Status</h4>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col">
-                                            <h4 class="card-title">SKU Name</h4>
-                                        </div>
-                                        <div class="col">
-                                            <h4 class="card-title">SKU Name</h4>
-                                        </div>
-                                    </div>
-                                </div>                                
-                            </div>
-                            <div class="card-body">
-                                <div class="container-fluid">
-                                    <!-- <div class="row row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-xl-3 row-cols-xxl-5 g-4"> -->
-                                    <div class="row"><div class="col-12">Time</div></div>
-                                    <div class="row"><div class="col-12">Plan</div></div>
-                                    <div class="row">
-                                        <div class="col-6">PLUS</div>
-                                        <div class="col-6">plus</div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-6">GOOD</div>
-                                        <div class="col-6">good</div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-6">MINUS</div>
-                                        <div class="col-6">minus</div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-6">SPECIAL</div>
-                                        <div class="col-6">special</div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-6">ipk1Pouchcount</div>
-                                        <div class="col-6">ipl2pouchcount</div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-6">STOCK BOX</div>
-                                        <div class="col-6">stkbox</div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-6">ipk1operatorname</div>
-                                        <div class="col-6">ipk2operatorname</div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-6">CHAMPION % WT.CHECKER NAME</div>
-                                        <div class="col-6">
-                                            <div class="row"><div class="col-12">Machine 1 Champion :  Name ipk1cham, ipk1cheker</div></div>
-                                            <div class="row"><div class="col-12">Machine 2 Champion : ipk2 champ, ipk2checker </div></div> 
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-6">
-                                            <div class="row">
-                                                <div class="col-6">MORNING START</div>
-                                                <div class="col-6">mnstrtime</div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-6">AF START</div>
-                                                <div class="col-6">aftrtime</div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-6">EVENING OFF</div>
-                                                <div class="col-6">mnstrtime</div>
-                                            </div>
-                                        </div>
-                                        <div class="col-6">
-                                            <div class="row">
-                                                <div class="col-6">MORNING START</div>
-                                                <div class="col-6">mnstrtime</div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-6">AF START</div>
-                                                <div class="col-6">aftrtime</div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-6">EVENING OFF</div>
-                                                <div class="col-6">mnstrtime</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                Over All Plan
-                                <button class="btn btn-primary mx-2 my-2" type="submit">Save</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xxl-3 col-md-6 col-sm-12 col-12">
-                        <div class="card">
-                            <div class="card-header">
-                                <div class="container-fluid">
-                                    <div class="row">
-                                        <div class="col">
-                                            <h4 class="card-title">PVR - 1</h4>
-                                        </div>
-                                        <div class="col">
-                                            <h4 class="card-title">PVR - 2</h4>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col">
-                                            <h4 class="card-title">Status</h4>
-                                        </div>
-                                        <div class="col">
-                                            <h4 class="card-title">Status</h4>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col">
-                                            <h4 class="card-title">SKU Name</h4>
-                                        </div>
-                                        <div class="col">
-                                            <h4 class="card-title">SKU Name</h4>
-                                        </div>
-                                    </div>
-                                </div>                                
-                            </div>
-                            <div class="card-body">
-                                <div class="container-fluid">
-                                    <!-- <div class="row row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-xl-3 row-cols-xxl-5 g-4"> -->
-                                    <div class="row"><div class="col-12">Time</div></div>
-                                    <div class="row"><div class="col-12">Plan</div></div>
-                                    <div class="row">
-                                        <div class="col-6">PLUS</div>
-                                        <div class="col-6">plus</div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-6">GOOD</div>
-                                        <div class="col-6">good</div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-6">MINUS</div>
-                                        <div class="col-6">minus</div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-6">SPECIAL</div>
-                                        <div class="col-6">special</div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-6">ipk1Pouchcount</div>
-                                        <div class="col-6">ipl2pouchcount</div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-6">STOCK BOX</div>
-                                        <div class="col-6">stkbox</div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-6">ipk1operatorname</div>
-                                        <div class="col-6">ipk2operatorname</div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-6">CHAMPION % WT.CHECKER NAME</div>
-                                        <div class="col-6">
-                                            <div class="row"><div class="col-12">Machine 1 Champion :  Name ipk1cham, ipk1cheker</div></div>
-                                            <div class="row"><div class="col-12">Machine 2 Champion : ipk2 champ, ipk2checker </div></div> 
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-6">
-                                            <div class="row">
-                                                <div class="col-6">MORNING START</div>
-                                                <div class="col-6">mnstrtime</div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-6">AF START</div>
-                                                <div class="col-6">aftrtime</div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-6">EVENING OFF</div>
-                                                <div class="col-6">mnstrtime</div>
-                                            </div>
-                                        </div>
-                                        <div class="col-6">
-                                            <div class="row">
-                                                <div class="col-6">MORNING START</div>
-                                                <div class="col-6">mnstrtime</div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-6">AF START</div>
-                                                <div class="col-6">aftrtime</div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-6">EVENING OFF</div>
-                                                <div class="col-6">mnstrtime</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                Over All Plan
-                                <button class="btn btn-primary mx-2 my-2" type="submit">Save</button>
-                            </div>
-                        </div>
-                    </div>
 
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <div class="col-12">
+                                                <div class="mb-1">
+                                                    <label class="form-label">IPK-1 Morning start</label> {{form.ipk1_mornstarttime}}
+                                                </div>
+                                                <div class="mb-1">
+                                                    <label class="form-label">Machine-1 Wt.Checker</label> {{form.ipk1_afnoonstarttime}}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-6"> 
+                                            <div class="mb-1">
+                                                <label class="form-label">Machine-2 Champion</label> {{form.ipk2_mornstarttime}}
+                                            </div>
+                                            <div class="mb-1">
+                                                <label class="form-label">Machine-2 Wt.Checker</label> {{form.ipk2_afnoonstarttime}}
+                                            </div>                                                
+                                        </div>
+                                    </div>                                    
+                                </div>
+                                {{form.shiftoverallplan}}
+                                <button class="btn btn-primary mx-2 my-2" type="submit">Save</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xxl-4 col-md-6 col-sm-12 col-12">
+                        <div class="card">
+                            
+                            <div class="card-header">
+                                <div class="container-fluid">
+                                    <div class="row">
+                                        <div class="col"><div class="mb-1"><label class="form-label">IPK-3</label>{{ form.ipk3_name.errors }}{{ form.ipk3_name }}</div></div>
+                                        <div class="col"><div class="mb-1"><label class="form-label">IPK-4</label>{{ form.ipk4_name.errors }}{{ form.ipk4_name }}</div></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col"><div class="mb-1"><label class="form-label">Status</label>{{ form.ipk3_status.errors }}{{ form.ipk3_status }}</div></div>
+                                        <div class="col"><div class="mb-1"><label class="form-label">Status</label>{{ form.ipk4_status.errors }}{{ form.ipk4_status }}</div></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col"><div class="mb-1"><label class="form-label">SKU Name</label>{{ form.ipk3_runningsku.errors }}{{ form.ipk3_runningsku }}</div></div>
+                                        <div class="col"><div class="mb-1"><label class="form-label">SKU Name</label>{{ form.ipk4_runningsku.errors }}{{ form.ipk4_runningsku }}</div></div>
+                                    </div>
+                                </div>                                
+                            </div>
+                            
+                            <div class="card-body">
+                                <div class="container-fluid">
+                                    <!-- <div class="row row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-xl-3 row-cols-xxl-5 g-4"> -->
+                                    <div class="row"><div class="col-12"><div class="mb-1"><label class="form-label">Time</label>{{ form.date.errors }}{{ form.date }}</div></div></div>
+                                    <div class="row">
+                                        <div class="col-6"><div class="mb-1"><label class="form-label">IPK-3 Plan</label>{{ form.ipk3_plan.errors }}{{ form.ipk3_plan }}</div></div>
+                                        <div class="col-6"><div class="mb-1"><label class="form-label">IPK-4 Plan</label>{{ form.ilk4_plan.errors }}{{ form.ipk4_plan }}</div></div>
+                                    </div>
+                                    <div class="row"><div class="col-12"><div class="mb-1"><label class="form-label">Plus</label>{{ form.wtmachine2_plus.errors }}{{ form.wtmachine2_plus }}</div></div></div>
+                                    <div class="row"><div class="col-12"><div class="mb-1"><label class="form-label">Good</label>{{ form.wtmachine2_good.errors }}{{ form.wtmachine2_good }}</div></div></div>
+                                    <div class="row"><div class="col-12"><div class="mb-1"><label class="form-label">Minus</label>{{ form.wtmachine2_minus.errors }}{{ form.wtmachine2_minus }}</div></div></div>
+                                    <div class="row"><div class="col-12"><div class="mb-1"><label class="form-label">Special</label>{{ form.wtmachine2_special.errors }}{{ form.wtmachine2_special }}</div></div></div>
+                                    <div class="row">
+                                        <div class="col-6"><div class="mb-1"><label class="form-label">IPK-3 Pouch Count</label>{{ form.ipk3_pouchcount.errors }}{{ form.ipk3_pouchcount }}</div></div>
+                                        <div class="col-6"><div class="mb-1"><label class="form-label">IPK-4 Pouch Count</label>{{ form.ipk4_pouchcount.errors }}{{ form.ipk4_pouchcount }}</div></div>
+                                    </div>
+                                    <div class="row"><div class="col-12"><div class="mb-1"><label class="form-label">Stock Box</label>{{ form.wtmachine2_stockbox.errors }}{{ form.wtmachine2_stockbox }}</div></div></div>
+                                    <div class="row">
+                                        <div class="col-6"><div class="mb-1"><label class="form-label">IPK-3 Operator Name</label>{{ form.ipk3_operatorname.errors }}{{ form.ipk3_operatorname }}</div></div>
+                                        <div class="col-6"><div class="mb-1"><label class="form-label">IPK-4 Operator Name</label>{{ form.ipk4_operatorname.errors }}{{ form.ipk4_operatorname }}</div></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <div class="col-12">
+                                                <div class="mb-1">
+                                                    <label class="form-label">Machine-3 Champion</label> {{form.ipk3_championname}}
+                                                </div>
+                                                <div class="mb-1">
+                                                    <label class="form-label">Machine-3 Wt.Checker</label> {{form.ipk3_wtcheckername}}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-6"> 
+                                            <div class="mb-1">
+                                                <label class="form-label">Machine-4 Champion</label> {{form.ipk4_championname}}
+                                            </div>
+                                            <div class="mb-1">
+                                                <label class="form-label">Machine-4 Wt.Checker</label> {{form.ipk4_wtcheckername}}
+                                            </div>                                                
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <div class="col-12">
+                                                <div class="mb-1">
+                                                    <label class="form-label">IPK-3 Morning start</label> {{form.ipk3_mornstarttime}}
+                                                </div>
+                                                <div class="mb-1">
+                                                    <label class="form-label">Machine-3 Wt.Checker</label> {{form.ipk3_afnoonstarttime}}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-6"> 
+                                            <div class="mb-1">
+                                                <label class="form-label">Machine-4 Champion</label> {{form.ipk4_mornstarttime}}
+                                            </div>
+                                            <div class="mb-1">
+                                                <label class="form-label">Machine-4 Wt.Checker</label> {{form.ipk4_afnoonstarttime}}
+                                            </div>                                                
+                                        </div>
+                                    </div>                                    
+                                </div>
+                                <button class="btn btn-primary mx-2 my-2" type="submit">Save</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xxl-4 col-md-6 col-sm-12 col-12">
+                        <div class="card">
+                            
+                            <div class="card-header">
+                                <div class="container-fluid">
+                                    <div class="row">
+                                        <div class="col"><div class="mb-1"><label class="form-label">IPK-5</label>{{ form.ipk5_name.errors }}{{ form.ipk5_name }}</div></div>
+                                        <div class="col"><div class="mb-1"><label class="form-label">IPK-6</label>{{ form.ipk6_name.errors }}{{ form.ipk6_name }}</div></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col"><div class="mb-1"><label class="form-label">Status</label>{{ form.ipk5_status.errors }}{{ form.ipk5_status }}</div></div>
+                                        <div class="col"><div class="mb-1"><label class="form-label">Status</label>{{ form.ipk6_status.errors }}{{ form.ipk6_status }}</div></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col"><div class="mb-1"><label class="form-label">SKU Name</label>{{ form.ipk5_runningsku.errors }}{{ form.ipk5_runningsku }}</div></div>
+                                        <div class="col"><div class="mb-1"><label class="form-label">SKU Name</label>{{ form.ipk6_runningsku.errors }}{{ form.ipk6_runningsku }}</div></div>
+                                    </div>
+                                </div>                                
+                            </div>
+                            
+                            <div class="card-body">
+                                <div class="container-fluid">
+                                    <!-- <div class="row row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-xl-3 row-cols-xxl-5 g-4"> -->
+                                    <div class="row"><div class="col-12"><div class="mb-1"><label class="form-label">Time</label>{{ form.date.errors }}{{ form.date }}</div></div></div>
+                                    <div class="row">
+                                        <div class="col-6"><div class="mb-1"><label class="form-label">IPK-5 Plan</label>{{ form.ipk5_plan.errors }}{{ form.ipk5_plan }}</div></div>
+                                        <div class="col-6"><div class="mb-1"><label class="form-label">IPK-6 Plan</label>{{ form.ilk6_plan.errors }}{{ form.ipk6_plan }}</div></div>
+                                    </div>
+                                    <div class="row"><div class="col-12"><div class="mb-1"><label class="form-label">Plus</label>{{ form.wtmachine3_plus.errors }}{{ form.wtmachine3_plus }}</div></div></div>
+                                    <div class="row"><div class="col-12"><div class="mb-1"><label class="form-label">Good</label>{{ form.wtmachine3_good.errors }}{{ form.wtmachine3_good }}</div></div></div>
+                                    <div class="row"><div class="col-12"><div class="mb-1"><label class="form-label">Minus</label>{{ form.wtmachine3_minus.errors }}{{ form.wtmachine3_minus }}</div></div></div>
+                                    <div class="row"><div class="col-12"><div class="mb-1"><label class="form-label">Special</label>{{ form.wtmachine3_special.errors }}{{ form.wtmachine3_special }}</div></div></div>
+                                    <div class="row">
+                                        <div class="col-6"><div class="mb-1"><label class="form-label">IPK-5 Pouch Count</label>{{ form.ipk5_pouchcount.errors }}{{ form.ipk5_pouchcount }}</div></div>
+                                        <div class="col-6"><div class="mb-1"><label class="form-label">IPK-6 Pouch Count</label>{{ form.ipk6_pouchcount.errors }}{{ form.ipk6_pouchcount }}</div></div>
+                                    </div>
+                                    <div class="row"><div class="col-12"><div class="mb-1"><label class="form-label">Stock Box</label>{{ form.wtmachine3_stockbox.errors }}{{ form.wtmachine3_stockbox }}</div></div></div>
+                                    <div class="row">
+                                        <div class="col-6"><div class="mb-1"><label class="form-label">IPK-5 Operator Name</label>{{ form.ipk5_operatorname.errors }}{{ form.ipk5_operatorname }}</div></div>
+                                        <div class="col-6"><div class="mb-1"><label class="form-label">IPK-6 Operator Name</label>{{ form.ipk6_operatorname.errors }}{{ form.ipk6_operatorname }}</div></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <div class="col-12">
+                                                <div class="mb-1">
+                                                    <label class="form-label">Machine-5 Champion</label> {{form.ipk5_championname}}
+                                                </div>
+                                                <div class="mb-1">
+                                                    <label class="form-label">Machine-5 Wt.Checker</label> {{form.ipk5_wtcheckername}}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-6"> 
+                                            <div class="mb-1">
+                                                <label class="form-label">Machine-6 Champion</label> {{form.ipk6_championname}}
+                                            </div>
+                                            <div class="mb-1">
+                                                <label class="form-label">Machine-6 Wt.Checker</label> {{form.ipk6_wtcheckername}}
+                                            </div>                                                
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <div class="col-12">
+                                                <div class="mb-1">
+                                                    <label class="form-label">IPK-5 Morning start</label> {{form.ipk5_mornstarttime}}
+                                                </div>
+                                                <div class="mb-1">
+                                                    <label class="form-label">Machine-5 Wt.Checker</label> {{form.ipk5_afnoonstarttime}}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-6"> 
+                                            <div class="mb-1">
+                                                <label class="form-label">Machine-6 Champion</label> {{form.ipk6_mornstarttime}}
+                                            </div>
+                                            <div class="mb-1">
+                                                <label class="form-label">Machine-6 Wt.Checker</label> {{form.ipk6_afnoonstarttime}}
+                                            </div>                                                
+                                        </div>
+                                    </div>                                    
+                                </div>
+                                <button class="btn btn-primary mx-2 my-2" type="submit">Save</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xxl-4 col-md-6 col-sm-12 col-12">
+                        <div class="card">
+                            
+                            <div class="card-header">
+                                <div class="container-fluid">
+                                    <div class="row">
+                                        <div class="col"><div class="mb-1"><label class="form-label">IPK-7</label>{{ form.ipk7_name.errors }}{{ form.ipk7_name }}</div></div>
+                                        <div class="col"><div class="mb-1"><label class="form-label">IPK-8</label>{{ form.ipk8_name.errors }}{{ form.ipk8_name }}</div></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col"><div class="mb-1"><label class="form-label">Status</label>{{ form.ipk7_status.errors }}{{ form.ipk7_status }}</div></div>
+                                        <div class="col"><div class="mb-1"><label class="form-label">Status</label>{{ form.ipk8_status.errors }}{{ form.ipk8_status }}</div></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col"><div class="mb-1"><label class="form-label">SKU Name</label>{{ form.ipk7_runningsku.errors }}{{ form.ipk7_runningsku }}</div></div>
+                                        <div class="col"><div class="mb-1"><label class="form-label">SKU Name</label>{{ form.ipk8_runningsku.errors }}{{ form.ipk8_runningsku }}</div></div>
+                                    </div>
+                                </div>                                
+                            </div>
+                            
+                            <div class="card-body">
+                                <div class="container-fluid">
+                                    <!-- <div class="row row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-xl-3 row-cols-xxl-7 g-4"> -->
+                                    <div class="row"><div class="col-12"><div class="mb-1"><label class="form-label">Time</label>{{ form.date.errors }}{{ form.date }}</div></div></div>
+                                    <div class="row">
+                                        <div class="col-6"><div class="mb-1"><label class="form-label">IPK-7 Plan</label>{{ form.ipk7_plan.errors }}{{ form.ipk7_plan }}</div></div>
+                                        <div class="col-6"><div class="mb-1"><label class="form-label">IPK-8 Plan</label>{{ form.ipk8_plan.errors }}{{ form.ipk8_plan }}</div></div>
+                                    </div>
+                                    <div class="row"><div class="col-12"><div class="mb-1"><label class="form-label">Plus</label>{{ form.wtmachine4_plus.errors }}{{ form.wtmachine4_plus }}</div></div></div>
+                                    <div class="row"><div class="col-12"><div class="mb-1"><label class="form-label">Good</label>{{ form.wtmachine4_good.errors }}{{ form.wtmachine4_good }}</div></div></div>
+                                    <div class="row"><div class="col-12"><div class="mb-1"><label class="form-label">Minus</label>{{ form.wtmachine4_minus.errors }}{{ form.wtmachine4_minus }}</div></div></div>
+                                    <div class="row"><div class="col-12"><div class="mb-1"><label class="form-label">Special</label>{{ form.wtmachine4_special.errors }}{{ form.wtmachine4_special }}</div></div></div>
+                                    <div class="row">
+                                        <div class="col-6"><div class="mb-1"><label class="form-label">IPK-7 Pouch Count</label>{{ form.ipk7_pouchcount.errors }}{{ form.ipk7_pouchcount }}</div></div>
+                                        <div class="col-6"><div class="mb-1"><label class="form-label">IPK-8 Pouch Count</label>{{ form.ipk8_pouchcount.errors }}{{ form.ipk8_pouchcount }}</div></div>
+                                    </div>
+                                    <div class="row"><div class="col-12"><div class="mb-1"><label class="form-label">Stock Box</label>{{ form.wtmachine4_stockbox.errors }}{{ form.wtmachine4_stockbox }}</div></div></div>
+                                    <div class="row">
+                                        <div class="col-6"><div class="mb-1"><label class="form-label">IPK-7 Operator Name</label>{{ form.ipk7_operatorname.errors }}{{ form.ipk7_operatorname }}</div></div>
+                                        <div class="col-6"><div class="mb-1"><label class="form-label">IPK-8 Operator Name</label>{{ form.ipk8_operatorname.errors }}{{ form.ipk8_operatorname }}</div></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <div class="col-12">
+                                                <div class="mb-1">
+                                                    <label class="form-label">Machine-7 Champion</label> {{form.ipk7_championname}}
+                                                </div>
+                                                <div class="mb-1">
+                                                    <label class="form-label">Machine-7 Wt.Checker</label> {{form.ipk7_wtcheckername}}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-6"> 
+                                            <div class="mb-1">
+                                                <label class="form-label">Machine-8 Champion</label> {{form.ipk8_championname}}
+                                            </div>
+                                            <div class="mb-1">
+                                                <label class="form-label">Machine-8 Wt.Checker</label> {{form.ipk8_wtcheckername}}
+                                            </div>                                                
+                                        </div>
+                                    </div>
+                    
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <div class="col-12">
+                                                <div class="mb-1">
+                                                    <label class="form-label">IPK-7 Morning start</label> {{form.ipk7_mornstarttime}}
+                                                </div>
+                                                <div class="mb-1">
+                                                    <label class="form-label">Machine-7 Wt.Checker</label> {{form.ipk7_afnoonstarttime}}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-6"> 
+                                            <div class="mb-1">
+                                                <label class="form-label">Machine-8 Champion</label> {{form.ipk8_mornstarttime}}
+                                            </div>
+                                            <div class="mb-1">
+                                                <label class="form-label">Machine-8 Wt.Checker</label> {{form.ipk8_afnoonstarttime}}
+                                            </div>                                                
+                                        </div>
+                                    </div>                                    
+                                </div>
+                                <button class="btn btn-primary mx-2 my-2" type="submit">Save</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xxl-4 col-md-6 col-sm-12 col-12">
+                        <div class="card">
+                            
+                            <div class="card-header">
+                                <div class="container-fluid">
+                                    <div class="row">
+                                        <div class="col"><div class="mb-1"><label class="form-label">IPK-9</label>{{ form.ipk9_name.errors }}{{ form.ipk9_name }}</div></div>
+                                        <div class="col"><div class="mb-1"><label class="form-label">IPK-10</label>{{ form.ipk10_name.errors }}{{ form.ipk10_name }}</div></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col"><div class="mb-1"><label class="form-label">Status</label>{{ form.ipk9_status.errors }}{{ form.ipk9_status }}</div></div>
+                                        <div class="col"><div class="mb-1"><label class="form-label">Status</label>{{ form.ipk10_status.errors }}{{ form.ipk10_status }}</div></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col"><div class="mb-1"><label class="form-label">SKU Name</label>{{ form.ipk9_runningsku.errors }}{{ form.ipk9_runningsku }}</div></div>
+                                        <div class="col"><div class="mb-1"><label class="form-label">SKU Name</label>{{ form.ipk10_runningsku.errors }}{{ form.ipk10_runningsku }}</div></div>
+                                    </div>
+                                </div>                                
+                            </div>
+                            
+                            <div class="card-body">
+                                <div class="container-fluid">
+                                    <!-- <div class="row row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-xl-3 row-cols-xxl-7 g-4"> -->
+                                    <div class="row"><div class="col-12"><div class="mb-1"><label class="form-label">Time</label>{{ form.date.errors }}{{ form.date }}</div></div></div>
+                                    <div class="row">
+                                        <div class="col-6"><div class="mb-1"><label class="form-label">IPK-9 Plan</label>{{ form.ipk9_plan.errors }}{{ form.ipk9_plan }}</div></div>
+                                        <div class="col-6"><div class="mb-1"><label class="form-label">IPK-10 Plan</label>{{ form.ipk10_plan.errors }}{{ form.ipk10_plan }}</div></div>
+                                    </div>
+                                    <div class="row"><div class="col-12"><div class="mb-1"><label class="form-label">Plus</label>{{ form.wtmachine5_plus.errors }}{{ form.wtmachine5_plus }}</div></div></div>
+                                    <div class="row"><div class="col-12"><div class="mb-1"><label class="form-label">Good</label>{{ form.wtmachine5_good.errors }}{{ form.wtmachine5_good }}</div></div></div>
+                                    <div class="row"><div class="col-12"><div class="mb-1"><label class="form-label">Minus</label>{{ form.wtmachine5_minus.errors }}{{ form.wtmachine5_minus }}</div></div></div>
+                                    <div class="row"><div class="col-12"><div class="mb-1"><label class="form-label">Special</label>{{ form.wtmachine5_special.errors }}{{ form.wtmachine5_special }}</div></div></div>
+                                    <div class="row">
+                                        <div class="col-6"><div class="mb-1"><label class="form-label">IPK-9 Pouch Count</label>{{ form.ipk9_pouchcount.errors }}{{ form.ipk9_pouchcount }}</div></div>
+                                        <div class="col-6"><div class="mb-1"><label class="form-label">IPK-10 Pouch Count</label>{{ form.ipk10_pouchcount.errors }}{{ form.ipk10_pouchcount }}</div></div>
+                                    </div>
+                                    <div class="row"><div class="col-12"><div class="mb-1"><label class="form-label">Stock Box</label>{{ form.wtmachine5_stockbox.errors }}{{ form.wtmachine5_stockbox }}</div></div></div>
+                                    <div class="row">
+                                        <div class="col-6"><div class="mb-1"><label class="form-label">IPK-9 Operator Name</label>{{ form.ipk9_operatorname.errors }}{{ form.ipk9_operatorname }}</div></div>
+                                        <div class="col-6"><div class="mb-1"><label class="form-label">IPK-10 Operator Name</label>{{ form.ipk10_operatorname.errors }}{{ form.ipk10_operatorname }}</div></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <div class="col-12">
+                                                <div class="mb-1">
+                                                    <label class="form-label">9 Champion</label> {{form.ipk9_championname}}
+                                                </div>
+                                                <div class="mb-1">
+                                                    <label class="form-label">Machine-9 Wt.Checker</label> {{form.ipk9_wtcheckername}}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-6"> 
+                                            <div class="mb-1">
+                                                <label class="form-label">Machine-10 Champion</label> {{form.ipk10_championname}}
+                                            </div>
+                                            <div class="mb-1">
+                                                <label class="form-label">Machine-10 Wt.Checker</label> {{form.ipk10_wtcheckername}}
+                                            </div>                                                
+                                        </div>
+                                    </div>
+                    
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <div class="col-12">
+                                                <div class="mb-1">
+                                                    <label class="form-label">IPK-9 Morning start</label> {{form.ipk9_mornstarttime}}
+                                                </div>
+                                                <div class="mb-1">
+                                                    <label class="form-label">Machine-9 Wt.Checker</label> {{form.ipk9_afnoonstarttime}}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-6"> 
+                                            <div class="mb-1">
+                                                <label class="form-label">Machine-10 Champion</label> {{form.ipk10_mornstarttime}}
+                                            </div>
+                                            <div class="mb-1">
+                                                <label class="form-label">Machine-10 Wt.Checker</label> {{form.ipk10_afnoonstarttime}}
+                                            </div>                                                
+                                        </div>
+                                    </div>                                    
+                                </div>
+                                <button class="btn btn-primary mx-2 my-2" type="submit">Save</button>
+                            </div>
+                        </div>
+                    </div>
+                    
                 </div>
                 <!-- Row end -->
 
@@ -503,7 +515,7 @@
 
 
 {% endblock %}
-{{ rolldetailsformset.management_form }}
+                                        {{ rolldetailsformset.management_form }}
                                          {% for field in form %}
                                             {{ field.errors }}
                                             {{ field.label_tag }}

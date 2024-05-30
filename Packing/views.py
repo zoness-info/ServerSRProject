@@ -37,7 +37,8 @@ from .forms import (branddetailsform,
                     ManualLeakChangeManpowerForm,ManualLeakChangeRollPouchFSForm,
                     ExpVsActDetailsForm,
                     DispatchStockUploadForm,
-                    PPSRDetailsFormSet,
+                    #PPSRDetailsFormSet,
+                    PPSRDetailsForm,
                     )
 
 class home(View):
@@ -1311,18 +1312,29 @@ class ExpVsActDetailsDeleteView(DeleteView):
 
 def ppsr_details_view(request):
     if request.method == 'POST':
-        formset = PPSRDetailsFormSet(request.POST)
+        formset = PPSRDetailsForm(request.POST)
         if formset.is_valid():
             print("form valid")
             formset.save()
             return redirect('ppsr_details')  # Replace with your success URL
     else:
-        formset = PPSRDetailsFormSet(queryset=PPSRDetails.objects.none())
+        formset = PPSRDetailsForm()
         print("form not valid")
     return render(request, 'Packing/template_name.html', {'formset': formset})  # Replace with your template name
 def ppsr_details_edit(request):
-    formset = PPSRDetailsFormSet(queryset=PPSRDetails.objects.none())
-    return render(request, 'Packing/ppsrtableentry.html',{'formset': formset})
+    form = PPSRDetailsForm()
+    if request.method == 'POST':
+        form = PPSRDetailsForm(request.POST)
+        if form.is_valid():
+            print("form valid")
+            form.save()
+            return redirect('ppsrtable')  # Replace with your success URL
+        else:
+            print(form.errors)
+    else:
+        form = PPSRDetailsForm()
+        print("not post")
+    return render(request, 'Packing/ppsrtableentry.html',{'form': form})
 
 class PPSRDetailsListView(ListView):
     model = PPSRDetails
@@ -1330,16 +1342,16 @@ class PPSRDetailsListView(ListView):
     context_object_name = 'datatable'
 class PPSRDetailsCreateView(CreateView):
     model = PPSRDetails
-    form_class = PPSRDetailsFormSet
+    #form_class = PPSRDetailsFormSet
     template_name = 'Packing/template_name.html'
     success_url = reverse_lazy('ppsrtable')
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         if self.request.POST:
-            context['formset'] = PPSRDetailsFormSet(self.request.POST)
+            context['formset'] = PPSRDetailsForm(self.request.POST)
         else:
-            context['formset'] = PPSRDetailsFormSet()
+            context['formset'] = PPSRDetailsForm()
         return context
 
     def form_valid(self, form):
@@ -1352,7 +1364,7 @@ class PPSRDetailsCreateView(CreateView):
             return self.render_to_response(self.get_context_data(form=form))
 class PPSRDetailsUpdateView(UpdateView):
     model = PPSRDetails
-    form_class = PPSRDetailsFormSet
+    form_class = PPSRDetailsForm
     template_name = 'ppsr_details_form.html'
     success_url = reverse_lazy('ppsr_details_list')
 class PPSRDetailsDeleteView(DeleteView):

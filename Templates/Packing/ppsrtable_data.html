@@ -1,23 +1,404 @@
 
 {% load static %}
 {% load custom_filters %}
+<style>
+    .fieldWrapper {
+        padding-bottom: 1px; /* Add some padding for better spacing */
+        border-bottom: 1px solid #dccaca; /* Add a bottom border */
+        height: 40px; /* Ensure a consistent height */
+        display: flex;
+        align-items: center;
+    }
+</style>
 
     {% for data in datatable %}
 
     <tr>
         <td>{{data.date}}</td>
-        <td>{{data.machine1_name.machine}}<br>{{data.machine2_name.machine}}</td>
-        <td>{{data.machine1_plan}}<br>{{data.machine2_plan}}</td>
-        <td>{{data.machine1_status}}<br>{{data.machine2_status}}</td>
-        <td>{{data.machine1_runningsku.skuname}}<br>{{data.machine2_runningsku.skuname}}</td>
-        <td>{{data.machine1_operatorname.operatorname}}<br>{{data.machine2_operatorname.operatorname}}</td>
-        <td>{{data.machine1_championname.championname}}<br>{{data.machine2_championname.championname}}</td>
-        <td>{{data.machine1_wtcheckername.wtchecker}}<br>{{data.machine2_wtcheckername.wtchecker}}</td>
-        <td>{{data.machine_plus}}<br>{{data.machine_plus}}</td>
-        <td>{{data.machine_good}}<br>{{data.machine_good}}</td>
-        <td>{{data.machine_minus}}<br>{{data.machine_minus}}</td>
-        <td>{{data.machine_special}}<br>{{data.machine_special}}</td>
-        <td>{{data.machine_stockbox}}</td>
+        <td>
+            <div class="fieldWrapper">
+                <span class="fs-6">{{ data.ipk1_name }}</span>
+            </div>
+            <div class="fieldWrapper">
+                <span class="fs-6">{{ data.ipk2_name }}</span>
+            </div>
+            <div class="fieldWrapper">
+                <span class="fs-6">{{ data.ipk3_name }}</span>
+            </div>
+            <div class="fieldWrapper">
+                <span class="fs-6">{{ data.ipk4_name }}</span>
+            </div>
+            <div class="fieldWrapper">
+                <span class="fs-6">{{ data.ipk5_name }}</span>
+            </div>
+            <div class="fieldWrapper">
+                <span class="fs-6">{{ data.ipk6_name }}</span>
+            </div>
+            <div class="fieldWrapper">
+                <span class="fs-6">{{ data.ipk7_name }}</span>
+            </div>
+            <div class="fieldWrapper">
+                <span class="fs-6">{{ data.ipk8_name }}</span>
+            </div>
+            <div class="fieldWrapper">
+                <span class="fs-6">{{ data.ipk9_name }}</span>
+            </div>
+            <div class="fieldWrapper">
+                <span class="fs-6">{{ data.ipk10_name }}</span>
+            </div>
+        </td>
+        <td>
+            <div class="fieldWrapper">
+                <span class="fs-6">{{ data.ipk1_plan }}</span>
+            </div>
+            <div class="fieldWrapper">
+                <span class="fs-6">{{ data.ipk2_plan }}</span>
+            </div>
+            <div class="fieldWrapper">
+                <span class="fs-6">{{ data.ipk3_plan }}</span>
+            </div>
+            <div class="fieldWrapper">
+                <span class="fs-6">{{ data.ipk4_plan }}</span>
+            </div>
+            <div class="fieldWrapper">
+                <span class="fs-6">{{ data.ipk5_plan }}</span>
+            </div>
+            <div class="fieldWrapper">
+                <span class="fs-6">{{ data.ipk6_plan }}</span>
+            </div>
+            <div class="fieldWrapper">
+                <span class="fs-6">{{ data.ipk7_plan }}</span>
+            </div>
+            <div class="fieldWrapper">
+                <span class="fs-6">{{ data.ipk8_plan }}</span>
+            </div>
+            <div class="fieldWrapper">
+                <span class="fs-6">{{ data.ipk9_plan }}</span>
+            </div>
+            <div class="fieldWrapper">
+                <span class="fs-6">{{ data.ipk10_plan }}</span>
+            </div>
+        </td>
+        <td>
+            <div class="fieldWrapper">
+                <span class="fs-6">{{ data.ipk1_status }}</span>
+            </div>
+            <div class="fieldWrapper">
+                <span class="fs-6">{{ data.ipk2_status }}</span>
+            </div>
+            <div class="fieldWrapper">
+                <span class="fs-6">{{ data.ipk3_status }}</span>
+            </div>
+            <div class="fieldWrapper">
+                <span class="fs-6">{{ data.ipk4_status }}</span>
+            </div>
+            <div class="fieldWrapper">
+                <span class="fs-6">{{ data.ipk5_status }}</span>
+            </div>
+            <div class="fieldWrapper">
+                <span class="fs-6">{{ data.ipk6_status }}</span>
+            </div>
+            <div class="fieldWrapper">
+                <span class="fs-6">{{ data.ipk7_status }}</span>
+            </div>
+            <div class="fieldWrapper">
+                <span class="fs-6">{{ data.ipk8_status }}</span>
+            </div>
+            <div class="fieldWrapper">
+                <span class="fs-6">{{ data.ipk9_status }}</span>
+            </div>
+            <div class="fieldWrapper">
+                <span class="fs-6">{{ data.ipk10_status }}</span>
+            </div>
+        </td>
+        <td>
+            <div class="fieldWrapper">
+                <span class="fs-6">{{ data.ipk1_runningsku }}</span>
+            </div>
+            <div class="fieldWrapper">
+                <span class="fs-6">{{ data.ipk2_runningsku }}</span>
+            </div>
+            <div class="fieldWrapper">
+                <span class="fs-6">{{ data.ipk3_runningsku }}</span>
+            </div>
+            <div class="fieldWrapper">
+                <span class="fs-6">{{ data.ipk4_runningsku }}</span>
+            </div>
+            <div class="fieldWrapper">
+                <span class="fs-6">{{ data.ipk5_runningsku }}</span>
+            </div>
+            <div class="fieldWrapper">
+                <span class="fs-6">{{ data.ipk6_runningsku }}</span>
+            </div>
+            <div class="fieldWrapper">
+                <span class="fs-6">{{ data.ipk7_runningsku }}</span>
+            </div>
+            <div class="fieldWrapper">
+                <span class="fs-6">{{ data.ipk8_runningsku }}</span>
+            </div>
+            <div class="fieldWrapper">
+                <span class="fs-6">{{ data.ipk9_runningsku }}</span>
+            </div>
+            <div class="fieldWrapper">
+                <span class="fs-6">{{ data.ipk10_runningsku }}</span>
+            </div>
+        </td>
+        <td>
+            <div class="fieldWrapper">
+                <span class="fs-6">{{ data.ipk1_operatorname }}</span>
+            </div>
+            <div class="fieldWrapper">
+                <span class="fs-6">{{ data.ipk2_operatorname }}</span>
+            </div>
+            <div class="fieldWrapper">
+                <span class="fs-6">{{ data.ipk3_operatorname }}</span>
+            </div>
+            <div class="fieldWrapper">
+                <span class="fs-6">{{ data.ipk4_operatorname }}</span>
+            </div>
+            <div class="fieldWrapper">
+                <span class="fs-6">{{ data.ipk5_operatorname }}</span>
+            </div>
+            <div class="fieldWrapper">
+                <span class="fs-6">{{ data.ipk6_operatorname }}</span>
+            </div>
+            <div class="fieldWrapper">
+                <span class="fs-6">{{ data.ipk7_operatorname }}</span>
+            </div>
+            <div class="fieldWrapper">
+                <span class="fs-6">{{ data.ipk8_operatorname }}</span>
+            </div>
+            <div class="fieldWrapper">
+                <span class="fs-6">{{ data.ipk9_operatorname }}</span>
+            </div>
+            <div class="fieldWrapper">
+                <span class="fs-6">{{ data.ipk10_operatorname }}</span>
+            </div>
+        </td>
+        <td>
+            <div class="fieldWrapper">
+                <span class="fs-6">{{ data.ipk1_championname }}</span>
+            </div>
+            <div class="fieldWrapper">
+                <span class="fs-6">{{ data.ipk2_championname }}</span>
+            </div>
+            <div class="fieldWrapper">
+                <span class="fs-6">{{ data.ipk3_championname }}</span>
+            </div>
+            <div class="fieldWrapper">
+                <span class="fs-6">{{ data.ipk4_championname }}</span>
+            </div>
+            <div class="fieldWrapper">
+                <span class="fs-6">{{ data.ipk5_championname }}</span>
+            </div>
+            <div class="fieldWrapper">
+                <span class="fs-6">{{ data.ipk6_championname }}</span>
+            </div>
+            <div class="fieldWrapper">
+                <span class="fs-6">{{ data.ipk7_championname }}</span>
+            </div>
+            <div class="fieldWrapper">
+                <span class="fs-6">{{ data.ipk8_championname }}</span>
+            </div>
+            <div class="fieldWrapper">
+                <span class="fs-6">{{ data.ipk9_championname }}</span>
+            </div>
+            <div class="fieldWrapper">
+                <span class="fs-6">{{ data.ipk10_championname }}</span>
+            </div>
+        </td>
+        <td>
+            <div class="fieldWrapper">
+                <span class="fs-6">{{ data.ipk1_wtcheckername }}</span>
+            </div>
+            <div class="fieldWrapper">
+                <span class="fs-6">{{ data.ipk2_wtcheckername }}</span>
+            </div>
+            <div class="fieldWrapper">
+                <span class="fs-6">{{ data.ipk3_wtcheckername }}</span>
+            </div>
+            <div class="fieldWrapper">
+                <span class="fs-6">{{ data.ipk4_wtcheckername }}</span>
+            </div>
+            <div class="fieldWrapper">
+                <span class="fs-6">{{ data.ipk5_wtcheckername }}</span>
+            </div>
+            <div class="fieldWrapper">
+                <span class="fs-6">{{ data.ipk6_wtcheckername }}</span>
+            </div>
+            <div class="fieldWrapper">
+                <span class="fs-6">{{ data.ipk7_wtcheckername }}</span>
+            </div>
+            <div class="fieldWrapper">
+                <span class="fs-6">{{ data.ipk8_wtcheckername }}</span>
+            </div>
+            <div class="fieldWrapper">
+                <span class="fs-6">{{ data.ipk9_wtcheckername }}</span>
+            </div>
+            <div class="fieldWrapper">
+                <span class="fs-6">{{ data.ipk10_wtcheckername }}</span>
+            </div>
+        </td>
+        <td>
+            <div class="fieldWrapper">
+                <span class="fs-6">{{ data.wtmachine1_plus }}</span>
+            </div>
+            <div class="fieldWrapper">
+                <span class="fs-6"></span>
+            </div>
+            <div class="fieldWrapper">
+                <span class="fs-6">{{ data.wtmachine2_plus }}</span>
+            </div>
+            <div class="fieldWrapper">
+                <span class="fs-6"></span>
+            </div>
+            <div class="fieldWrapper">
+                <span class="fs-6">{{ data.wtmachine3_plus }}</span>
+            </div>
+            <div class="fieldWrapper">
+                <span class="fs-6"></span>
+            </div>
+            <div class="fieldWrapper">
+                <span class="fs-6">{{ data.wtmachine4_plus }}</span>
+            </div>
+            <div class="fieldWrapper">
+                <span class="fs-6"></span>
+            </div>
+            <div class="fieldWrapper">
+                <span class="fs-6"></span>
+            </div>
+            <div class="fieldWrapper">
+                <span class="fs-6"></span>
+            </div>
+        </td>
+        <td>
+            <div class="fieldWrapper">
+                <span class="fs-6">{{ data.wtmachine1_good }}</span>
+            </div>
+            <div class="fieldWrapper">
+                <span class="fs-6"></span>
+            </div>
+            <div class="fieldWrapper">
+                <span class="fs-6">{{ data.wtmachine2_good }}</span>
+            </div>
+            <div class="fieldWrapper">
+                <span class="fs-6"></span>
+            </div>
+            <div class="fieldWrapper">
+                <span class="fs-6">{{ data.wtmachine3_good }}</span>
+            </div>
+            <div class="fieldWrapper">
+                <span class="fs-6"></span>
+            </div>
+            <div class="fieldWrapper">
+                <span class="fs-6">{{ data.wtmachine4_good }}</span>
+            </div>
+            <div class="fieldWrapper">
+                <span class="fs-6"></span>
+            </div>
+            <div class="fieldWrapper">
+                <span class="fs-6"></span>
+            </div>
+            <div class="fieldWrapper">
+                <span class="fs-6"></span>
+            </div>
+        </td>
+        <td>
+            <div class="fieldWrapper">
+                <span class="fs-6">{{ data.wtmachine1_good }}</span>
+            </div>
+            <div class="fieldWrapper">
+                <span class="fs-6"></span>
+            </div>
+            <div class="fieldWrapper">
+                <span class="fs-6">{{ data.wtmachine2_good }}</span>
+            </div>
+            <div class="fieldWrapper">
+                <span class="fs-6"></span>
+            </div>
+            <div class="fieldWrapper">
+                <span class="fs-6">{{ data.wtmachine3_good }}</span>
+            </div>
+            <div class="fieldWrapper">
+                <span class="fs-6"></span>
+            </div>
+            <div class="fieldWrapper">
+                <span class="fs-6">{{ data.minus }}</span>
+            </div>
+            <div class="fieldWrapper">
+                <span class="fs-6"></span>
+            </div>
+            <div class="fieldWrapper">
+                <span class="fs-6"></span>
+            </div>
+            <div class="fieldWrapper">
+                <span class="fs-6"></span>
+            </div>
+        </td>
+        <td>
+            <div class="fieldWrapper">
+                <span class="fs-6">{{ data.wtmachine1_special }}</span>
+            </div>
+            <div class="fieldWrapper">
+                <span class="fs-6"></span>
+            </div>
+            <div class="fieldWrapper">
+                <span class="fs-6">{{ data.wtmachine2_special }}</span>
+            </div>
+            <div class="fieldWrapper">
+                <span class="fs-6"></span>
+            </div>
+            <div class="fieldWrapper">
+                <span class="fs-6">{{ data.wtmachine3_special }}</span>
+            </div>
+            <div class="fieldWrapper">
+                <span class="fs-6"></span>
+            </div>
+            <div class="fieldWrapper">
+                <span class="fs-6">{{ data.special }}</span>
+            </div>
+            <div class="fieldWrapper">
+                <span class="fs-6"></span>
+            </div>
+            <div class="fieldWrapper">
+                <span class="fs-6"></span>
+            </div>
+            <div class="fieldWrapper">
+                <span class="fs-6"></span>
+            </div>
+        </td>
+        <td>
+            <div class="fieldWrapper">
+                <span class="fs-6">{{ data.wtmachine1_stockbox }}</span>
+            </div>
+            <div class="fieldWrapper">
+                <span class="fs-6"></span>
+            </div>
+            <div class="fieldWrapper">
+                <span class="fs-6">{{ data.wtmachine2_stockbox }}</span>
+            </div>
+            <div class="fieldWrapper">
+                <span class="fs-6"></span>
+            </div>
+            <div class="fieldWrapper">
+                <span class="fs-6">{{ data.wtmachine3_stockbox }}</span>
+            </div>
+            <div class="fieldWrapper">
+                <span class="fs-6"></span>
+            </div>
+            <div class="fieldWrapper">
+                <span class="fs-6">{{ data.stockbox }}</span>
+            </div>
+            <div class="fieldWrapper">
+                <span class="fs-6"></span>
+            </div>
+            <div class="fieldWrapper">
+                <span class="fs-6"></span>
+            </div>
+            <div class="fieldWrapper">
+                <span class="fs-6"></span>
+            </div>
+        </td>
         <td>
             <div>
                 <a class="btn btn-info btn-sm" href="#"><i class="bi bi-pencil"></i></a>
