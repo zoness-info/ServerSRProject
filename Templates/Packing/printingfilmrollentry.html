@@ -4,6 +4,7 @@
 
  <!-- App body starts -->
     <div class="app-body">
+        {% if user.is_authenticated and user.Pack_printing_access %}
         {% include 'Packing/djangomessage.html' %}
         <form method="POST"
 
@@ -113,6 +114,8 @@
     });
     
  </script>
-
+ {% else %}
+ {% include 'Packing/noaccess.html' %}
+ {% endif %}
 
 {% endblock %}

@@ -2,7 +2,7 @@
 {% load static %}
 {% block content %}
 <div class="app-body">
-
+    {% if user.is_authenticated and user.Pack_sku_access %}
     <div class="row">
         <!-- Cards for Counts -->
         <!-- No of Brands -->
@@ -263,7 +263,9 @@
 
 
 </div>
-
+{% else %}
+    {% include 'Packing/noaccess.html' %}
+{% endif %}
 {% endblock %}
 
                            

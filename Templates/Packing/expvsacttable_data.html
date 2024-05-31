@@ -2,6 +2,7 @@
 {% load custom_filters %}
                                         {% for data in datatable %}
                                             <tr>
+                                                <th>{{forloop.counter}}</th>
                                                 <td>{{data.date}}</td>
                                                 <td>{{data.expbox}}</td>
                                                 <td>{{data.actbox}}</td>

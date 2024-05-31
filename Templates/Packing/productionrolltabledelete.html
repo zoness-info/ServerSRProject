@@ -3,6 +3,7 @@
 {% block content %}
 
 <div class="app-body">
+    {% if user.is_authenticated and user.Pack_production_access %}
     {% include 'Packing/djangomessage.html' %}
     <form method="POST">
         {% csrf_token %}
@@ -40,7 +41,9 @@
     </form>
 
 </div>
-
+{% else %}
+{% include 'Packing/noaccess.html' %}
+{% endif %}
 {% endblock %}
     
     

@@ -4,6 +4,8 @@ import datetime
 from django.utils import timezone
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
+from django.conf.global_settings import AUTH_USER_MODEL
+from django.conf import settings
 
 class branddetails(models.Model):
     brandname = models.CharField(_("Brand Name"), max_length=50)

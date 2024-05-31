@@ -3,6 +3,7 @@
 {% block content %}
 
 <div class="app-body">
+    {% if user.is_authenticated and user.Pack_oilpump_access %}
     <form method="POST">
         {% include 'Packing/djangomessage.html' %}
         {% csrf_token %}
@@ -41,6 +42,9 @@
 
 </div>
 
+{% else %}
+      {% include 'Packing/noaccess.html' %}
+      {% endif %}
 {% endblock %}
     
     

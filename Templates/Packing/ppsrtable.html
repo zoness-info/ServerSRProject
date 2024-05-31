@@ -4,6 +4,7 @@
 {% block content %}
  <!-- App body starts -->
  <div class="app-body">
+    {% if user.is_authenticated and user.Pack_production_access %}
     {% include 'Packing/djangomessage.html' %}
     <!-- Container starts -->
     <div class="container-fluid">
@@ -153,6 +154,8 @@
     <!-- App body ends -->
 
    
-
+    {% else %}
+    {% include 'Packing/noaccess.html' %}
+    {% endif %}
 
 {% endblock %}

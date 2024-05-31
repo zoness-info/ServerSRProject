@@ -1,7 +1,7 @@
 from django.urls import path, include
 from .views import ( home,
                     skudetails, 
-                    filmrolltable, filmrollentry, filmrolltableUpdateView,filmrolltableDeleteView,
+                    filmrolltable, filmrollentry, filmrolltableUpdateView,filmrolltableDeleteView,printingfilmrollavailability,filmrollavilcheck,
                     productionrolltableListView,productionrolltableUpdateView,productionrolltableDeleteView,productionrolltableCreateView,
                     dispatchstocktableListView,download_dispatchstocktable,
                     oilpumpListView,oilpumpCreateView,oilpumpUpdateView,oilpumpDeleteView,
@@ -22,8 +22,10 @@ urlpatterns = [
     path('printingfilmrolltable/',filmrolltable.as_view(),name='printingfilmrolltable'),
     path('printingfilemrolltable/<pk>/edit',filmrolltableUpdateView.as_view(),name='printingfilmrolltable_update'),
     path('printingfilmrolltable/<pk>/delete',filmrolltableDeleteView.as_view(),name='printingfilmrolltable_delete'),
-    path('printingfilmrollentry/',filmrollentry,name='filmrollentry'),
+    path('printingfilmrolltable/printingfilmrollentry/',filmrollentry,name='filmrollentry'),
     path('printingfilmrolltable/download_printingrolltable', download_printingrolltable, name='download_printingrolltable'),
+    path('printingfilmrolltable/availability',printingfilmrollavailability,name='printingfilmrollavailability'),
+    path('printingfilmrolltable/availcheck',filmrollavilcheck,name='filmrollavilcheck'),
     #_________________________________________________________________________________________________________
     
     #----------------------------------------------------Production--------------------------------------------
@@ -32,10 +34,13 @@ urlpatterns = [
     path('productionrolltable/newentry',productionrolltableCreateView.as_view(),name='productionrolltable_entry'),
     path('productionrolltable/<pk>/edit',productionrolltableUpdateView.as_view(),name='productionrolltable_update'),
     path('productionrolltable/<pk>/delete',productionrolltableDeleteView.as_view(),name='productionrolltable_delete'),    
-    path('productionrolltable/download_productionrolltable', download_productionrolltable, name='download_productionrolltable'),
-    
-    path('dispatchstocktable/',dispatchstocktableListView.as_view(),name='dispatchstocktable'),
-    path('dispatchstocktable/download_dispatchstocktable', download_dispatchstocktable, name='download_dispatchstocktable'),
+    path('productionrolltable/download_productionrolltable', download_productionrolltable, name='download_productionrolltable'),    
+    path('productionrolltable/dispatchstocktable/',dispatchstocktableListView.as_view(),name='dispatchstocktable'),
+    path('productionrolltable/dispatchstocktable/download_dispatchstocktable', download_dispatchstocktable, name='download_dispatchstocktable'),
+    path('productionrolltable/ppsrtable',PPSRDetailsListView.as_view(),name='ppsrtable'),
+    #path('productionrolltable/ppsrtable/newentry',PPSRDetailsCreateView.as_view(),name='ppsrtable_entry'),
+    path('productionrolltable/ppsrtable/<pk>/edit',PPSRDetailsUpdateView.as_view(),name='ppsrtable_update'),
+    path('productionrolltable/ppsrtable/<pk>/delete',PPSRDetailsDeleteView.as_view(),name='ppsrtable_delete'),
     #___________________________________________________________________________________________________________
     
     #---------------------------------------------------Oil Pumping---------------------------------------------
@@ -86,10 +91,7 @@ urlpatterns = [
     #__________________________________________________________________________________________________________
     
     #--------------------------------------------------PPSR Details-------------------------------------------------------
-    path('ppsrtable',PPSRDetailsListView.as_view(),name='ppsrtable'),
-    #path('ppsrtable/newentry',PPSRDetailsCreateView.as_view(),name='ppsrtable_entry'),
-    path('ppsrtable/<pk>/edit',PPSRDetailsUpdateView.as_view(),name='ppsrtable_update'),
-    path('ppsrtable/<pk>/delete',PPSRDetailsDeleteView.as_view(),name='ppsrtable_delete'),
+  
     #_____________________________________________________________________________________________________________________
     
     path('ppsr-details/', ppsr_details_view, name='ppsr_details'),

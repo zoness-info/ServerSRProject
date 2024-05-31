@@ -4,6 +4,7 @@
 {% block content %}
  <!-- App body starts -->
  <div class="app-body">
+    {% if user.is_authenticated and user.Pack_printing_access %}
     {% include 'Packing/djangomessage.html' %}
     
     <!-- Container starts -->
@@ -121,12 +122,8 @@
                                     </thead>
                                     <tbody id="toggle-response">
                                         {% include 'Packing/printingfilmrolltable_data.html' %}
-                                        
-                                    </tbody>
-                                </table>
-                                <!-- Pagination -->
-                                    
-                                        <!-- <nav aria-label="Page navigation" class="pagination-container">
+                                        <!-- Pagination -->
+                                        <nav aria-label="Page navigation" class="d-flex justify-content-end mt-3">
                                             <ul class="pagination">
                                                 {% if datatable.has_previous %}
                                                     <li class="page-item">
@@ -140,7 +137,11 @@
                                                     </li>
                                                 {% endif %}
                                             </ul>
-                                        </nav> -->
+                                        </nav>                                 
+                                                
+                                    </tbody>
+                                </table>
+                                
                                     
                             </div>
                         </div>
@@ -152,173 +153,10 @@
 
 </div>
     <!-- App body ends -->
-
+{% else %}
+{% include 'Packing/noaccess.html' %}
+{% endif %}
    
 
 
 {% endblock %}
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-xl-12">
-            <div class="card mb-4">
-                <div class="card-header">
-                    <div class="d-flex align-items-center">
-                        <div class="">
-                            <h4 class="card-title">Film Roll Details</h4>
-                        </div>
-                        <div class="btn-group ms-auto" role="group" aria-label="Basic radio toggle button group">
-
-                            <input type="radio" class="btn-check" name="btnradio" id="btnradio1" checked="" />
-                            <label class="btn btn-outline-primary" for="btnradio1">Today</label>
-
-                            <input type="radio" class="btn-check" name="btnradio" id="btnradio2" />
-                            <label class="btn btn-outline-primary" for="btnradio2">7D</label>
-
-                            <input type="radio" class="btn-check" name="btnradio" id="btnradio3" />
-                            <label class="btn btn-outline-primary" for="btnradio3">Last Month</label>
-
-                            <input type="radio" class="btn-check" name="btnradio" id="btnradio4" />
-                            <label class="btn btn-outline-primary" for="btnradio4">Last 3 Months</label>
-
-                            <input type="radio" class="btn-check" name="btnradio" id="btnradio5" />
-                            <label class="btn btn-outline-primary" for="btnradio5">Last Year</label>
-
-                        </div>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <div class="border border-dark rounded-3">
-                        <div class="table-responsive">
-                            <table class="table align-middle custom-table m-0">
-                                <thead>
-                                    <tr>
-                                        <th></th>
-                                        <th>Sessions</th>
-                                        <th>Users</th>
-                                        <th>Pageviews</th>
-                                        <th>Unique Pageviews</th>
-                                        <th>Avg. Time</th>
-                                        <th>Bounce Rate</th>
-                                        <th>Conversion</th>
-                                        <th></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>
-                                            <span class="fw-semibold">www.bootstrap.gallery</span>
-                                        </td>
-                                        <td>
-                                            <h2 class="my-3">72,350</h2>
-                                            <div id="sparkline3"></div>
-                                        </td>
-                                        <td>
-                                            <h2 class="my-3">54,860</h2>
-                                            <div id="sparkline4"></div>
-                                        </td>
-                                        <td>
-                                            <h2 class="my-3">98,430</h2>
-                                            <div id="sparkline5"></div>
-                                        </td>
-                                        <td>
-                                            <h2 class="my-3">46,980</h2>
-                                            <div id="sparkline6"></div>
-                                        </td>
-                                        <td>
-                                            <h2 class="my-3">00:12:35</h2>
-                                            <div id="sparkline7"></div>
-                                        </td>
-                                        <td>
-                                            <h2 class="my-3">16.05%</h2>
-                                            <div id="sparkline8"></div>
-                                        </td>
-                                        <td>
-                                            <h2 class="my-3">85.4%</h2>
-                                            <div id="sparkline9"></div>
-                                        </td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td>/home</td>
-                                        <td>26,350</td>
-                                        <td>19,768</td>
-                                        <td>72,846</td>
-                                        <td>39,490</td>
-                                        <td>00:08:27</td>
-                                        <td>12.29%</td>
-                                        <td>66.8%</td>
-                                        <td>
-                                            <button class="btn btn-outline-primary btn-sm">
-                                                <i class="bi bi-download"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>/products</td>
-                                        <td>47,226</td>
-                                        <td>23,985</td>
-                                        <td>86,905</td>
-                                        <td>33,220</td>
-                                        <td>00:10:38</td>
-                                        <td>18.33%</td>
-                                        <td>89.3%</td>
-                                        <td>
-                                            <button class="btn btn-outline-primary btn-sm">
-                                                <i class="bi bi-download"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>/dashboards</td>
-                                        <td>58,992</td>
-                                        <td>32,675</td>
-                                        <td>65,889</td>
-                                        <td>28,343</td>
-                                        <td>00:12:22</td>
-                                        <td>21.48%</td>
-                                        <td>94.7%</td>
-                                        <td>
-                                            <button class="btn btn-outline-primary btn-sm">
-                                                <i class="bi bi-download"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>/themes</td>
-                                        <td>72,320</td>
-                                        <td>41,873</td>
-                                        <td>38,910</td>
-                                        <td>20,554</td>
-                                        <td>00:15:55</td>
-                                        <td>23.23%</td>
-                                        <td>69.8%</td>
-                                        <td>
-                                            <button class="btn btn-outline-primary btn-sm">
-                                                <i class="bi bi-download"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>/contact</td>
-                                        <td>22,762</td>
-                                        <td>22,939</td>
-                                        <td>56,220</td>
-                                        <td>34,897</td>
-                                        <td>00:12:32</td>
-                                        <td>22.18%</td>
-                                        <td>75.2%</td>
-                                        <td>
-                                            <button class="btn btn-outline-primary btn-sm">
-                                                <i class="bi bi-download"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>

@@ -4,6 +4,7 @@
 {% block content %}
  <!-- App body starts -->
  <div class="app-body">
+    {% if user.is_authenticated and user.Pack_pouchcutting_access %}
     {% include 'Packing/djangomessage.html' %}
     <!-- Container starts -->
     <div class="container-fluid">
@@ -98,7 +99,24 @@
                             </div>
                         </div>
                     </div>
+                    <!-- Pagination -->
+                    
+                        <ul class="pagination ms-auto mb-0">
+                            {% if page_obj.has_previous %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+                                </li>
+                            {% endif %}
+                            <li class="page-item"><span class="page-link">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span></li>
+                            {% if page_obj.has_next %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
+                                </li>
+                            {% endif %}
+                        </ul>
+                   
                     <div class="card-body">
+                        
                         <div class="border border-dark rounded-3">
                             <div class="table-responsive">
                                 <table class="table align-middle custom-table m-0">
@@ -150,7 +168,9 @@
 </div>
     <!-- App body ends -->
 
-   
+    {% else %}
+    {% include 'Packing/noaccess.html' %}
+    {% endif %}
 
 
 {% endblock %}

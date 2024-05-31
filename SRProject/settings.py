@@ -54,6 +54,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'Packing.middleware.CurrentUserMiddleware', # updated for User Edit Log
+    #'SRProject.middleware.CustomeMiddleware'
 ]
 
 ROOT_URLCONF = 'SRProject.urls'
@@ -90,6 +91,47 @@ DATABASES = {
         'PORT': '5432',
     }
 }
+
+# # Replace the DATABASES section of your settings.py with this
+# DATABASES = {
+#   'default': {
+#     'ENGINE': 'django.db.backends.postgresql',
+#     'NAME': 'SRProject',
+#     'USER': 'SRProject_owner',
+#     'PASSWORD': '6nyh1MHsUrab',
+#     'HOST': 'ep-cool-sea-a5cdjbtt.us-east-2.aws.neon.tech',
+#     'PORT':  '5432',
+#     'OPTIONS': {
+#       'sslmode': 'require',
+#     },
+#   }
+# }
+
+# # Add these at the top of your settings.py
+# from os import getenv
+# from dotenv import load_dotenv
+
+# # Replace the DATABASES section of your settings.py with this
+# DATABASES = {
+#   'default': {
+#     'ENGINE': 'django.db.backends.postgresql',
+#     'NAME': getenv('PGDATABASE'),
+#     'USER': getenv('PGUSER'),
+#     'PASSWORD': getenv('PGPASSWORD'),
+#     'HOST': getenv('PGHOST'),
+#     'PORT': getenv('PGPORT', 5432),
+#     'OPTIONS': {
+#       'sslmode': 'require',
+#     },
+#   }
+# }
+# create below code to dotenv for safe in above code
+# PGHOST='ep-cool-sea-a5cdjbtt.us-east-2.aws.neon.tech'
+# PGDATABASE='SRProject'
+# PGUSER='SRProject_owner'
+# PGPASSWORD='6nyh1MHsUrab'
+
+
 
 
 # Password validation
@@ -137,7 +179,18 @@ STATICFILES_DIRS = [
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+
+
 LOGIN_URL = 'login'
-LOGOUT_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = 'login'
 
 #AUTH_USER_MODEL = 'SR_Plant_I.CustomUser'
+
+# Security settings
+SESSION_COOKIE_SECURE = True
+SESSION_COOKIE_HTTPONLY = True
+CSRF_COOKIE_SECURE = True
+
+# Session settings
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'
+SESSION_COOKIE_AGE = 1209600  # Two weeks, adjust as needed

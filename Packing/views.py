@@ -19,6 +19,10 @@ from django.db.models.functions import Concat
 import json
 import os
 from django.conf import settings
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
+from SR_Plant_I.models import CustomUser
+
 from .models import (branddetails, oilcategorydetails, skunamedetails, 
                      PrintingRollBatch, PrintingRollDetail, 
                      ProductionRollDetails,DispatchOpendingClosingStockDetails,
@@ -40,28 +44,42 @@ from .forms import (branddetailsform,
                     #PPSRDetailsFormSet,
                     PPSRDetailsForm,
                     )
-
+@method_decorator(login_required, name='dispatch')
 class home(View):
     def get(self, request):
         breadcrumbs = [
-        {'label': 'Home', 'url': '#'}
-        ] # Assuming current page doesn't have a URL
-        
-        context = {
-            'breadcrumbs' : breadcrumbs
-        }
-        
+            {'label': 'Home', 'url': '#'}
+        ]
+        context = {'breadcrumbs': breadcrumbs}
+
+        try:
+            userid = request.session['userdata']
+            if userid:
+                userdetails = CustomUser.objects.get(id=userid)
+                #print(userdetails.Pack_dashboard_access)
+                context['user'] = userdetails
+            else:
+                # Handle case where user ID is not in session
+                print('No user ID in session')
+                return redirect(reverse_lazy('login'))
+        except KeyError:
+            # Handle KeyError when 'userdata_pk' is not in session
+            print('No user ID in session (KeyError)')
+            return redirect(reverse_lazy('login'))
+        except CustomUser.DoesNotExist:
+            # Handle case where the user does not exist
+            print('User not found')
+            return redirect(reverse_lazy('login'))
+
         return render(request, 'Packing/dashboard.html', context)
-    
+  
+@method_decorator(login_required,name='dispatch')   
 class skudetails(ListView):
     model = branddetails
     template_name = 'Packing/skulist.html' 
     paginate_by = 10
-    breadcrumbs = [
-        {'label': 'Home', 'url': '/Packing'},
-        {'label': 'SKU\'s', 'url': None},
-        {'label': 'SKU List', 'url': None},  # Assuming current page doesn't have a URL
-    ]  
+   
+          
     
     def paginate_custom_queryset(self, queryset, page_size,page_param):
         paginator = Paginator(queryset, page_size)
@@ -76,8 +94,25 @@ class skudetails(ListView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['breadcrumbs'] = self.breadcrumbs
-
+        context['breadcrumbs'] = [
+            {'label': 'Home', 'url': '/Packing'},
+            {'label': 'SKU\'s', 'url': None},
+            {'label': 'SKU List', 'url': None},
+        ]
+        
+        try:
+            userid = self.request.session.get('userdata')
+            print('User ID' , userid)
+            if userid:
+                userdetails = CustomUser.objects.get(id=userid)
+                print(userdetails.Pack_sku_access)
+                context['user'] = userdetails
+            else:
+                context['user'] = None              
+        except KeyError:
+            return reverse_lazy('login')
+        except CustomUser.DoesNotExist:
+            return reverse_lazy('login')
         # Paginate oilcategorydetails
         oilcategorylists = oilcategorydetails.objects.all()
         context['oilcategorylists'] = self.paginate_custom_queryset(oilcategorylists, self.paginate_by, 'page_oil')
@@ -97,12 +132,25 @@ class skudetails(ListView):
         context['skucount'] = skunamelists.count()
 
         return context
-
-    
+@method_decorator(login_required, name='dispatch')  
 class filmrolltable(View):
     def get(self, request):
-        query = PrintingRollDetail.objects.all().order_by('-updatedat')  # Order by the updated at in descending order
+        breadcrumbs = [
+        {'label': 'Home', 'url': '/Packing'},
+        {'label': 'Printing', 'url': None},
+        {'label': 'Film Roll Table', 'url': None},  # Assuming current page doesn't have a URL
+        ] 
+        context = {'breadcrumbs': breadcrumbs}  
         
+        userid = request.session['userdata']
+        try:
+            userdetails = CustomUser.objects.get(id=userid)
+            print(userdetails.Pack_printing_access)
+            context['user'] = userdetails
+        except:
+            context['user'] = None
+            
+        query = PrintingRollDetail.objects.all().order_by('-updatedat')  # Order by the updated at in descending order
         paginator = Paginator(query, 10)  # Paginate by 10 items per page
         page = request.GET.get('page')
         try:
@@ -113,22 +161,15 @@ class filmrolltable(View):
         except EmptyPage:
             # If page is out of range (e.g. 9999), deliver last page of results.
             datatable = paginator.page(paginator.num_pages)
+        context['datatable'] = datatable     
         
-        breadcrumbs = [
-        {'label': 'Home', 'url': '/Packing'},
-        {'label': 'Printing', 'url': None},
-        {'label': 'Film Roll Table', 'url': None},  # Assuming current page doesn't have a URL
-    ] 
-        context = {
-            'breadcrumbs':breadcrumbs,
-            'datatable': datatable
-        }
-                
         return render(request, 'Packing/printingfilmrolltable.html',context) 
+    
 class filmrolltableUpdateView(CreateView):
    pass
 class filmrolltableDeleteView(DeleteView):
     pass
+@login_required()
 def filmrollentry(request):
     breadcrumbs = [
         {'label': 'Home', 'url': '/Packing'},
@@ -136,6 +177,12 @@ def filmrollentry(request):
         {'label': 'Film Roll Entry', 'url': None},  # Assuming current page doesn't have a URL
     ] 
     if request.method == 'POST':
+        userid = request.session['userdata']
+        try:
+            userdetails = CustomUser.objects.get(id=userid)
+            print(userdetails.Pack_printing_access)            
+        except:
+            userdetails = None
         printing_rolldetails_form = prinitingrolldetailsform(request.POST)
         roll_detail_formset = RollDetailsFormset(request.POST)
         if roll_detail_formset.is_valid():
@@ -154,16 +201,46 @@ def filmrollentry(request):
             messages.error(request, 'There was an error submitting the formset.')
         
     else:
+        userid = request.session['userdata']
+        try:
+            userdetails = CustomUser.objects.get(id=userid)
+            print(userdetails.Pack_printing_access)
+        except:
+            userdetails
         printing_rolldetails_form = prinitingrolldetailsform()
         roll_detail_formset = RollDetailsFormset()
-    return render(request, 'Packing/printingfilmrollentry.html',{'printingrolldetailsform1':printing_rolldetails_form, 'rolldetailsformset':roll_detail_formset, 'breadcrumbs': breadcrumbs})#
+    return render(request, 'Packing/printingfilmrollentry.html',{'printingrolldetailsform1':printing_rolldetails_form, 'rolldetailsformset':roll_detail_formset, 'breadcrumbs': breadcrumbs, 'user':userdetails},)#
+def printingfilmrollavailability(request):
     
+    userid = request.session['userdata']
+    userdetails = CustomUser.objects.get(id=userid)    
+    return render(request,'Packing/printingfilmrolltableavail.html',{'user':userdetails})
+    
+def filmrollavilcheck(request):
+    if request.method == 'GET' and 'rollno' in request.GET:
+        rollno = request.GET['rollno']
         
+        if rollno:        
+            # Check if the roll number exists in the database
+            if PrintingRollDetail.objects.filter(filmrollno=rollno).exists():
+                result = {'message': 'Roll number already available'}
+            else:
+                result = {'message': 'New Roll number'}
+            return JsonResponse(result)
+        else:
+            result = {'message':'Enter valid Roll number'}
+            return JsonResponse(result)    
+    else:
+        # If roll_number is not provided or method is not GET, return error
+        result = {'message':'Enter valid Roll number'}
+        return JsonResponse(result)
+    
+@method_decorator(login_required,name='dispatch')        
 class productionrolltableListView(ListView):
     model = ProductionRollDetails
     template_name = 'Packing/productionrolltable.html'
     context_object_name = 'datatable'
-    #paginate_by = 10
+    paginate_by = 10
     breadcrumbs = [
         {'label': 'Home', 'url': '/Packing'},
         {'label': 'Production', 'url': '/Packing/productionrolltable'},
@@ -173,6 +250,11 @@ class productionrolltableListView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['breadcrumbs'] = self.breadcrumbs
+        
+        userid = self.request.session.get('userdata')
+        print('userid',userid)
+        userdetails = CustomUser.objects.get(id=userid)
+        context['user'] = userdetails
         return context
 class productionrolltableCreateView(CreateView):
     model = ProductionRollDetails
@@ -180,11 +262,27 @@ class productionrolltableCreateView(CreateView):
     template_name = 'Packing/productionrolltableentry.html'
     success_url = reverse_lazy('productionrolltable')
     
+    breadcrumbs = [
+        {'label': 'Home', 'url': '/Packing'},
+        {'label': 'Production', 'url': '/Packing/productionrolltable'},
+        {'label': 'Production Table Add', 'url': None},  # Assuming current page doesn't have a URL
+        ] 
+    
     def form_valid(self, form):
         messages.success(self.request, 'Production roll details have been successfully created.')
         return super().form_valid(form)
         
     pass
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['breadcrumbs'] = self.breadcrumbs
+        
+        userid = self.request.session.get('userdata')
+        print('userid',userid)
+        userdetails = CustomUser.objects.get(id=userid)
+        context['user'] = userdetails
+        return context
 class productionrolltableUpdateView(UpdateView):
     model = ProductionRollDetails
     form_class = ProductionRollDetailsForm
@@ -199,6 +297,12 @@ class productionrolltableUpdateView(UpdateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['breadcrumbs'] = self.breadcrumbs
+        
+        userid = self.request.session.get('userdata')
+        print('userid',userid)
+        userdetails = CustomUser.objects.get(id=userid)
+        context['user'] = userdetails
+        
         return context
     
     def form_valid(self, form):
@@ -217,6 +321,12 @@ class productionrolltableDeleteView(DeleteView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['breadcrumbs'] = self.breadcrumbs
+        
+        userid = self.request.session.get('userdata')
+        print('userid',userid)
+        userdetails = CustomUser.objects.get(id=userid)
+        context['user'] = userdetails
+        
         return context
     
     def form_valid(self, form):
@@ -237,6 +347,9 @@ class dispatchstocktableListView(ListView):
         context = super().get_context_data(**kwargs)
         context['breadcrumbs'] = self.breadcrumbs
         context['form'] = DispatchStockUploadForm()  # Add upload form to context
+        userid = self.request.session.get('userdata')
+        userdetails = CustomUser.objects.get(id=userid)
+        context['user'] = userdetails
         return context
     
     def post(self, request, *args, **kwargs):
@@ -287,12 +400,12 @@ class dispatchstocktableListView(ListView):
         return file_path
 
 
-   
+@method_decorator(login_required,name='dispatch')  
 class oilpumpListView(ListView):
     model = OilPumpingDetails
     template_name = 'Packing/oilpumpingtable.html'
     context_object_name = 'datatable'
-    #paginate_by = 10
+    paginate_by = 10
     
     
     breadcrumbs = [
@@ -304,6 +417,9 @@ class oilpumpListView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['breadcrumbs'] = self.breadcrumbs
+        userid = self.request.session.get('userdata')
+        userdetails = CustomUser.objects.get(id=userid)
+        context['user'] = userdetails
         return context
     pass   
 class oilpumpCreateView(CreateView):
@@ -311,11 +427,22 @@ class oilpumpCreateView(CreateView):
     form_class = OilPumpingDetailsForm
     template_name = 'Packing/oilpumpingentry.html'
     success_url = reverse_lazy('oilpumpingtable')
+    breadcrumbs = [
+        {'label': 'Home', 'url': '/Packing'},
+        {'label': 'Oil Pumping', 'url': '/Packing/oilpumpingtable'},
+        {'label': 'Oil Pumping Table - Add', 'url': None},  # Assuming current page doesn't have a URL
+        ] 
     
     def form_valid(self, form):
         messages.success(self.request, 'Oil Pumping details have been successfully created.')
         return super().form_valid(form)
-    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['breadcrumbs'] = self.breadcrumbs
+        userid = self.request.session.get('userdata')
+        userdetails = CustomUser.objects.get(id=userid)
+        context['user'] = userdetails
+        return context
     pass 
 class oilpumpUpdateView(UpdateView):
     model = OilPumpingDetails
@@ -359,6 +486,7 @@ class oilpumpDeleteView(DeleteView):
     
     pass 
 
+@method_decorator(login_required,name='dispatch')
 class DailyPouchCuttingDetailsListView(ListView):
     model = DailyPouchCuttingDetails
     template_name = 'Packing/dailypouchcuttingtable.html'
@@ -373,6 +501,9 @@ class DailyPouchCuttingDetailsListView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['breadcrumbs'] = self.breadcrumbs
+        userid = self.request.session.get('userdata')
+        userdetails = CustomUser.objects.get(id=userid)
+        context['user'] = userdetails
         return context
     
     pass
@@ -390,6 +521,9 @@ class DailyPouchCuttingDetailsCreateView(CreateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['breadcrumbs'] = self.breadcrumbs
+        userid = self.request.session.get('userdata')
+        userdetails = CustomUser.objects.get(id=userid)
+        context['user'] = userdetails
         return context
     
     def form_valid(self, form):
@@ -409,6 +543,9 @@ class DailyPouchCuttingDetailsUpdateView(UpdateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['breadcrumbs'] = self.breadcrumbs
+        userid = self.request.session.get('userdata')
+        userdetails = CustomUser.objects.get(id=userid)
+        context['user'] = userdetails
         return context
     
     def form_valid(self, form):
@@ -429,6 +566,9 @@ class DailyPouchCuttingDetailsDeleteView(DeleteView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['breadcrumbs'] = self.breadcrumbs
+        userid = self.request.session.get('userdata')
+        userdetails = CustomUser.objects.get(id=userid)
+        context['user'] = userdetails
         return context
     
     def form_valid(self, form):
@@ -436,6 +576,7 @@ class DailyPouchCuttingDetailsDeleteView(DeleteView):
         return super().form_valid(form)
     pass   
 
+@method_decorator(login_required, name='dispatch')
 class ManualLeakChangeCreateView(CreateView):
     model = ManualLeakChangeManpower
     form_class = ManualLeakChangeManpowerForm
@@ -454,6 +595,9 @@ class ManualLeakChangeCreateView(CreateView):
         else:
             data['child_formset'] = inlineformset_factory(ManualLeakChangeManpower, ManualLeakChangeRollPouchFS, form=ManualLeakChangeRollPouchFSForm, extra=10)()
         data['breadcrumbs'] = self.breadcrumbs
+        userid = self.request.session.get('userdata')
+        userdetails = CustomUser.objects.get(id=userid)
+        data['user'] = userdetails
         return data
     
    
@@ -472,7 +616,23 @@ class ManualLeakChangeListView(ListView):
     model = ManualLeakChangeRollPouchFS
     template_name = 'Packing/manualleakchangetable.html'
     context_object_name = 'datatable'
-    #paginate_by = 10
+    paginate_by = 10
+    
+    # obj = ManualLeakChangeRollPouchFS.objects.first()  # or filter by specific criteria
+
+    # # Access the related PrintingRollDetail object
+    # printing_roll_detail = obj.rollno
+
+    # # Access the related PrintingRollBatch object
+    # printing_roll_batch = printing_roll_detail.printingrollbatch
+
+    # # Access the skuname
+    # skuname = printing_roll_batch.skuname
+
+    # # Print the skuname (or use it as needed)
+    # print(skuname)
+    
+    
     breadcrumbs = [
         {'label': 'Home', 'url': '/Packing'},
         {'label': 'Manual Leak Change', 'url': '/Packing/manualleakchangetable'},
@@ -486,6 +646,9 @@ class ManualLeakChangeListView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['breadcrumbs'] = self.breadcrumbs
+        userid = self.request.session.get('userdata')
+        userdetails = CustomUser.objects.get(id=userid)
+        context['user'] = userdetails
         return context
 class ManualLeakChangeUpdateView(UpdateView):
     model = ManualLeakChangeManpower
@@ -505,6 +668,9 @@ class ManualLeakChangeUpdateView(UpdateView):
         else:
             data['child_formset'] = inlineformset_factory(ManualLeakChangeManpower, ManualLeakChangeRollPouchFS, form=ManualLeakChangeRollPouchFSForm, extra=10)()
         data['breadcrumbs'] = self.breadcrumbs
+        userid = self.request.session.get('userdata')
+        userdetails = CustomUser.objects.get(id=userid)
+        data['user'] = userdetails
         return data
 
     def form_valid(self, form):
@@ -523,12 +689,21 @@ class ManualLeakChangeDeleteView(DeleteView):
     model = ManualLeakChangeManpower
     template_name = 'Packing/brandnameedit.html'
     success_url = reverse_lazy('manualleakchangetable')
+    breadcrumbs = [
+        {'label': 'Home', 'url': '/Packing'},
+        {'label': 'Manual Leak Change', 'url': '/Packing/manualleakchangetable'},
+        {'label': 'Leak Change Table Update', 'url': None},  # Assuming current page doesn't have a URL
+        ]
     
     def form_valid(self, form):
         messages.info(self.request, "Pouch Leak Change details have been successfully Deleted.")
         return super().form_valid(form)
-
-
+    def get_context_data(self, **kwargs):
+        context =  super().get_context_data(**kwargs)
+        userid = self.request.session.get('userdata')
+        userdetails = CustomUser.objects.get(id=userid)
+        context['user'] = userdetails
+        context['breadcrumbs'] = self.breadcrumbs
 def autocomplete_skuname(request):
     
     if 'term' in request.GET:
@@ -553,7 +728,7 @@ def toggle(request):
         if dbname == "ProductionRollDetails":   
             today = datetime.now().date()
             if filter_option == 'all':
-                data = ProductionRollDetails.objects.all()
+                data = ProductionRollDetails.objects.all().order_by('-updatedat')
             elif filter_option == 'today':
                 data = ProductionRollDetails.objects.filter(runningdate=today)
             elif filter_option == '7d':
@@ -1156,7 +1331,8 @@ def download_expvsacttable(request):
                 #date = make_naive(obj.date) if hasattr(obj, 'date') else None
                 
                 different = obj.actbox - obj.expbox       
-                percentage = (obj.actbox / obj.expbox) * 100        
+                percentage = (obj.actbox / obj.expbox) * 100
+                percentage = round(percentage, 2)        
                 row = [obj.date, obj.expbox,obj.actbox,different,str(percentage) + '%',obj.remarks]  # Adjust according to your model fields
                 ws.append(row)
             
@@ -1268,11 +1444,12 @@ def chart_view(request):
 
     return render(request, 'Packing/chart.html', {'chart_data': json.dumps(chart_data)})
 
+@method_decorator(login_required,name='dispatch')
 class ExpVsActDetailsListView(ListView):
     model = ExpVsActDetails
     template_name = 'Packing/expvsacttable.html'
     context_object_name = 'datatable'
-    #paginate_by = 10
+    paginate_by = 10
     breadcrumbs = [
         {'label': 'Home', 'url': '/Packing'},
         {'label': 'Exp Vs Act', 'url': '/Packing/expvsacttable'},
@@ -1282,12 +1459,29 @@ class ExpVsActDetailsListView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['breadcrumbs'] = self.breadcrumbs
+        userid = self.request.session.get('userdata')
+        userdetails = CustomUser.objects.get(id=userid)
+        context['user'] = userdetails
+        
         return context
 class ExpVsActDetailsCreateView(CreateView):
     model = ExpVsActDetails
     form_class = ExpVsActDetailsForm
     template_name = 'Packing/expvsacttableedit.html'
     success_url = reverse_lazy('expvsacttable')
+    breadcrumbs = [
+        {'label': 'Home', 'url': '/Packing'},
+        {'label': 'Exp Vs Act', 'url': '/Packing/expvsacttable'},
+        {'label': 'Exp Vs Act Table Add', 'url': None},  # Assuming current page doesn't have a URL
+        ]
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['breadcrumbs'] = self.breadcrumbs
+        userid = self.request.session.get('userdata')
+        userdetails = CustomUser.objects.get(id=userid)
+        context['user'] = userdetails
+        return context
     
     def form_valid(self, form):
         messages.success(self.request, 'Expected Vs Actual Production have been successfully created.')
@@ -1297,6 +1491,19 @@ class ExpVsActDetailsUpdateView(UpdateView):
     form_class = ExpVsActDetailsForm
     template_name = 'Packing/expvsacttableedit.html'
     success_url = reverse_lazy('expvsacttable')
+    breadcrumbs = [
+        {'label': 'Home', 'url': '/Packing'},
+        {'label': 'Exp Vs Act', 'url': '/Packing/expvsacttable'},
+        {'label': 'Exp Vs Act Table Edit', 'url': None},  # Assuming current page doesn't have a URL
+        ]
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['breadcrumbs'] = self.breadcrumbs
+        userid = self.request.session.get('userdata')
+        userdetails = CustomUser.objects.get(id=userid)
+        context['user'] = userdetails
+        return context
     
     def form_valid(self, form):
         messages.success(self.request, 'Expected Vs Actual Production details have been successfully updated.')
@@ -1305,12 +1512,26 @@ class ExpVsActDetailsDeleteView(DeleteView):
     model = ExpVsActDetails
     template_name = 'Packing/expvsacttabledelete.html'
     success_url = reverse_lazy('expvsacttable')
-    
+    breadcrumbs = [
+        {'label': 'Home', 'url': '/Packing'},
+        {'label': 'Exp Vs Act', 'url': '/Packing/expvsacttable'},
+        {'label': 'Exp Vs Act Table Delete', 'url': None},  # Assuming current page doesn't have a URL
+        ]
     def form_valid(self, form):
         messages.info(self.request, "Expected Vs Actual details have been successfully Deleted.")
         return super().form_valid(form)
-
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['breadcrumbs'] = self.breadcrumbs
+        userid = self.request.session.get('userdata')
+        userdetails = CustomUser.objects.get(id=userid)
+        context['user'] = userdetails
+        return context
+    
 def ppsr_details_view(request):
+    userid = request.seesion['userdata']
+    userdetails = CustomUser.objects.get(id=userid)
     if request.method == 'POST':
         formset = PPSRDetailsForm(request.POST)
         if formset.is_valid():
@@ -1320,10 +1541,15 @@ def ppsr_details_view(request):
     else:
         formset = PPSRDetailsForm()
         print("form not valid")
-    return render(request, 'Packing/template_name.html', {'formset': formset})  # Replace with your template name
-def ppsr_details_edit(request):
+        userid = request.seesion['userdata']
+        print('userid',userid)
+        userdetails = CustomUser.objects.get(id=userid)
+    return render(request, 'Packing/template_name.html', {'formset': formset,'user':userdetails})  # Replace with your template name
+def ppsr_details_edit(request):    
     form = PPSRDetailsForm()
     if request.method == 'POST':
+        userid = request.session['userdata']
+        userdetails = CustomUser.objects.get(id=userid)
         form = PPSRDetailsForm(request.POST)
         if form.is_valid():
             print("form valid")
@@ -1334,12 +1560,32 @@ def ppsr_details_edit(request):
     else:
         form = PPSRDetailsForm()
         print("not post")
-    return render(request, 'Packing/ppsrtableentry.html',{'form': form})
+        userid = request.session['userdata']
+        userdetails = CustomUser.objects.get(id=userid)
+    return render(request, 'Packing/ppsrtableentry.html',{'form': form,'user':userdetails})
 
 class PPSRDetailsListView(ListView):
     model = PPSRDetails
     template_name = 'Packing/ppsrtable.html'
     context_object_name = 'datatable'
+    
+    breadcrumbs = [
+        {'label': 'Home', 'url': '/Packing'},
+        {'label': 'Production', 'url': '/Packing/productionrolltable'},
+        {'label': 'PPSR Details', 'url': None},  # Assuming current page doesn't have a URL
+        ] 
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['breadcrumbs'] = self.breadcrumbs
+        
+        userid = self.request.session.get('userdata')
+        print('userid',userid)
+        userdetails = CustomUser.objects.get(id=userid)
+        context['user'] = userdetails
+        
+        return context
+    
 class PPSRDetailsCreateView(CreateView):
     model = PPSRDetails
     #form_class = PPSRDetailsFormSet

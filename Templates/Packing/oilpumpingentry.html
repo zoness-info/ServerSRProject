@@ -3,6 +3,7 @@
 {% block content %}
 
 <div class="app-body">
+    {% if user.is_authenticated and user.Pack_oilpump_access %}
     {% include 'Packing/djangomessage.html' %}
 
     <div class="row gx-3">
@@ -119,6 +120,10 @@
    
 
 </div>
+
+{% else %}
+      {% include 'Packing/noaccess.html' %}
+      {% endif %}
 
 {% endblock %}
     
