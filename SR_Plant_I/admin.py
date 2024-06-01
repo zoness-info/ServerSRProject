@@ -14,6 +14,7 @@ from Packing.models import (branddetails, oilcategorydetails, skunamedetails,
                              ExpVsActDetails,
                              DispatchOpendingClosingStockDetails,
                              PPSRDetails,ChampionNameDetails,
+                             
                             )
 
 
@@ -21,6 +22,8 @@ from Packing.models import (branddetails, oilcategorydetails, skunamedetails,
 class CustomUserAdmin(admin.ModelAdmin):
     list_display = [field.name for field in CustomUser._meta.fields]
 admin.site.register(CustomUser, CustomUserAdmin)
+
+
 
 
 class BrandDetailsAdmin(admin.ModelAdmin):

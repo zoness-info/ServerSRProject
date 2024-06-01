@@ -9,7 +9,8 @@ from .models import (branddetails, skunamedetails,
                      DailyPouchCuttingDetails,
                      ManualLeakChangeManpower,ManualLeakChangeRollPouchFS,
                      ExpVsActDetails,
-                     PPSRDetails
+                     PPSRDetails,
+                     SRDailyStockDetails,
                      )
 from django.forms import inlineformset_factory
 #from django_select2.forms import Select2Widget
@@ -381,8 +382,11 @@ class PPSRDetailsForm(forms.ModelForm):
             self.add_error('ipk10_runningsku', "Running SKU must be selected if IPK10 is ON.")
     
         return cleaned_data
-
-
+class SRDailyStockDetailsForm(forms.Form):
+    def __init__(self, skuname, *args, **kwargs):
+        super(SRDailyStockDetailsForm,self).__init__(*args,**kwargs)
+        for sku in skuname:
+            self.fields[sku.skuname] = forms.IntegerField(label=sku.skuname,required=True)
 # class UniqueOverallProductionPlanFormSet(forms.BaseModelFormSet):
 #     def clean(self):
 #         if any(self.errors):

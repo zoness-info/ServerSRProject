@@ -11,7 +11,8 @@ from .views import ( home,
                     download_printingrolltable,download_productionrolltable,download_oilpumpingtable,download_pouchcuttingtable,download_manualleakchangetable,
                     chart_data,chart_view,download_expvsacttable,
                     ExpVsActDetailsListView,ExpVsActDetailsCreateView,ExpVsActDetailsUpdateView,ExpVsActDetailsDeleteView,
-                    ppsr_details_view,ppsr_details_edit,PPSRDetailsListView,PPSRDetailsCreateView,PPSRDetailsUpdateView,PPSRDetailsDeleteView
+                    ppsr_details_view,ppsr_details_edit,PPSRDetailsListView,PPSRDetailsCreateView,PPSRDetailsUpdateView,PPSRDetailsDeleteView,
+                    SRDailyStockListView,
                     )
 
 
@@ -90,8 +91,8 @@ urlpatterns = [
     path('expvsacttable/download_expvsacttable', download_expvsacttable, name='download_expvsacttable'),    
     #__________________________________________________________________________________________________________
     
-    #--------------------------------------------------PPSR Details-------------------------------------------------------
-  
+    #--------------------------------------------------Stock-------------------------------------------------------
+    path('stock/dailypouchstock',SRDailyStockListView.as_view(),name='dailypochstockstock'),
     #_____________________________________________________________________________________________________________________
     
     path('ppsr-details/', ppsr_details_view, name='ppsr_details'),

@@ -24,15 +24,35 @@ class oilcategorydetails(models.Model):
     
     def __str__(self):
         return self.oilcategoryname
-
-class skunamedetails(models.Model):
-    category_name = models.ForeignKey(oilcategorydetails, on_delete=models.CASCADE)
-    skuname = models.CharField(_("SKU Name"), max_length=50)
-    skucode_m = models.CharField(_("SKU Code Master"), max_length=50, unique=True)
-    skucode_c = models.CharField(_("SKU Code By Category"), max_length=50)
+    
+class Godown(models.Model):
+    id = models.BigAutoField(_("ID"),primary_key=True)
+    godownname = models.CharField(_("Godown Name"), max_length=50)
     createdat = models.DateTimeField(_("Created At"),auto_now_add=True)
     updatedat = models.DateTimeField(_("Updated AT"), auto_now=True)
     isdelete = models.BooleanField(_("Deleted"), default=False)
+    
+    def __str__(self):
+        return self.godownname
+    
+
+
+class skunamedetails(models.Model):
+    CHOICES = {
+        ('POUCH','POUCH'),
+        ('PET','PET'),
+        ('JAR','JAR')
+    }
+    category_name = models.ForeignKey(oilcategorydetails, on_delete=models.CASCADE)
+    skuname = models.CharField(_("SKU Name"), max_length=50)
+    skutype = models.CharField(_("SKU Type"), max_length=50,choices=CHOICES,default="POUCH")
+    skucode_m = models.CharField(_("SKU Code Master"), max_length=50, unique=True)
+    skucode_c = models.CharField(_("SKU Code By Category"), max_length=50)
+    godownname = models.ForeignKey(Godown, on_delete=models.CASCADE)
+    createdat = models.DateTimeField(_("Created At"),auto_now_add=True)
+    updatedat = models.DateTimeField(_("Updated AT"), auto_now=True)
+    isdelete = models.BooleanField(_("Deleted"), default=False)
+    
     
     def __str__(self):
         return self.skuname
@@ -507,3 +527,13 @@ class PPSRDetails(models.Model):
     
     def __str__(self):
         return f"PPSR Details {self.id} - {self.date}"
+
+class SRDailyStockDetails(models.Model):    
+    date = models.DateTimeField(_("Date"), auto_now=False, auto_now_add=True)
+    stocktype = models.CharField(_("Pouch"), max_length=50,default='POUCH')
+    skuname = models.ForeignKey(skunamedetails, on_delete=models.CASCADE)
+    stockbox = models.IntegerField(_("Stock Box"))
+    
+    def __str__(self):
+        return f'{self.date} - {self.stocktype} - {self.skuname} - {self.stockbox}'
+    

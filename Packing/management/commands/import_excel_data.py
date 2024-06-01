@@ -94,7 +94,7 @@ class Command(BaseCommand):
                 category, created = oilcategorydetails.objects.get_or_create(oilcategoryname=category_id_str)
                 # print(category.id,category.brandname,category.oilcategoryname)
                 
-                skunamedetails.objects.create(category_name=category,skuname=row[1],skucode_m=row[2],skucode_c=row[3])  # Adjust fields accordingly
+                skunamedetails.objects.create(category_name=category,skuname=row[1],skutype=row[2],skucode_m=row[3],skucode_c=row[4])  # Adjust fields accordingly
             except oilcategorydetails.DoesNotExist:
                 self.stdout.write(self.style.ERROR(f"OilCategoryDetails with id {category_id_str} does not exist"))        
         self.stdout.write(self.style.SUCCESS('SKU Details imported successfully'))

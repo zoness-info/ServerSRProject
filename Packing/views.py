@@ -32,6 +32,7 @@ from .models import (branddetails, oilcategorydetails, skunamedetails,
                      ManualLeakChangeManpower,ManualLeakChangeRollPouchFS,
                      ExpVsActDetails,
                      PPSRDetails,
+                     SRDailyStockDetails,
                      )
 from .forms import (branddetailsform,
                     prinitingrolldetailsform,RollDetailsFormset, 
@@ -42,7 +43,7 @@ from .forms import (branddetailsform,
                     ExpVsActDetailsForm,
                     DispatchStockUploadForm,
                     #PPSRDetailsFormSet,
-                    PPSRDetailsForm,
+                    PPSRDetailsForm,SRDailyStockDetailsForm
                     )
 @method_decorator(login_required, name='dispatch')
 class home(View):
@@ -1584,8 +1585,7 @@ class PPSRDetailsListView(ListView):
         userdetails = CustomUser.objects.get(id=userid)
         context['user'] = userdetails
         
-        return context
-    
+        return context   
 class PPSRDetailsCreateView(CreateView):
     model = PPSRDetails
     #form_class = PPSRDetailsFormSet
@@ -1618,7 +1618,30 @@ class PPSRDetailsDeleteView(DeleteView):
     template_name = 'ppsr_details_confirm_delete.html'
     success_url = reverse_lazy('ppsr_details_list')
 
-
+class SRDailyStockListView(View):
+    def get(self,request):
+        skuname = skunamedetails.objects.filter(skutype='PET')        
+        form = SRDailyStockDetailsForm(skuname)
+        return render(request,'Packing/blankk-.html',{'form':form})
+    def post(self,request):
+        skuname = skunamedetails.objects.filter(skutype='PET')
+        form = SRDailyStockDetailsForm(skuname=skuname, data=request.POST)
+        
+        if form.is_valid():
+            stockdata = form.cleaned_data
+            
+            for sku in skuname:
+                # Assuming the correct attribute is 'sku_name'
+                stockbox = stockdata.get(sku.skuname)
+                if stockbox is not None:
+                    SRDailyStockDetails.objects.create(skuname=sku, stockbox=stockbox)
+            
+            return redirect(reverse_lazy('dailypochstockstock'))
+        else:
+            print("form invalid")
+            return render(request, 'Packing/blankk-.html', {'form': form})
+    
+    pass
 # class GenericListView(ListView):
 #     template_name = 'Packing/generictemplate.html'
 
