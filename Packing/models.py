@@ -25,7 +25,7 @@ class oilcategorydetails(models.Model):
     def __str__(self):
         return self.oilcategoryname
     
-class Godown(models.Model):
+class GodownDetails(models.Model):
     id = models.BigAutoField(_("ID"),primary_key=True)
     godownname = models.CharField(_("Godown Name"), max_length=50)
     createdat = models.DateTimeField(_("Created At"),auto_now_add=True)
@@ -48,7 +48,7 @@ class skunamedetails(models.Model):
     skutype = models.CharField(_("SKU Type"), max_length=50,choices=CHOICES,default="POUCH")
     skucode_m = models.CharField(_("SKU Code Master"), max_length=50, unique=True)
     skucode_c = models.CharField(_("SKU Code By Category"), max_length=50)
-    godownname = models.ForeignKey(Godown, on_delete=models.CASCADE)
+    godownname = models.ForeignKey(GodownDetails, on_delete=models.CASCADE)
     createdat = models.DateTimeField(_("Created At"),auto_now_add=True)
     updatedat = models.DateTimeField(_("Updated AT"), auto_now=True)
     isdelete = models.BooleanField(_("Deleted"), default=False)

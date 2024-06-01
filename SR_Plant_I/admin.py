@@ -14,7 +14,7 @@ from Packing.models import (branddetails, oilcategorydetails, skunamedetails,
                              ExpVsActDetails,
                              DispatchOpendingClosingStockDetails,
                              PPSRDetails,ChampionNameDetails,
-                             
+                             GodownDetails,
                             )
 
 
@@ -23,7 +23,9 @@ class CustomUserAdmin(admin.ModelAdmin):
     list_display = [field.name for field in CustomUser._meta.fields]
 admin.site.register(CustomUser, CustomUserAdmin)
 
-
+class GodownDetailsAdmin(admin.ModelAdmin):
+    list_display = [field.name for field in GodownDetails._meta.fields]
+admin.site.register(GodownDetails, GodownDetailsAdmin)
 
 
 class BrandDetailsAdmin(admin.ModelAdmin):
