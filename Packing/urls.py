@@ -12,7 +12,8 @@ from .views import ( home,
                     chart_data,chart_view,download_expvsacttable,
                     ExpVsActDetailsListView,ExpVsActDetailsCreateView,ExpVsActDetailsUpdateView,ExpVsActDetailsDeleteView,
                     ppsr_details_view,ppsr_details_edit,PPSRDetailsListView,PPSRDetailsCreateView,PPSRDetailsUpdateView,PPSRDetailsDeleteView,
-                    SRDailyStockListView,
+                    SRDailyStockPETJARUpdateView,DailyPETJARstocklist,
+                    DailystockPouchList,DailystockPouchUpdate,
                     )
 
 
@@ -92,7 +93,10 @@ urlpatterns = [
     #__________________________________________________________________________________________________________
     
     #--------------------------------------------------Stock-------------------------------------------------------
-    path('stock/dailypouchstock',SRDailyStockListView.as_view(),name='dailypochstockstock'),
+    path('stock/dailypetjarlist',DailyPETJARstocklist.as_view(),name='dailypetjarstocklist'),
+    path('stock/dailypetjarstockupdate',SRDailyStockPETJARUpdateView.as_view(),name='dailypetjarstockupdate'),
+    path('stock/dailypouchstocklist',DailystockPouchList.as_view(),name='dailypouchstocklist'),
+    path('stock/dailypouchstockupdate',DailystockPouchUpdate.as_view(),name='dailypochstockupdate'),
     #_____________________________________________________________________________________________________________________
     
     path('ppsr-details/', ppsr_details_view, name='ppsr_details'),

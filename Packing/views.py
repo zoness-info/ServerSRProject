@@ -14,7 +14,7 @@ from openpyxl import Workbook
 from openpyxl.utils import get_column_letter
 from openpyxl.styles import Border, Side
 from django.contrib import messages
-from django.db.models import Count, Sum, F
+from django.db.models import Count, Sum, F,DateField
 from django.db.models.functions import Concat
 import json
 import os
@@ -22,6 +22,8 @@ from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from SR_Plant_I.models import CustomUser
+from django.db.models.functions import Cast
+from django.db.models import Max, Subquery, OuterRef
 
 from .models import (branddetails, oilcategorydetails, skunamedetails, 
                      PrintingRollBatch, PrintingRollDetail, 
@@ -1618,30 +1620,178 @@ class PPSRDetailsDeleteView(DeleteView):
     template_name = 'ppsr_details_confirm_delete.html'
     success_url = reverse_lazy('ppsr_details_list')
 
-class SRDailyStockListView(View):
+class SRDailyStockPETJARUpdateView(View):
     def get(self,request):
-        skuname = skunamedetails.objects.filter(skutype='PET')        
+        latestdate = SRDailyStockDetails.objects.filter(stocktype='PET').aggregate(Max('date'))['date__max']
+        #print('latestdate',latestdate)
+        # Step 2: Filter records with the latest date
+        lastdatedata = SRDailyStockDetails.objects.filter(stocktype='PET', date=latestdate)
+        formatted_datetime = latestdate.strftime("%Y-%m-%d %H:%M:%S")
+        
+        skuname = skunamedetails.objects.filter(skutype='PET')
         form = SRDailyStockDetailsForm(skuname)
-        return render(request,'Packing/blankk-.html',{'form':form})
+        return render(request,'Packing/dailystockpetjartablenewentry.html',{'form':form,'lastentrydate':formatted_datetime})
     def post(self,request):
         skuname = skunamedetails.objects.filter(skutype='PET')
         form = SRDailyStockDetailsForm(skuname=skuname, data=request.POST)
         
         if form.is_valid():
             stockdata = form.cleaned_data
-            
+            stockmode = stockdata.get('stockmode')  # Get the value of stockmode from the cleaned data
+            updatedby = request.session.get('userdata')
             for sku in skuname:
                 # Assuming the correct attribute is 'sku_name'
                 stockbox = stockdata.get(sku.skuname)
                 if stockbox is not None:
-                    SRDailyStockDetails.objects.create(skuname=sku, stockbox=stockbox)
+                    SRDailyStockDetails.objects.create(skuname=sku, stockbox=stockbox,stocktype='PET',stockmode=stockmode,updatedby=updatedby)
             
-            return redirect(reverse_lazy('dailypochstockstock'))
+            return redirect('dailypetjarstocklist')
         else:
-            print("form invalid")
-            return render(request, 'Packing/blankk-.html', {'form': form})
+            
+            return render(request, 'Packing/dailystockpetjartablenewentry.html', {'form': form})
     
-    pass
+class DailyPETJARstocklist(View):
+    def get(self,request):
+        # Step 1: Get the latest date for skutype='pouch'
+        latestdate = SRDailyStockDetails.objects.filter(stocktype='PET').aggregate(Max('date'))['date__max']
+        #print('latestdate',latestdate)
+        # Step 2: Filter records with the latest date
+        lastdatedata = SRDailyStockDetails.objects.filter(stocktype='PET', date=latestdate)
+        formatted_datetime = latestdate.strftime("%Y-%m-%d %H:%M:%S")
+        return render(request,'Packing/dailystockpetjartable.html',{'tabledata':lastdatedata,'lastentrydate':formatted_datetime})
+
+class DailystockPouchList(View):
+    def get(self,request): 
+        # Step 1: Fetch all relevant records for today's date and specific stock type
+        today_date = date.today()
+        all_stock_records = SRDailyStockDetails.objects.filter(date__date=today_date, godownname=1)
+
+        # Step 2: Separate the records into morning and evening stock tables
+        morningstocktable = [record for record in all_stock_records if record.stockmode == 'Morning']
+        eveningstocktable = [record for record in all_stock_records if record.stockmode == 'Evening']
+        
+        sfmorningstock = [record for record in morningstocktable if record.skuname.skuname.startswith('SF')]
+        gnmorningstock = [record for record in morningstocktable if record.skuname.skuname.startswith('GN')]
+        rbmorningstock = [record for record in morningstocktable if record.skuname.skuname.startswith('RB')]
+        cocmorningstock = [record for record in morningstocktable if record.skuname.skuname.startswith('COC')]
+        ginmorningstock = [record for record in morningstocktable if record.skuname.skuname.startswith('GIN')]
+        gnrmorningstock = [record for record in morningstocktable if record.skuname.skuname.startswith('GNR')]
+        glmorningstock = [record for record in morningstocktable if record.skuname.skuname.startswith('GL')]
+        palmmorningstock = [record for record in morningstocktable if 'PALM' in record.skuname.skuname]
+        
+        sfeveningstock = [record for record in eveningstocktable if record.skuname.skuname.startswith('SF')]
+        gneveningstock = [record for record in eveningstocktable if record.skuname.skuname.startswith('GN')]
+        rbeveningstock = [record for record in eveningstocktable if record.skuname.skuname.startswith('RB')]
+        coceveningstock = [record for record in eveningstocktable if record.skuname.skuname.startswith('COC')]
+        gineveningstock = [record for record in eveningstocktable if record.skuname.skuname.startswith('GIN')]
+        gnreveningstock = [record for record in eveningstocktable if record.skuname.skuname.startswith('GNR')]
+        gleveningstock = [record for record in eveningstocktable if record.skuname.skuname.startswith('GL')]
+        palmeveningstock = [record for record in eveningstocktable if 'PALM' in record.skuname.skuname]
+    
+        
+        
+
+        # Step 3: Find the latest date and corresponding updatedby for 'PET' stock type
+        subquery = SRDailyStockDetails.objects.filter(
+            stocktype='POUCH'
+        ).order_by('-date').values('date')[:1]
+
+        latest_record = SRDailyStockDetails.objects.filter(
+            stocktype='POUCH',
+            date=Subquery(subquery)
+        ).first()
+
+        latestdate = latest_record.date if latest_record else None
+        userid = latest_record.updatedby if latest_record else None
+        updatedby = CustomUser.objects.get(id=userid)
+        
+        # # print(date.today())
+        # morningstocktable = SRDailyStockDetails.objects.filter(date__date=date.today(),stocktype='POUCH',stockmode='Morning')  
+        # eveningstocktable = SRDailyStockDetails.objects.filter(date__date=date.today(),stocktype='POUCH',stockmode='Evening')
+        # # Step 1: Get the latest date for skutype='pouch'
+        # latest_details = SRDailyStockDetails.objects.filter(stocktype='POUCH').aggregate(
+        #                                                                         latest_date=Max('date'),
+        #                                                                         updatedby=Max('updatedby'))
+        # latestdate = latest_details['latest_date']
+        # updatedby = latest_details['updatedby']
+        # print(latestdate)
+        # #print('latestdate',latestdate)   
+        # # Step 2: Filter records with the latest date
+        # lastdatedata = SRDailyStockDetails.objects.filter(stocktype='POUCH', date=latestdate)
+        #print(latestdate)   
+        # Alternatively, using a subquery (single query)
+        # latest_date_subquery = SRDailyStockDetails.objects.filter(skutype='pouch').order_by('-date').values('date')[:1]
+        # latest_pouch_records = SRDailyStockDetails.objects.filter(skutype='pouch', date=Subquery(latest_date_subquery))
+
+        
+        # Get the latest date
+        # latest_date = SRDailyStockDetails.objects.latest('date').date
+
+        # # Filter lastdatedata by date part only
+        # lastdatedata = SRDailyStockDetails.objects.annotate(date_only=Cast('date', DateField())).filter(
+        #     date_only=latest_date,
+        #     stocktype='POUCH'
+        # )
+        
+        
+        # dateobj = latestdate[1]
+        # datetime_obj = dateobj.date  # Access the date attribute directly
+        # Format the datetime object as a string with only date and time
+        # formatted_datetime = latestdate.strftime("%Y-%m-%d %H:%M:%S %Z")
+        context = {
+            'sfmorningstock':sfmorningstock,
+            'gnmorningstock':gnmorningstock,
+            'rbmorningstock':rbmorningstock,
+            'cocmorningstock':cocmorningstock,
+            'ginmorningstock':ginmorningstock,
+            'gnrmorningstock':gnrmorningstock,
+            'glmorningstock':glmorningstock,
+            'palmmorningstock':palmmorningstock,
+            'eveningstockdata':eveningstocktable,
+             'sfeveningstock':sfeveningstock,
+            'gneveningstock':gneveningstock,
+            'rbeveningstock':rbeveningstock,
+            'coceveningstock':coceveningstock,
+            'gineveningstock':gineveningstock,
+            'gnreveningstock':gnreveningstock,
+            'gleveningstock':gleveningstock,
+            'palmeveningstock':palmeveningstock,
+            'lastentrydate':latestdate,
+            'updatedby':updatedby
+        }
+        return render(request,'Packing/dailystockpouchtable.html',context)
+class DailystockPouchUpdate(View):
+    def get(self,request):
+        skuname = skunamedetails.objects.filter(skutype='POUCH')
+        lastentry = SRDailyStockDetails.objects.last()
+        if lastentry:
+            lastupdate = lastentry.date     
+        form = SRDailyStockDetailsForm(skuname)
+        return render(request,'Packing/dailystockpouchtablenewentry.html',{'form':form,'lastentrydate':lastupdate})
+    
+    def post(self,request):
+        skuname = skunamedetails.objects.filter(skutype='POUCH')
+        form = SRDailyStockDetailsForm(skuname=skuname, data=request.POST)
+        updatedby = request.session.get('userdata')
+        if updatedby is not None:        
+            if form.is_valid():
+                stockdata = form.cleaned_data
+                stockmode = stockdata.get('stockmode')  # Get the value of stockmode from the cleaned data
+                for sku in skuname:
+                    # Assuming the correct attribute is 'sku_name'
+                    stockbox = stockdata.get(sku.skuname)               
+                    
+                    if stockbox is not None:
+                        SRDailyStockDetails.objects.create(skuname=sku, stockbox=stockbox,stocktype='POUCH',stockmode=stockmode,updatedby=updatedby)
+                
+                return redirect('dailypouchstocklist')
+            else:
+                
+                return render(request, 'Packing/dailystockpouchtablenewentry.html', {'form': form})
+        else:
+            messages.error(request,"Unauthenticated Login")
+            return render(request, 'Packing/dailystockpouchtablenewentry.html', {'form': form})
+    
 # class GenericListView(ListView):
 #     template_name = 'Packing/generictemplate.html'
 

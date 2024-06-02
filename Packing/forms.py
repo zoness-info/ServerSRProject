@@ -383,10 +383,29 @@ class PPSRDetailsForm(forms.ModelForm):
     
         return cleaned_data
 class SRDailyStockDetailsForm(forms.Form):
+    CHOICES = [
+        ('Morning', 'Morning'),
+        ('Evening', 'Evening')
+    ]
+
+    stockmode = forms.ChoiceField(choices=CHOICES, 
+                                  label="Morning/Evening", 
+                                  widget=forms.Select(attrs={'class': 'form-select'}))
     def __init__(self, skuname, *args, **kwargs):
         super(SRDailyStockDetailsForm,self).__init__(*args,**kwargs)
         for sku in skuname:
-            self.fields[sku.skuname] = forms.IntegerField(label=sku.skuname,required=True)
+           self.fields[sku.skuname] = forms.IntegerField(label=sku.skuname,
+                                                         required=False,
+                                                         widget = forms.NumberInput(attrs={'class':'form-control','placeholder':'Enter Value'})
+                                                         )
+    def clean(self):
+        cleaned_data = super().clean()
+        has_value = any(value for value in cleaned_data.values() if value is not None and value != '')
+
+        if not has_value:
+            raise ValidationError('At least one field must have a value.')
+
+        return cleaned_data
 # class UniqueOverallProductionPlanFormSet(forms.BaseModelFormSet):
 #     def clean(self):
 #         if any(self.errors):

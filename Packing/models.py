@@ -528,11 +528,18 @@ class PPSRDetails(models.Model):
     def __str__(self):
         return f"PPSR Details {self.id} - {self.date}"
 
-class SRDailyStockDetails(models.Model):    
+class SRDailyStockDetails(models.Model):
+    CHOICES = [
+        ('Morning','Morning'),
+        ('Evening','Evening')
+    ]    
     date = models.DateTimeField(_("Date"), auto_now=False, auto_now_add=True)
-    stocktype = models.CharField(_("Pouch"), max_length=50,default='POUCH')
+    stocktype = models.CharField(_("Pouch/PET"), max_length=50,default='POUCH')
     skuname = models.ForeignKey(skunamedetails, on_delete=models.CASCADE)
     stockbox = models.IntegerField(_("Stock Box"))
+    stockmode = models.CharField(_("Morning/Evening"), max_length=50,choices=CHOICES,default='Morning')
+    updatedby = models.CharField(_("Updated By"), max_length=50,default='Unknown')
+    godownname = models.ForeignKey(GodownDetails, on_delete=models.CASCADE,default=1)
     
     def __str__(self):
         return f'{self.date} - {self.stocktype} - {self.skuname} - {self.stockbox}'

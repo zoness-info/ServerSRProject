@@ -155,6 +155,24 @@
                     </li>
                 </ul>
             </li>
+        <!-- Daily Stock -->        
+            <li class="treeview">
+                <a href="#!">
+                    <i class="bi bi-pie-chart"></i>
+                    <span class="menu-text">Daily Stock</span>  
+                </a>
+                <ul class="treeview-menu">
+                    <li>
+                        <a href="{% url 'dailypouchstocklist' %}"> Daily Pouch Stock</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'dailypetjarstocklist' %}">Daily PET/JAR Stock</a>
+                    </li>
+                    <li>
+                        <a href="#">Chart&Report</a>
+                    </li>
+                </ul>
+            </li>
 
             <li>
                 <a href="{% static 'sales.html' %}">
