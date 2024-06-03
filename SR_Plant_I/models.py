@@ -15,5 +15,8 @@ class CustomUser(AbstractUser):
     
     groups = models.ManyToManyField(Group, related_name='customuser_set', blank=True)
     user_permissions = models.ManyToManyField(Permission, related_name='customuser_set', blank=True)
+    
+    def __str__(self):
+        return self.username
 
 # Create your models here.

@@ -391,8 +391,26 @@ class SRDailyStockDetailsForm(forms.Form):
     stockmode = forms.ChoiceField(choices=CHOICES, 
                                   label="Morning/Evening", 
                                   widget=forms.Select(attrs={'class': 'form-select'}))
+    
     def __init__(self, skuname, *args, **kwargs):
         super(SRDailyStockDetailsForm,self).__init__(*args,**kwargs)
+        
+        # # Define a priority list for the prefixes
+        # priority_prefixes = ['SF', 'GN', 'RB', 'COC', 'GIN', 'NAK',] -----> have doubt so postpond
+        
+        # def sort_key(sku):
+        #     # Find the priority based on the prefix
+        #     for priority, prefix in enumerate(priority_prefixes):
+        #         if sku.skuname.upper().startswith(prefix):
+        #             return (priority, sku.skuname)
+        #     # Default priority for items not matching any prefix
+        #     return (len(priority_prefixes), sku.skuname)
+        
+        # # Sort the skuname queryset using the custom sort key function
+        # sorted_skuname = sorted(skuname, key=sort_key)
+        
+        # sorted_skuname = sorted(skuname, key=lambda sku: sku.skuname, reverse=True)
+        # for sku in sorted_skuname:
         for sku in skuname:
            self.fields[sku.skuname] = forms.IntegerField(label=sku.skuname,
                                                          required=False,

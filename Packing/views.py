@@ -23,7 +23,7 @@ from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from SR_Plant_I.models import CustomUser
 from django.db.models.functions import Cast
-from django.db.models import Max, Subquery, OuterRef
+from django.db.models import Max, Subquery, OuterRef, Q
 
 from .models import (branddetails, oilcategorydetails, skunamedetails, 
                      PrintingRollBatch, PrintingRollDetail, 
@@ -35,6 +35,7 @@ from .models import (branddetails, oilcategorydetails, skunamedetails,
                      ExpVsActDetails,
                      PPSRDetails,
                      SRDailyStockDetails,
+                     GodownDetails,
                      )
 from .forms import (branddetailsform,
                     prinitingrolldetailsform,RollDetailsFormset, 
@@ -1622,43 +1623,133 @@ class PPSRDetailsDeleteView(DeleteView):
 
 class SRDailyStockPETJARUpdateView(View):
     def get(self,request):
-        latestdate = SRDailyStockDetails.objects.filter(stocktype='PET').aggregate(Max('date'))['date__max']
-        #print('latestdate',latestdate)
-        # Step 2: Filter records with the latest date
-        lastdatedata = SRDailyStockDetails.objects.filter(stocktype='PET', date=latestdate)
-        formatted_datetime = latestdate.strftime("%Y-%m-%d %H:%M:%S")
-        
-        skuname = skunamedetails.objects.filter(skutype='PET')
-        form = SRDailyStockDetailsForm(skuname)
-        return render(request,'Packing/dailystockpetjartablenewentry.html',{'form':form,'lastentrydate':formatted_datetime})
-    def post(self,request):
-        skuname = skunamedetails.objects.filter(skutype='PET')
-        form = SRDailyStockDetailsForm(skuname=skuname, data=request.POST)
-        
-        if form.is_valid():
-            stockdata = form.cleaned_data
-            stockmode = stockdata.get('stockmode')  # Get the value of stockmode from the cleaned data
-            updatedby = request.session.get('userdata')
-            for sku in skuname:
-                # Assuming the correct attribute is 'sku_name'
-                stockbox = stockdata.get(sku.skuname)
-                if stockbox is not None:
-                    SRDailyStockDetails.objects.create(skuname=sku, stockbox=stockbox,stocktype='PET',stockmode=stockmode,updatedby=updatedby)
-            
-            return redirect('dailypetjarstocklist')
+        skuname = skunamedetails.objects.filter(godownname=2)
+        lastentry = SRDailyStockDetails.objects.last()
+        if lastentry:
+            lastupdate = lastentry.date
         else:
-            
+            lastupdate = ''      
+        form = SRDailyStockDetailsForm(skuname)
+        return render(request,'Packing/dailystockpetjartablenewentry.html',{'form':form,'lastentrydate':lastupdate})
+    def post(self,request):
+    #     skuname = skunamedetails.objects.filter(
+    #     Q(skutype='PET') | Q(skutype='JAR')
+    # )
+        skuname = skunamedetails.objects.filter(godownname=2)
+        form = SRDailyStockDetailsForm(skuname=skuname, data=request.POST)
+        updatedby = request.session.get('userdata')
+        if updatedby is not None:        
+            if form.is_valid():
+                stockdata = form.cleaned_data
+                stockmode = stockdata.get('stockmode')  # Get the value of stockmode from the cleaned data
+                godown = GodownDetails.objects.get(pk=2) # Retrieve the GodownDetails instance with ID 1
+                #print('godown',godown)
+                for sku in skuname:
+                    # Assuming the correct attribute is 'sku_name'
+                    stockbox = stockdata.get(sku.skuname)               
+                    
+                    if stockbox is not None:
+                        SRDailyStockDetails.objects.create(skuname=sku, stockbox=stockbox,stocktype='PET',stockmode=stockmode,updatedby=updatedby,godownname=godown)
+                messages.success(request,"PET Stock Details updated Successful")
+                return redirect('dailypetjarstocklist')
+            else:
+                print('form not valid')
+                return render(request, 'Packing/dailystockpetjartablenewentry.html', {'form': form})
+        else:
+            print('not updated by')
+            messages.error(request,"Unauthenticated Login")
             return render(request, 'Packing/dailystockpetjartablenewentry.html', {'form': form})
-    
 class DailyPETJARstocklist(View):
-    def get(self,request):
-        # Step 1: Get the latest date for skutype='pouch'
-        latestdate = SRDailyStockDetails.objects.filter(stocktype='PET').aggregate(Max('date'))['date__max']
-        #print('latestdate',latestdate)
-        # Step 2: Filter records with the latest date
-        lastdatedata = SRDailyStockDetails.objects.filter(stocktype='PET', date=latestdate)
-        formatted_datetime = latestdate.strftime("%Y-%m-%d %H:%M:%S")
-        return render(request,'Packing/dailystockpetjartable.html',{'tabledata':lastdatedata,'lastentrydate':formatted_datetime})
+    def get(self,request): 
+        # Step 1: Fetch all relevant records for today's date and specific stock type
+        today_date = date.today()
+        all_stock_records = SRDailyStockDetails.objects.filter(date__date=today_date, godownname=2)
+
+        # Step 2: Separate the records into morning and evening stock tables
+        morningstocktable = [record for record in all_stock_records if record.stockmode == 'Morning']
+        eveningstocktable = [record for record in all_stock_records if record.stockmode == 'Evening']
+        #print('morningstocktable',morningstocktable)
+        #print('eveningstocktable',eveningstocktable)
+        morningstockerror=0
+        eveningstockerror=0
+        if not morningstocktable:
+            morningstockerror = 1
+        sfmorningstock = [record for record in morningstocktable if record.skuname.skuname.startswith('SF')]
+        gnmorningstock = [record for record in morningstocktable if record.skuname.skuname.startswith('GN ')]
+        rbmorningstock = [record for record in morningstocktable if record.skuname.skuname.startswith('RB')]
+        cocmorningstock = [record for record in morningstocktable if record.skuname.skuname.startswith('COC')]
+        ginmorningstock = [record for record in morningstocktable if record.skuname.skuname.startswith('GIN')]
+        gnrmorningstock = [record for record in morningstocktable if record.skuname.skuname.startswith('GNR')]
+        nakrmorningstock = [record for record in morningstocktable if record.skuname.skuname.startswith('NAK')]
+        mustmorningstock = [record for record in morningstocktable if record.skuname.skuname.startswith('MUS')]
+        casmorningstock = [record for record in morningstocktable if record.skuname.skuname.startswith('CAS')]
+        glmorningstock = [record for record in morningstocktable if record.skuname.skuname.startswith('GL')]
+        palmmorningstock = [record for record in morningstocktable if 'PALM' in record.skuname.skuname]
+        
+            
+            
+        if not eveningstocktable:
+            eveningstockerror = 1         
+        sfeveningstock = [record for record in eveningstocktable if record.skuname.skuname.startswith('SF')]
+        gneveningstock = [record for record in eveningstocktable if record.skuname.skuname.startswith('GN ')]
+        rbeveningstock = [record for record in eveningstocktable if record.skuname.skuname.startswith('RB')]
+        coceveningstock = [record for record in eveningstocktable if record.skuname.skuname.startswith('COC')]
+        gineveningstock = [record for record in eveningstocktable if record.skuname.skuname.startswith('GIN')]
+        nakeveningstock = [record for record in eveningstocktable if record.skuname.skuname.startswith('NAK')]
+        musteveningstock = [record for record in eveningstocktable if record.skuname.skuname.startswith('MUS')]
+        caseveningstock = [record for record in eveningstocktable if record.skuname.skuname.startswith('CAS')]
+        gnreveningstock = [record for record in eveningstocktable if record.skuname.skuname.startswith('GNR')]
+        gleveningstock = [record for record in eveningstocktable if record.skuname.skuname.startswith('GL')]
+        palmeveningstock = [record for record in eveningstocktable if 'PALM' in record.skuname.skuname] 
+        
+        # print(eveningstocktable)
+        # Step 3: Find the latest date and corresponding updatedby for 'POUCH' stock type
+        subquery = SRDailyStockDetails.objects.filter(
+            stocktype='PET'
+        ).order_by('-date').values('date')[:1]
+
+        latest_record = SRDailyStockDetails.objects.filter(
+            stocktype='PET',
+            date=Subquery(subquery)
+        ).first()
+
+        latestdate = latest_record.date if latest_record else None
+        userid = latest_record.updatedby if latest_record else None
+        # print(userid)
+        try:
+            updatedby = CustomUser.objects.get(id=userid)
+        except:
+            updatedby = 'unknown'
+        context = {
+            'sfmorningstock':sfmorningstock,
+            'gnmorningstock':gnmorningstock,
+            'rbmorningstock':rbmorningstock,
+            'cocmorningstock':cocmorningstock,
+            'ginmorningstock':ginmorningstock,
+            'gnrmorningstock':gnrmorningstock,
+            'nakmorningstock':nakrmorningstock,
+            'mustmorningstock':mustmorningstock,
+            'casmorningstock':casmorningstock,
+            'glmorningstock':glmorningstock,
+            'palmmorningstock':palmmorningstock,
+            'eveningstockdata':eveningstocktable,
+            'sfeveningstock':sfeveningstock,
+            'gneveningstock':gneveningstock,
+            'rbeveningstock':rbeveningstock,
+            'coceveningstock':coceveningstock,
+            'gineveningstock':gineveningstock,
+            'gnreveningstock':gnreveningstock,
+            'nakeveningstock':nakeveningstock,
+            'gleveningstock':gleveningstock,
+            'musteveningstock':musteveningstock,
+            'caseveningstock':caseveningstock,
+            'palmeveningstock':palmeveningstock,
+            'lastentrydate':latestdate,
+            'updatedby':updatedby,
+            'morningstockerror':morningstockerror,
+            'eveningstockerror':eveningstockerror
+        }
+        return render(request,'Packing/dailystockpetjartable.html',context)
 
 class DailystockPouchList(View):
     def get(self,request): 
@@ -1669,9 +1760,14 @@ class DailystockPouchList(View):
         # Step 2: Separate the records into morning and evening stock tables
         morningstocktable = [record for record in all_stock_records if record.stockmode == 'Morning']
         eveningstocktable = [record for record in all_stock_records if record.stockmode == 'Evening']
-        
+        #print('morningstocktable',morningstocktable)
+        #print('eveningstocktable',eveningstocktable)
+        morningstockerror=0
+        eveningstockerror=0
+        if not morningstocktable:
+            morningstockerror = 1
         sfmorningstock = [record for record in morningstocktable if record.skuname.skuname.startswith('SF')]
-        gnmorningstock = [record for record in morningstocktable if record.skuname.skuname.startswith('GN')]
+        gnmorningstock = [record for record in morningstocktable if record.skuname.skuname.startswith('GN ')]
         rbmorningstock = [record for record in morningstocktable if record.skuname.skuname.startswith('RB')]
         cocmorningstock = [record for record in morningstocktable if record.skuname.skuname.startswith('COC')]
         ginmorningstock = [record for record in morningstocktable if record.skuname.skuname.startswith('GIN')]
@@ -1679,19 +1775,21 @@ class DailystockPouchList(View):
         glmorningstock = [record for record in morningstocktable if record.skuname.skuname.startswith('GL')]
         palmmorningstock = [record for record in morningstocktable if 'PALM' in record.skuname.skuname]
         
+            
+            
+        if not eveningstocktable:
+            eveningstockerror = 1         
         sfeveningstock = [record for record in eveningstocktable if record.skuname.skuname.startswith('SF')]
-        gneveningstock = [record for record in eveningstocktable if record.skuname.skuname.startswith('GN')]
+        gneveningstock = [record for record in eveningstocktable if record.skuname.skuname.startswith('GN ')]
         rbeveningstock = [record for record in eveningstocktable if record.skuname.skuname.startswith('RB')]
         coceveningstock = [record for record in eveningstocktable if record.skuname.skuname.startswith('COC')]
         gineveningstock = [record for record in eveningstocktable if record.skuname.skuname.startswith('GIN')]
         gnreveningstock = [record for record in eveningstocktable if record.skuname.skuname.startswith('GNR')]
         gleveningstock = [record for record in eveningstocktable if record.skuname.skuname.startswith('GL')]
-        palmeveningstock = [record for record in eveningstocktable if 'PALM' in record.skuname.skuname]
-    
+        palmeveningstock = [record for record in eveningstocktable if 'PALM' in record.skuname.skuname] 
         
-        
-
-        # Step 3: Find the latest date and corresponding updatedby for 'PET' stock type
+        # print(eveningstocktable)
+        # Step 3: Find the latest date and corresponding updatedby for 'POUCH' stock type
         subquery = SRDailyStockDetails.objects.filter(
             stocktype='POUCH'
         ).order_by('-date').values('date')[:1]
@@ -1703,41 +1801,11 @@ class DailystockPouchList(View):
 
         latestdate = latest_record.date if latest_record else None
         userid = latest_record.updatedby if latest_record else None
-        updatedby = CustomUser.objects.get(id=userid)
-        
-        # # print(date.today())
-        # morningstocktable = SRDailyStockDetails.objects.filter(date__date=date.today(),stocktype='POUCH',stockmode='Morning')  
-        # eveningstocktable = SRDailyStockDetails.objects.filter(date__date=date.today(),stocktype='POUCH',stockmode='Evening')
-        # # Step 1: Get the latest date for skutype='pouch'
-        # latest_details = SRDailyStockDetails.objects.filter(stocktype='POUCH').aggregate(
-        #                                                                         latest_date=Max('date'),
-        #                                                                         updatedby=Max('updatedby'))
-        # latestdate = latest_details['latest_date']
-        # updatedby = latest_details['updatedby']
-        # print(latestdate)
-        # #print('latestdate',latestdate)   
-        # # Step 2: Filter records with the latest date
-        # lastdatedata = SRDailyStockDetails.objects.filter(stocktype='POUCH', date=latestdate)
-        #print(latestdate)   
-        # Alternatively, using a subquery (single query)
-        # latest_date_subquery = SRDailyStockDetails.objects.filter(skutype='pouch').order_by('-date').values('date')[:1]
-        # latest_pouch_records = SRDailyStockDetails.objects.filter(skutype='pouch', date=Subquery(latest_date_subquery))
-
-        
-        # Get the latest date
-        # latest_date = SRDailyStockDetails.objects.latest('date').date
-
-        # # Filter lastdatedata by date part only
-        # lastdatedata = SRDailyStockDetails.objects.annotate(date_only=Cast('date', DateField())).filter(
-        #     date_only=latest_date,
-        #     stocktype='POUCH'
-        # )
-        
-        
-        # dateobj = latestdate[1]
-        # datetime_obj = dateobj.date  # Access the date attribute directly
-        # Format the datetime object as a string with only date and time
-        # formatted_datetime = latestdate.strftime("%Y-%m-%d %H:%M:%S %Z")
+        # print(userid)
+        try:
+            updatedby = CustomUser.objects.get(id=userid)
+        except:
+            updatedby = 'unknown'
         context = {
             'sfmorningstock':sfmorningstock,
             'gnmorningstock':gnmorningstock,
@@ -1748,7 +1816,7 @@ class DailystockPouchList(View):
             'glmorningstock':glmorningstock,
             'palmmorningstock':palmmorningstock,
             'eveningstockdata':eveningstocktable,
-             'sfeveningstock':sfeveningstock,
+            'sfeveningstock':sfeveningstock,
             'gneveningstock':gneveningstock,
             'rbeveningstock':rbeveningstock,
             'coceveningstock':coceveningstock,
@@ -1757,15 +1825,20 @@ class DailystockPouchList(View):
             'gleveningstock':gleveningstock,
             'palmeveningstock':palmeveningstock,
             'lastentrydate':latestdate,
-            'updatedby':updatedby
+            'updatedby':updatedby,
+            'morningstockerror':morningstockerror,
+            'eveningstockerror':eveningstockerror
         }
         return render(request,'Packing/dailystockpouchtable.html',context)
+    
 class DailystockPouchUpdate(View):
     def get(self,request):
-        skuname = skunamedetails.objects.filter(skutype='POUCH')
+        skuname = skunamedetails.objects.filter(godownname=1)
         lastentry = SRDailyStockDetails.objects.last()
         if lastentry:
-            lastupdate = lastentry.date     
+            lastupdate = lastentry.date
+        else:
+            lastupdate = ''      
         form = SRDailyStockDetailsForm(skuname)
         return render(request,'Packing/dailystockpouchtablenewentry.html',{'form':form,'lastentrydate':lastupdate})
     
@@ -1777,18 +1850,20 @@ class DailystockPouchUpdate(View):
             if form.is_valid():
                 stockdata = form.cleaned_data
                 stockmode = stockdata.get('stockmode')  # Get the value of stockmode from the cleaned data
+                godown = GodownDetails.objects.get(pk=1) # Retrieve the GodownDetails instance with ID 1
                 for sku in skuname:
                     # Assuming the correct attribute is 'sku_name'
                     stockbox = stockdata.get(sku.skuname)               
                     
                     if stockbox is not None:
-                        SRDailyStockDetails.objects.create(skuname=sku, stockbox=stockbox,stocktype='POUCH',stockmode=stockmode,updatedby=updatedby)
-                
+                        SRDailyStockDetails.objects.create(skuname=sku, stockbox=stockbox,stocktype='POUCH',stockmode=stockmode,updatedby=updatedby,godownname=godown)
+                messages.success(request,"Pouch Stock Details updated Successful")
                 return redirect('dailypouchstocklist')
             else:
-                
+                print('form not valid')
                 return render(request, 'Packing/dailystockpouchtablenewentry.html', {'form': form})
         else:
+            print('not updated by')
             messages.error(request,"Unauthenticated Login")
             return render(request, 'Packing/dailystockpouchtablenewentry.html', {'form': form})
     

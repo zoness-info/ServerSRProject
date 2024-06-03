@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+ <!-- App body starts -->
+    <div class="app-body">
+
+        <!-- Container starts -->
+        <div class="container-fluid">
+
+            <!-- Row start -->
+            <div class="row">
+                <div class="col-xxl-12 col-md-12 col-sm-12 col-12">
+                    <!-- Card start -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">Daily PET and Jar Stock  -  <a type='submit' class='btn btn-primary' href="{% url 'dailypetjarstockupdate' %}">+Add</a></h4><small>Last updated date is {{lastentrydate}}</small>
+                        </div>
+                        <div class="card-body">             
+                            
+                            
+                                <div class="row">
+                                    {% for data in tabledata %}
+                                        <div class="col-xxl-3 col-md-4 col-sm-6 col-12">
+                                            <lable class="form-lable">{{data.skuname}} : {{data.stockbox}}</lable>  
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                           
+                           
+                        </div>
+                    </div>
+                    <!-- Card end -->
+                </div>
+                <!-- <div class="col-xxl-9 col-md-8 col-sm-12 col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">Activity</h4>
+                        </div>
+                        <div class="card-body">
+                            
+                        </div>
+                    </div>
+                </div> -->
+            </div>
+            <!-- Row end -->
+
+        </div>
+        <!-- Container ends -->
+
+    </div>
+    <!-- App body ends -->
+
+   
+
+
+{% endblock %}
