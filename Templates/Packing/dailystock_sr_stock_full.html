@@ -1,0 +1,162 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<!-- App body starts -->
+<div class="app-body">
+    {% if user.is_authenticated and user.Pack_dailystock_access %}
+    {% include 'Packing/djangomessage.html' %}
+
+    <!-- Container starts -->
+    <div class="container-fluid">
+        <!-- Row start -->
+        <div class="row">
+            <div class="col-xxl-6 col-md-12 col-sm-12 col-12">
+                <!-- Card start -->
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title">Sunraja Morning Full Stock</h4><small>Last updated date is
+                            {{lastentrydate}} - updatedby {{updatedby}}</small>
+                    </div>
+                    <div class="card-body">
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <b>Morning Pouch Stock</b>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="row">
+                                                {% if morningpochfullstock %}
+                                                    {% for morningpochstock in morningpochfullstock %}                                                
+                                                        <div class="col-xxl-9 col-sm-10 reduced-row-height">{{morningpochstock.skuname}}</div>
+                                                        <div class="col-xxl-3 col-sm-2 reduced-row-height">{{morningpochstock.stockbox}}</div><hr>    
+                                                    
+                                                    {% endfor %}
+                                                {% else %}
+                                                    <div class="col-12">
+                                                    <b style="color: red;">Morning Pouch stock details not available</b>
+                                                    </div>
+                                                {% endif %}
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <b>Morning PET/JAR Stock</b>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="row">
+                                                {% if morningpetjarfullstock %}
+                                                    {% for morningpetstock in morningpetjarfullstock %} 
+                                                        
+                                                            <div class="col-xxl-9 col-sm-10 pt-0">{{morningpetstock.skuname}}</div>
+                                                            <div class="col-xxl-3 col-sm-2 pt-0">{{morningpetstock.stockbox}}</div><hr>
+                                                        
+                                                    {% endfor %}
+                                                    {% else %}
+                                                    <div class="col-12">
+                                                    <b style="color:red">Morning Pet/Jar stock details not available</b>
+                                                    </div>
+                                                {% endif %}
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
+                    </div>
+                </div>
+                <!-- Card end -->
+            </div>
+            <div class="col-xxl-6 col-md-12 col-sm-12 col-12">
+                <!-- Card start -->
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title">Sunraja Evening Full Stock</h4><small>Last updated date is
+                            {{lastentrydate}} - updatedby {{updatedby}}</small>
+                    </div>
+                    <div class="card-body">
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <b>Evening Pouch Stock</b>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="row">
+                                                {% if eveningpochfullstock %}
+                                                    {% for eveningpochstock in eveningpochfullstock %}                                                
+                                                        <div class="col-xxl-9 col-sm-10 reduced-row-height">{{eveningpochstock.skuname}}</div>
+                                                        <div class="col-xxl-3 col-sm-2 reduced-row-height">{{eveningpochstock.stockbox}}</div><hr>    
+                                                    
+                                                    {% endfor %}
+                                                {% else %}
+                                                    <div class="col-12">
+                                                        <b style="color: red;">Evening Pouch stock details not available</b>
+                                                    </div>
+                                                {% endif %}
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="card">
+                                        <div class="card-header">
+                                           <b>Morning PET/JAR Stock</b>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="row">
+                                                {% if eveningpetjarfullstock %}
+                                                    {% for eveningpetstock in eveningpetjarfullstock %} 
+                                                        
+                                                            <div class="col-xxl-9 col-sm-10 pt-0">{{eveningpetstock.skuname}}</div>
+                                                            <div class="col-xxl-3 col-sm-2 pt-0">{{eveningpetstock.stockbox}}</div><hr>
+                                                        
+                                                    {% endfor %}
+                                                    {% else %}
+                                                    <div class="col-12">
+                                                        <b style="color: red;">Evening Pet/Jar stock details not available</b>
+                                                    </div>
+                                                {% endif %}
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
+                    </div>
+                </div>
+                <!-- Card end -->
+            </div>
+            
+        </div>
+        <!-- Row end -->
+
+    </div>
+    <!-- Container ends -->
+
+</div>
+<!-- App body ends -->
+{% else %}
+    {% include 'Packing/noaccess.html' %}
+{% endif %}
+
+
+
+{% endblock %}

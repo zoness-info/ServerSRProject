@@ -11,6 +11,7 @@ from .models import (branddetails, skunamedetails,
                      ExpVsActDetails,
                      PPSRDetails,
                      SRDailyStockDetails,
+                     DispatchReq,
                      )
 from django.forms import inlineformset_factory
 #from django_select2.forms import Select2Widget
@@ -382,6 +383,7 @@ class PPSRDetailsForm(forms.ModelForm):
             self.add_error('ipk10_runningsku', "Running SKU must be selected if IPK10 is ON.")
     
         return cleaned_data
+    
 class SRDailyStockDetailsForm(forms.Form):
     CHOICES = [
         ('Morning', 'Morning'),
@@ -424,6 +426,30 @@ class SRDailyStockDetailsForm(forms.Form):
             raise ValidationError('At least one field must have a value.')
 
         return cleaned_data
+
+class DispatchReqForm(forms.Form):
+    skuname = forms.ModelChoiceField(
+        queryset=skunamedetails.objects.all(),
+        label="SKU Name",
+        widget=forms.Select(attrs={'class': 'form-select'})
+    )
+    reqbox = forms.IntegerField(
+        label="Requirement Box",
+        widget=forms.NumberInput(attrs={'class': 'form-control'})
+    )
+    
+    
+    
+    # skuname = forms.ModelChoiceField(queryset=skunamedetails.objects.all(),label="SKU Name",widget=forms.Select(attrs={'class': 'form-select'}))
+    # reqbox = forms.IntegerField(label="Requirement Box",widget=forms.NumberInput(attrs={'class': 'form-control'})
+    # )
+    
+    # def __init__(self, *args, **kwargs):
+    #     super(DispatchReqForm,self).__init__(*args,**kwargs)
+    #     self.fields['skuname'].widget.attrs.update({'class':'form-select'})
+    #     self.fields['reqbox'].widget.attrs.update({'class':'form-control'})  
+    
+    
 # class UniqueOverallProductionPlanFormSet(forms.BaseModelFormSet):
 #     def clean(self):
 #         if any(self.errors):

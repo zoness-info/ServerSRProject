@@ -12,6 +12,7 @@ class CustomUser(AbstractUser):
     Pack_pouchcutting_access = models.BooleanField(_("Pack_PouchCutting"),default=False)
     Pack_manualleakchange_access = models.BooleanField(_("Pack_ManualLeakChange"),default=False)
     Pack_expvsact_access = models.BooleanField(_("Pack_ExpVsAct"),default=False)
+    Pack_dailystock_access = models.BooleanField(_("Pack_DailyStock"),default=False)
     
     groups = models.ManyToManyField(Group, related_name='customuser_set', blank=True)
     user_permissions = models.ManyToManyField(Permission, related_name='customuser_set', blank=True)

@@ -543,4 +543,13 @@ class SRDailyStockDetails(models.Model):
     
     def __str__(self):
         return f'{self.date} - {self.stocktype} - {self.skuname} - {self.stockbox}'
+
+class DispatchReq(models.Model):
+    date = models.DateField(_("Requirement Date"), auto_now=True, auto_now_add=False)
+    skuname = models.ForeignKey(skunamedetails, on_delete=models.CASCADE)
+    reqbox = models.IntegerField(_("Requirement Box"))
+    
+    def __str__(self):
+        return f'{self.date} - {self.skuname} - {self.reqbox}'
+    
     

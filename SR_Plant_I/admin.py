@@ -10,12 +10,13 @@ from Packing.models import (branddetails, oilcategorydetails, skunamedetails,
                             ChangeLog,
                             DailyPouchCuttingDetails,
                             PouchLeakMistakesName,
-                             ManualLeakChangeManpower, ManualLeakChangeRollPouchFS,
-                             ExpVsActDetails,
-                             DispatchOpendingClosingStockDetails,
-                             PPSRDetails,ChampionNameDetails,
-                             GodownDetails,
-                             SRDailyStockDetails
+                            ManualLeakChangeManpower, ManualLeakChangeRollPouchFS,
+                            ExpVsActDetails,
+                            DispatchOpendingClosingStockDetails,
+                            PPSRDetails,ChampionNameDetails,
+                            GodownDetails,
+                            SRDailyStockDetails,
+                            DispatchReq
                             )
 
 
@@ -154,4 +155,7 @@ class SRDailyStockDetailsAdmin(admin.ModelAdmin):
     list_display = [field.name for field in SRDailyStockDetails._meta.fields]
 admin.site.register(SRDailyStockDetails,SRDailyStockDetailsAdmin)
 
+class DispatchReqAdmin(admin.ModelAdmin):
+    list_display = [field.name for field in DispatchReq._meta.fields]
+admin.site.register(DispatchReq,DispatchReqAdmin)
 # Register your models here.

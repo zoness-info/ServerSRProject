@@ -24,19 +24,22 @@ from django.utils.decorators import method_decorator
 from SR_Plant_I.models import CustomUser
 from django.db.models.functions import Cast
 from django.db.models import Max, Subquery, OuterRef, Q
+import pandas as pd
+
 
 from .models import (branddetails, oilcategorydetails, skunamedetails, 
-                     PrintingRollBatch, PrintingRollDetail, 
-                     ProductionRollDetails,DispatchOpendingClosingStockDetails,
-                     OilPumpingDetails, 
-                     ChangeLog,
-                     DailyPouchCuttingDetails,
-                     ManualLeakChangeManpower,ManualLeakChangeRollPouchFS,
-                     ExpVsActDetails,
-                     PPSRDetails,
-                     SRDailyStockDetails,
-                     GodownDetails,
-                     )
+                    PrintingRollBatch, PrintingRollDetail, 
+                    ProductionRollDetails,DispatchOpendingClosingStockDetails,
+                    OilPumpingDetails, 
+                    ChangeLog,
+                    DailyPouchCuttingDetails,
+                    ManualLeakChangeManpower,ManualLeakChangeRollPouchFS,
+                    ExpVsActDetails,
+                    PPSRDetails,
+                    SRDailyStockDetails,
+                    GodownDetails,
+                    DispatchReq,
+                    )
 from .forms import (branddetailsform,
                     prinitingrolldetailsform,RollDetailsFormset, 
                     ProductionRollDetailsForm,
@@ -46,7 +49,8 @@ from .forms import (branddetailsform,
                     ExpVsActDetailsForm,
                     DispatchStockUploadForm,
                     #PPSRDetailsFormSet,
-                    PPSRDetailsForm,SRDailyStockDetailsForm
+                    PPSRDetailsForm,SRDailyStockDetailsForm,
+                    DispatchReqForm,
                     )
 @method_decorator(login_required, name='dispatch')
 class home(View):
@@ -82,9 +86,6 @@ class skudetails(ListView):
     model = branddetails
     template_name = 'Packing/skulist.html' 
     paginate_by = 10
-   
-          
-    
     def paginate_custom_queryset(self, queryset, page_size,page_param):
         paginator = Paginator(queryset, page_size)
         page = self.request.GET.get(page_param)
@@ -95,7 +96,6 @@ class skudetails(ListView):
         except EmptyPage:
             paginated_queryset = paginator.page(paginator.num_pages)
         return paginated_queryset
-    
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['breadcrumbs'] = [
@@ -167,8 +167,7 @@ class filmrolltable(View):
             datatable = paginator.page(paginator.num_pages)
         context['datatable'] = datatable     
         
-        return render(request, 'Packing/printingfilmrolltable.html',context) 
-    
+        return render(request, 'Packing/printingfilmrolltable.html',context)    
 class filmrolltableUpdateView(CreateView):
    pass
 class filmrolltableDeleteView(DeleteView):
@@ -218,8 +217,7 @@ def printingfilmrollavailability(request):
     
     userid = request.session['userdata']
     userdetails = CustomUser.objects.get(id=userid)    
-    return render(request,'Packing/printingfilmrolltableavail.html',{'user':userdetails})
-    
+    return render(request,'Packing/printingfilmrolltableavail.html',{'user':userdetails})    
 def filmrollavilcheck(request):
     if request.method == 'GET' and 'rollno' in request.GET:
         rollno = request.GET['rollno']
@@ -1532,7 +1530,8 @@ class ExpVsActDetailsDeleteView(DeleteView):
         userdetails = CustomUser.objects.get(id=userid)
         context['user'] = userdetails
         return context
-    
+
+@login_required()    
 def ppsr_details_view(request):
     userid = request.seesion['userdata']
     userdetails = CustomUser.objects.get(id=userid)
@@ -1549,6 +1548,7 @@ def ppsr_details_view(request):
         print('userid',userid)
         userdetails = CustomUser.objects.get(id=userid)
     return render(request, 'Packing/template_name.html', {'formset': formset,'user':userdetails})  # Replace with your template name
+@login_required()
 def ppsr_details_edit(request):    
     form = PPSRDetailsForm()
     if request.method == 'POST':
@@ -1568,6 +1568,7 @@ def ppsr_details_edit(request):
         userdetails = CustomUser.objects.get(id=userid)
     return render(request, 'Packing/ppsrtableentry.html',{'form': form,'user':userdetails})
 
+@method_decorator(login_required,name='dispatch')
 class PPSRDetailsListView(ListView):
     model = PPSRDetails
     template_name = 'Packing/ppsrtable.html'
@@ -1584,7 +1585,7 @@ class PPSRDetailsListView(ListView):
         context['breadcrumbs'] = self.breadcrumbs
         
         userid = self.request.session.get('userdata')
-        print('userid',userid)
+        #print('userid',userid)
         userdetails = CustomUser.objects.get(id=userid)
         context['user'] = userdetails
         
@@ -1621,16 +1622,20 @@ class PPSRDetailsDeleteView(DeleteView):
     template_name = 'ppsr_details_confirm_delete.html'
     success_url = reverse_lazy('ppsr_details_list')
 
+@method_decorator(login_required,name='dispatch')
 class SRDailyStockPETJARUpdateView(View):
     def get(self,request):
         skuname = skunamedetails.objects.filter(godownname=2)
         lastentry = SRDailyStockDetails.objects.last()
+        userid = self.request.session.get('userdata')
+        #print('userid',userid)
+        userdetails = CustomUser.objects.get(id=userid)
         if lastentry:
             lastupdate = lastentry.date
         else:
             lastupdate = ''      
         form = SRDailyStockDetailsForm(skuname)
-        return render(request,'Packing/dailystockpetjartablenewentry.html',{'form':form,'lastentrydate':lastupdate})
+        return render(request,'Packing/dailystockpetjartablenewentry.html',{'form':form,'lastentrydate':lastupdate,'user':userdetails})
     def post(self,request):
     #     skuname = skunamedetails.objects.filter(
     #     Q(skutype='PET') | Q(skutype='JAR')
@@ -1659,6 +1664,7 @@ class SRDailyStockPETJARUpdateView(View):
             print('not updated by')
             messages.error(request,"Unauthenticated Login")
             return render(request, 'Packing/dailystockpetjartablenewentry.html', {'form': form})
+@method_decorator(login_required,name='dispatch')
 class DailyPETJARstocklist(View):
     def get(self,request): 
         # Step 1: Fetch all relevant records for today's date and specific stock type
@@ -1720,6 +1726,11 @@ class DailyPETJARstocklist(View):
             updatedby = CustomUser.objects.get(id=userid)
         except:
             updatedby = 'unknown'
+        
+        userid = self.request.session.get('userdata')
+        #print('userid',userid)
+        userdetails = CustomUser.objects.get(id=userid)
+        
         context = {
             'sfmorningstock':sfmorningstock,
             'gnmorningstock':gnmorningstock,
@@ -1747,10 +1758,12 @@ class DailyPETJARstocklist(View):
             'lastentrydate':latestdate,
             'updatedby':updatedby,
             'morningstockerror':morningstockerror,
-            'eveningstockerror':eveningstockerror
+            'eveningstockerror':eveningstockerror,
+            'user':userdetails
         }
         return render(request,'Packing/dailystockpetjartable.html',context)
 
+@method_decorator(login_required,name='dispatch')
 class DailystockPouchList(View):
     def get(self,request): 
         # Step 1: Fetch all relevant records for today's date and specific stock type
@@ -1806,6 +1819,11 @@ class DailystockPouchList(View):
             updatedby = CustomUser.objects.get(id=userid)
         except:
             updatedby = 'unknown'
+        
+        userid = self.request.session.get('userdata')
+        #print('userid',userid)
+        userdetails = CustomUser.objects.get(id=userid)
+        
         context = {
             'sfmorningstock':sfmorningstock,
             'gnmorningstock':gnmorningstock,
@@ -1827,10 +1845,12 @@ class DailystockPouchList(View):
             'lastentrydate':latestdate,
             'updatedby':updatedby,
             'morningstockerror':morningstockerror,
-            'eveningstockerror':eveningstockerror
+            'eveningstockerror':eveningstockerror,
+            'user':userdetails
         }
         return render(request,'Packing/dailystockpouchtable.html',context)
-    
+
+@method_decorator(login_required,name='dispatch')   
 class DailystockPouchUpdate(View):
     def get(self,request):
         skuname = skunamedetails.objects.filter(godownname=1)
@@ -1840,7 +1860,10 @@ class DailystockPouchUpdate(View):
         else:
             lastupdate = ''      
         form = SRDailyStockDetailsForm(skuname)
-        return render(request,'Packing/dailystockpouchtablenewentry.html',{'form':form,'lastentrydate':lastupdate})
+        userid = self.request.session.get('userdata')
+        #print('userid',userid)
+        userdetails = CustomUser.objects.get(id=userid)
+        return render(request,'Packing/dailystockpouchtablenewentry.html',{'form':form,'lastentrydate':lastupdate,'user':userdetails})
     
     def post(self,request):
         skuname = skunamedetails.objects.filter(skutype='POUCH')
@@ -1866,7 +1889,68 @@ class DailystockPouchUpdate(View):
             print('not updated by')
             messages.error(request,"Unauthenticated Login")
             return render(request, 'Packing/dailystockpouchtablenewentry.html', {'form': form})
-    
+@method_decorator(login_required,name='dispatch')
+class DailyStockSRFull(View):
+    def get(self,request):
+        today_date = date.today()
+        dayfullstock = SRDailyStockDetails.objects.filter(date__date=today_date)
+        morningstocktable_pouchgodown = [record for record in dayfullstock if record.stockmode == 'Morning' and record.godownname.godownname == "SR-Packing"]
+        morningstocktable_jargodown = [record for record in dayfullstock if record.stockmode == 'Morning' and record.godownname.godownname == "SR-Jar"]
+        eveningstocktable_pouchgodown = [record for record in dayfullstock if record.stockmode == 'Evening' and record.godownname.godownname == "SR-Packing"]
+        eveningstocktable_jargodown = [record for record in dayfullstock if record.stockmode == 'Evening' and record.godownname.godownname == "SR-Jar"]
+        userid = self.request.session.get('userdata')
+        #print('userid',userid)
+        userdetails = CustomUser.objects.get(id=userid)
+        context = {
+            'morningpochfullstock' : morningstocktable_pouchgodown,
+            'morningpetjarfullstock' : morningstocktable_jargodown,
+            'eveningpochfullstock' : eveningstocktable_pouchgodown,
+            'eveningpetjarfullstock' : eveningstocktable_jargodown,
+            'user':userdetails
+        }
+        
+        return render(request, 'Packing/dailystock_sr_stock_full.html', context)    
+
+@method_decorator(login_required,name='dispatch')
+class DispatchReqVsStockView(View):
+    def get(self,request):
+        today=date.today()
+        eveningfullstock = SRDailyStockDetails.objects.filter(date__date=today,stockmode='Evening')
+        print(eveningfullstock)
+        dispatcheveingreq = DispatchReq.objects.filter(date=today)
+        print(dispatcheveingreq)
+        
+        
+        return render(request,'Packing/dispatchreqvsstockview.html')
+        pass
+class DispatchReqVsStockUpdate(View):
+    def get(self,request):
+        form = DispatchReqForm()
+        userid = self.request.session.get('userdata')
+        #print('userid',userid)
+        userdetails = CustomUser.objects.get(id=userid)
+        
+        return render(request, 'Packing/dispatchreqform.html', {'form': form,'user':userdetails})
+        
+    def post(self,request):
+        forms = []
+        userid = self.request.session.get('userdata')
+        #print('userid',userid)
+        userdetails = CustomUser.objects.get(id=userid)
+        for i in range(len(request.POST.getlist('skuname'))):
+            form = DispatchReqForm({
+                'skuname': request.POST.getlist('skuname')[i],
+                'reqbox': request.POST.getlist('reqbox')[i]
+            })
+            if form.is_valid():
+                DispatchReq.objects.create(
+                    skuname=form.cleaned_data['skuname'],
+                    reqbox=form.cleaned_data['reqbox']
+                )
+        messages.success(request,"Dispatch Req saved Successful.")
+        form = DispatchReqForm()
+        return render(request, 'Packing/dispatchreqform.html', {'form': form,'user':userdetails})  # Redirect to a success page or another view
+
 # class GenericListView(ListView):
 #     template_name = 'Packing/generictemplate.html'
 

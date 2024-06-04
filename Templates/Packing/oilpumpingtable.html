@@ -15,12 +15,14 @@
                         <div class="d-flex align-items-center">                            
                                 <h4 class="card-title">Oil Pumping Details</h4>                                
                                 <a href="{% url 'oilpumpingtable_entry' %}" class="btn btn-primary mx-2">+ Add</a>
-                            <!-- Download Button --> 
+                            <!-- Download Button -->
+                            {% if user.Pack_production_access %} 
                                 <div data-bs-toggle="tooltip" data-bs-placement="top" title="Download">                               
                                     <button type="button" class="btn btn-outline-warning mx-2" data-bs-toggle="modal" data-bs-target="#modalSheet">
                                         <i class="fs-3 bi bi-file-earmark-spreadsheet-fill"></i>
                                     </button>
                                 </div>
+                                {% endif %}
                             <!-- Model Form-->
                                 <form action="download_oilpumpingtable">
                                     {% csrf_token %}

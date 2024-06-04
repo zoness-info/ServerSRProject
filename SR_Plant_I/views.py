@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
 from .models import CustomUser
+from django.contrib import messages
 
 
 from .forms import CustomAuthenticationForm
@@ -31,7 +32,14 @@ def root_login_view(request):
 
 def redirect_to_app(request,user):
     if isinstance(user, User):
-        userdata = CustomUser.objects.get(username=user.username)
+        try:
+            userdata = CustomUser.objects.get(username=user.username)
+        except:
+            context = {
+                'error' : 'Custom User Profile Not Found'
+            }
+            messages.error(request,"Two Factor authentication required in profile creation")
+            return HttpResponseRedirect('/')
         context = {'user':userdata}
         print('userdata :', userdata)
         request.session['userdata'] = userdata.pk  # Save the primary key in the session

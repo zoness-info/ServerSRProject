@@ -25,7 +25,7 @@
         <!-- SKU's -->        
             <li class="treeview">
                 <a href="#!">
-                    <i class="bi bi-pie-chart"></i>
+                    <i class="fs-3 bi bi-diagram-3"></i>
                     <span class="menu-text">SKU's</span>
                 </a>
                 <ul class="treeview-menu">
@@ -40,7 +40,7 @@
         <!-- Printing -->        
             <li class="treeview">
                 <a href="#!">
-                    <i class="bi bi-pie-chart"></i>
+                    <i class="fs-3 bi bi-body-text"></i>
                     <span class="menu-text">Printing</span>
                 </a>
                 <ul class="treeview-menu">
@@ -58,11 +58,11 @@
                     </li>
                 </ul>
             </li>
-        <!-- Production -->        
+        <!-- MIS -->        
             <li class="treeview">
                 <a href="#!">
-                    <i class="bi bi-pie-chart"></i>
-                    <span class="menu-text">Production</span>
+                    <i class="fs-3 bi bi-pc-display-horizontal"></i>
+                    <span class="menu-text"><b>MIS</b></span>
                 </a>
                 <ul class="treeview-menu">
                     <li>
@@ -76,7 +76,10 @@
                         <a href="{% url 'ppsrtable' %}">PPSR Table</a>
                     </li>
                     <li>
-                        <a href="{% url 'dispatchstocktable' %}">Dispatch Stock</a>
+                        <a href="{% url 'dispatchstocktable' %}">Dispatch Sales Sheet Update</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'dispatchreqvsstockview' %}">Req Vs Stock</a>
                     </li>
                     <li>
                         <a href="#">Chart&Report</a>
@@ -86,7 +89,7 @@
         <!-- Oil Pump -->        
             <li class="treeview">
                 <a href="#!">
-                    <i class="bi bi-pie-chart"></i>
+                    <i class="fs-3 bi bi-speedometer"></i>
                     <span class="menu-text">Oil Pump</span>
                 </a>
                 <ul class="treeview-menu">
@@ -104,7 +107,7 @@
         <!-- Pouch Cuttinng -->        
             <li class="treeview">
                 <a href="#!">
-                    <i class="bi bi-pie-chart"></i>
+                    <i class="fs-3 bi bi-scissors"></i>
                     <span class="menu-text">Pouch Cutting</span>
                 </a>
                 <ul class="treeview-menu">
@@ -122,7 +125,7 @@
         <!-- Manual Leak Changing -->        
             <li class="treeview">
                 <a href="#!">
-                    <i class="bi bi-pie-chart"></i>
+                    <i class="fs-3 bi bi-stack-overflow"></i>
                     <span class="menu-text">Manual Leak Change</span>
                 </a>
                 <ul class="treeview-menu">
@@ -140,7 +143,7 @@
         <!-- Exp Vs Act -->        
             <li class="treeview">
                 <a href="#!">
-                    <i class="bi bi-pie-chart"></i>
+                    <i class="fs-3 bi bi-graph-up-arrow"></i>
                     <span class="menu-text">Exp Vs Act</span>  
                 </a>
                 <ul class="treeview-menu">
@@ -158,7 +161,7 @@
         <!-- Daily Stock -->        
             <li class="treeview">
                 <a href="#!">
-                    <i class="bi bi-pie-chart"></i>
+                    <i class="fs-3 bi bi-boxes"></i>
                     <span class="menu-text">Daily Stock</span>  
                 </a>
                 <ul class="treeview-menu">
@@ -167,6 +170,9 @@
                     </li>
                     <li>
                         <a href="{% url 'dailypetjarstocklist' %}">Daily PET/JAR Stock</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'DailyStockSRFull' %}">Full Stock(SR)</a>
                     </li>
                     <li>
                         <a href="#">Chart&Report</a>

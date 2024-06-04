@@ -13,7 +13,8 @@ from .views import ( home,
                     ExpVsActDetailsListView,ExpVsActDetailsCreateView,ExpVsActDetailsUpdateView,ExpVsActDetailsDeleteView,
                     ppsr_details_view,ppsr_details_edit,PPSRDetailsListView,PPSRDetailsCreateView,PPSRDetailsUpdateView,PPSRDetailsDeleteView,
                     SRDailyStockPETJARUpdateView,DailyPETJARstocklist,
-                    DailystockPouchList,DailystockPouchUpdate,
+                    DailystockPouchList,DailystockPouchUpdate,DailyStockSRFull,
+                    DispatchReqVsStockUpdate,DispatchReqVsStockView
                     )
 
 
@@ -30,19 +31,22 @@ urlpatterns = [
     path('printingfilmrolltable/availcheck',filmrollavilcheck,name='filmrollavilcheck'),
     #_________________________________________________________________________________________________________
     
-    #----------------------------------------------------Production--------------------------------------------
+    #----------------------------------------------------MIS--------------------------------------------
     #path('select2/', include('django_select2.urls')),
-    path('productionrolltable/',productionrolltableListView.as_view(),name='productionrolltable'),
-    path('productionrolltable/newentry',productionrolltableCreateView.as_view(),name='productionrolltable_entry'),
-    path('productionrolltable/<pk>/edit',productionrolltableUpdateView.as_view(),name='productionrolltable_update'),
-    path('productionrolltable/<pk>/delete',productionrolltableDeleteView.as_view(),name='productionrolltable_delete'),    
-    path('productionrolltable/download_productionrolltable', download_productionrolltable, name='download_productionrolltable'),    
-    path('productionrolltable/dispatchstocktable/',dispatchstocktableListView.as_view(),name='dispatchstocktable'),
-    path('productionrolltable/dispatchstocktable/download_dispatchstocktable', download_dispatchstocktable, name='download_dispatchstocktable'),
-    path('productionrolltable/ppsrtable',PPSRDetailsListView.as_view(),name='ppsrtable'),
+    path('MIS/productionrolltable',productionrolltableListView.as_view(),name='productionrolltable'),
+    path('MIS/newentry',productionrolltableCreateView.as_view(),name='productionrolltable_entry'),
+    path('MIS/<pk>/edit',productionrolltableUpdateView.as_view(),name='productionrolltable_update'),
+    path('MIS/<pk>/delete',productionrolltableDeleteView.as_view(),name='productionrolltable_delete'),    
+    path('MIS/download_productionrolltable', download_productionrolltable, name='download_productionrolltable'),    
+    path('MIS/dispatchstocktable/',dispatchstocktableListView.as_view(),name='dispatchstocktable'),
+    path('MIS/dispatchstocktable/download_dispatchstocktable', download_dispatchstocktable, name='download_dispatchstocktable'),
+    path('MIS/dispatchreqvsstockview',DispatchReqVsStockView.as_view(),name='dispatchreqvsstockview'),
+    path('MIS/dispatchreqvsstockview/update',DispatchReqVsStockUpdate.as_view(),name='dispatchreqvsstockupdate'),
+    path('MIS/ppsrtable',PPSRDetailsListView.as_view(),name='ppsrtable'),
     #path('productionrolltable/ppsrtable/newentry',PPSRDetailsCreateView.as_view(),name='ppsrtable_entry'),
-    path('productionrolltable/ppsrtable/<pk>/edit',PPSRDetailsUpdateView.as_view(),name='ppsrtable_update'),
-    path('productionrolltable/ppsrtable/<pk>/delete',PPSRDetailsDeleteView.as_view(),name='ppsrtable_delete'),
+    path('MIS/ppsrtable/<pk>/edit',PPSRDetailsUpdateView.as_view(),name='ppsrtable_update'),
+    path('MIS/ppsrtable/<pk>/delete',PPSRDetailsDeleteView.as_view(),name='ppsrtable_delete'),
+    
     #___________________________________________________________________________________________________________
     
     #---------------------------------------------------Oil Pumping---------------------------------------------
@@ -97,6 +101,7 @@ urlpatterns = [
     path('stock/dailypetjarstockupdate',SRDailyStockPETJARUpdateView.as_view(),name='dailypetjarstockupdate'),
     path('stock/dailypouchstocklist',DailystockPouchList.as_view(),name='dailypouchstocklist'),
     path('stock/dailypouchstockupdate',DailystockPouchUpdate.as_view(),name='dailypochstockupdate'),
+    path('stock/dailystockSRFull',DailyStockSRFull.as_view(),name='DailyStockSRFull'),
     #_____________________________________________________________________________________________________________________
     
     path('ppsr-details/', ppsr_details_view, name='ppsr_details'),
