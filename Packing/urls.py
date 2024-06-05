@@ -14,7 +14,8 @@ from .views import ( home,
                     ppsr_details_view,ppsr_details_edit,PPSRDetailsListView,PPSRDetailsCreateView,PPSRDetailsUpdateView,PPSRDetailsDeleteView,
                     SRDailyStockPETJARUpdateView,DailyPETJARstocklist,
                     DailystockPouchList,DailystockPouchUpdate,DailyStockSRFull,
-                    DispatchReqVsStockUpdate,DispatchReqVsStockView
+                    DispatchReqVsStockUpdate,DispatchReqVsStockView,
+                    CalenderView,
                     )
 
 
@@ -41,6 +42,7 @@ urlpatterns = [
     path('MIS/dispatchstocktable/',dispatchstocktableListView.as_view(),name='dispatchstocktable'),
     path('MIS/dispatchstocktable/download_dispatchstocktable', download_dispatchstocktable, name='download_dispatchstocktable'),
     path('MIS/dispatchreqvsstockview',DispatchReqVsStockView.as_view(),name='dispatchreqvsstockview'),
+    #path('MIS/dispatchreqvsstockview/download',DispatchReqVsStockView.as_view(), {'action': 'download_excel'},name='dispatchreqvsstockviewdownload'),
     path('MIS/dispatchreqvsstockview/update',DispatchReqVsStockUpdate.as_view(),name='dispatchreqvsstockupdate'),
     path('MIS/ppsrtable',PPSRDetailsListView.as_view(),name='ppsrtable'),
     #path('productionrolltable/ppsrtable/newentry',PPSRDetailsCreateView.as_view(),name='ppsrtable_entry'),
@@ -106,6 +108,8 @@ urlpatterns = [
     
     path('ppsr-details/', ppsr_details_view, name='ppsr_details'),
     path('ppsrtable/newentry',ppsr_details_edit,name='ppsrtable_entry'),
+    
+    path('calender/',CalenderView.as_view(),name='calenderview'),
     
     # path('brands/', BrandListView.as_view(), name='branddetails-list'),
     # path('brands/new/', BrandCreateView.as_view(), name='branddetails-create'),

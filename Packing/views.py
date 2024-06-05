@@ -245,7 +245,7 @@ class productionrolltableListView(ListView):
     paginate_by = 10
     breadcrumbs = [
         {'label': 'Home', 'url': '/Packing'},
-        {'label': 'Production', 'url': '/Packing/productionrolltable'},
+        {'label': 'Production', 'url': '/Packing/MIS/productionrolltable'},
         {'label': 'Production Table', 'url': None},  # Assuming current page doesn't have a URL
         ] 
     
@@ -266,7 +266,7 @@ class productionrolltableCreateView(CreateView):
     
     breadcrumbs = [
         {'label': 'Home', 'url': '/Packing'},
-        {'label': 'Production', 'url': '/Packing/productionrolltable'},
+        {'label': 'Production', 'url': '/Packing/MIS/productionrolltable'},
         {'label': 'Production Table Add', 'url': None},  # Assuming current page doesn't have a URL
         ] 
     
@@ -292,7 +292,7 @@ class productionrolltableUpdateView(UpdateView):
     success_url = reverse_lazy('productionrolltable')
     breadcrumbs = [
         {'label': 'Home', 'url': '/Packing'},
-        {'label': 'Production', 'url': '/Packing/productionrolltable'},
+        {'label': 'Production', 'url': '/Packing/MIS/productionrolltable'},
         {'label': 'Film roll Update', 'url': None},  # Assuming current page doesn't have a URL
         ] 
     
@@ -316,7 +316,7 @@ class productionrolltableDeleteView(DeleteView):
     success_url = reverse_lazy('productionrolltable')
     breadcrumbs = [
         {'label': 'Home', 'url': '/Packing'},
-        {'label': 'Production', 'url': '/Packing/productionrolltable'},
+        {'label': 'Production', 'url': '/Packing/MIS/productionrolltable'},
         {'label': 'Film Roll Delete', 'url': None},  # Assuming current page doesn't have a URL
         ] 
     
@@ -341,7 +341,7 @@ class dispatchstocktableListView(ListView):
     paginate_by = 20
     breadcrumbs = [
         {'label': 'Home', 'url': '/Packing'},
-        {'label': 'Production', 'url': '/Packing/productionrolltable'},
+        {'label': 'Production', 'url': '/Packing/MIS/productionrolltable'},
         {'label': 'Dispatch Stock', 'url': None},  # Assuming current page doesn't have a URL
         ] 
     
@@ -1635,7 +1635,12 @@ class SRDailyStockPETJARUpdateView(View):
         else:
             lastupdate = ''      
         form = SRDailyStockDetailsForm(skuname)
-        return render(request,'Packing/dailystockpetjartablenewentry.html',{'form':form,'lastentrydate':lastupdate,'user':userdetails})
+        breadcrumbs = [
+        {'label': 'Home', 'url': '/Packing'},
+        {'label': 'Daily Stock', 'url': '/Packing/stock/dailypetjarlist'},
+        {'label': 'Daily Stock Table', 'url': None},  # Assuming current page doesn't have a URL
+        ]
+        return render(request,'Packing/dailystockpetjartablenewentry.html',{'form':form,'lastentrydate':lastupdate,'user':userdetails,'breadcrumbs':breadcrumbs})
     def post(self,request):
     #     skuname = skunamedetails.objects.filter(
     #     Q(skutype='PET') | Q(skutype='JAR')
@@ -1730,7 +1735,11 @@ class DailyPETJARstocklist(View):
         userid = self.request.session.get('userdata')
         #print('userid',userid)
         userdetails = CustomUser.objects.get(id=userid)
-        
+        breadcrumbs = [
+        {'label': 'Home', 'url': '/Packing'},
+        {'label': 'Daily Stock', 'url': '/Packing/stock/dailypetjarlist'},
+        {'label': 'Pet Stock Table', 'url': None},  # Assuming current page doesn't have a URL
+        ]
         context = {
             'sfmorningstock':sfmorningstock,
             'gnmorningstock':gnmorningstock,
@@ -1759,10 +1768,10 @@ class DailyPETJARstocklist(View):
             'updatedby':updatedby,
             'morningstockerror':morningstockerror,
             'eveningstockerror':eveningstockerror,
-            'user':userdetails
+            'user':userdetails,
+            'breadcrumbs':breadcrumbs
         }
         return render(request,'Packing/dailystockpetjartable.html',context)
-
 @method_decorator(login_required,name='dispatch')
 class DailystockPouchList(View):
     def get(self,request): 
@@ -1823,7 +1832,11 @@ class DailystockPouchList(View):
         userid = self.request.session.get('userdata')
         #print('userid',userid)
         userdetails = CustomUser.objects.get(id=userid)
-        
+        breadcrumbs = [
+        {'label': 'Home', 'url': '/Packing'},
+        {'label': 'Daily Stock', 'url': '/Packing/stock/dailypouchstocklist'},
+        {'label': 'Pouch Stock Table', 'url': None},  # Assuming current page doesn't have a URL
+        ]
         context = {
             'sfmorningstock':sfmorningstock,
             'gnmorningstock':gnmorningstock,
@@ -1846,10 +1859,10 @@ class DailystockPouchList(View):
             'updatedby':updatedby,
             'morningstockerror':morningstockerror,
             'eveningstockerror':eveningstockerror,
-            'user':userdetails
+            'user':userdetails,
+            'breadcrumbs':breadcrumbs
         }
         return render(request,'Packing/dailystockpouchtable.html',context)
-
 @method_decorator(login_required,name='dispatch')   
 class DailystockPouchUpdate(View):
     def get(self,request):
@@ -1863,7 +1876,12 @@ class DailystockPouchUpdate(View):
         userid = self.request.session.get('userdata')
         #print('userid',userid)
         userdetails = CustomUser.objects.get(id=userid)
-        return render(request,'Packing/dailystockpouchtablenewentry.html',{'form':form,'lastentrydate':lastupdate,'user':userdetails})
+        breadcrumbs = [
+        {'label': 'Home', 'url': '/Packing'},
+        {'label': 'Daily Stock', 'url': '/Packing/stock/dailypouchstocklist'},
+        {'label': 'Pouch Stock Update', 'url': None},  # Assuming current page doesn't have a URL
+        ]
+        return render(request,'Packing/dailystockpouchtablenewentry.html',{'form':form,'lastentrydate':lastupdate,'user':userdetails,'breadcrumbs':breadcrumbs})
     
     def post(self,request):
         skuname = skunamedetails.objects.filter(skutype='POUCH')
@@ -1901,12 +1919,18 @@ class DailyStockSRFull(View):
         userid = self.request.session.get('userdata')
         #print('userid',userid)
         userdetails = CustomUser.objects.get(id=userid)
+        breadcrumbs = [
+        {'label': 'Home', 'url': '/Packing'},
+        {'label': 'Exp Vs Act', 'url': '/Packing/stock/dailystockSRFull'},
+        {'label': 'Exp Vs Act Table', 'url': None},  # Assuming current page doesn't have a URL
+        ]
         context = {
             'morningpochfullstock' : morningstocktable_pouchgodown,
             'morningpetjarfullstock' : morningstocktable_jargodown,
             'eveningpochfullstock' : eveningstocktable_pouchgodown,
             'eveningpetjarfullstock' : eveningstocktable_jargodown,
-            'user':userdetails
+            'user':userdetails,
+            'bradcrumbs':breadcrumbs
         }
         
         return render(request, 'Packing/dailystock_sr_stock_full.html', context)    
@@ -1914,15 +1938,104 @@ class DailyStockSRFull(View):
 @method_decorator(login_required,name='dispatch')
 class DispatchReqVsStockView(View):
     def get(self,request):
+        if 'download' in request.GET:
+            return self.download_excel(request)
+        else:
+            return self.showdata(request)
+    def showdata(self,request):
         today=date.today()
+        context = {
+            'error': None
+        }
         eveningfullstock = SRDailyStockDetails.objects.filter(date__date=today,stockmode='Evening')
-        print(eveningfullstock)
+        # print(eveningfullstock)
         dispatcheveingreq = DispatchReq.objects.filter(date=today)
-        print(dispatcheveingreq)
+        # print(dispatcheveingreq)
+        if eveningfullstock:
+            if dispatcheveingreq:
+                stockdf = pd.DataFrame(list(eveningfullstock.values('skuname','stockbox')))
+                # print(stockdf)
+                reqdf = pd.DataFrame(list(dispatcheveingreq.values('skuname','reqbox')))
+                # print(reqdf)
+                
+                # mergedf = pd.merge(stockdf,reqdf,how='outer')
+                # print(mergedf)
+                # print('InnerJoint')
+                # mergedf = pd.merge(stockdf,reqdf,how='inner')
+                mergedf = pd.merge(stockdf,reqdf,how='right')
+                # print(mergedf)
+                
+                mergedf.fillna(0,inplace=True)
+                # print('fil0 : ',mergedf)
+                
+                mergedf['stockavail']=mergedf['stockbox']-mergedf['reqbox']
+                # print('calc',mergedf)
+                
+                plandata = mergedf.to_dict('records')
+                # print(plandata)
+                context['plandata'] = plandata
+                
+                # Replace skuname IDs with actual skuname names
+                skunames = {skuname.id: skuname.skuname for skuname in skunamedetails.objects.all()}
+                for item in plandata:
+                    item['skuname'] = skunames.get(item['skuname'], 'Unknown')
+                    # print(item['skuname'])
+            else:
+                context['error'] = "Dispatch requirement not updated"
+        else:
+            context['error'] = 'Evening Stock not updated' 
+        breadcrumbs = [
+        {'label': 'Home', 'url': '/Packing'},
+        {'label': 'Dispatch Req Vs Stock', 'url': '/Packing/MIS/dispatchreqvsstockview'},
+        {'label': 'Req Vs Stock Table', 'url': None},  # Assuming current page doesn't have a URL
+        ]
+        context['breadcrumbs'] = breadcrumbs   
+        return render(request,'Packing/dispatchreqvsstockview.html',context)
+    def download_excel(self,request):
+        today=date.today()
+        context = {
+            'error': None
+        }
+        eveningfullstock = SRDailyStockDetails.objects.filter(date__date=today,stockmode='Evening')
+        # print(eveningfullstock)
+        dispatcheveingreq = DispatchReq.objects.filter(date=today)
+        # print(dispatcheveingreq)
+        if eveningfullstock:
+            if dispatcheveingreq:
+                stockdf = pd.DataFrame(list(eveningfullstock.values('skuname','stockbox')))
+                # print(stockdf)
+                reqdf = pd.DataFrame(list(dispatcheveingreq.values('skuname','reqbox')))
+                # print(reqdf)
+                
+                # mergedf = pd.merge(stockdf,reqdf,how='outer')
+                # print(mergedf)
+                # print('InnerJoint')
+                # mergedf = pd.merge(stockdf,reqdf,how='inner')
+                mergedf = pd.merge(stockdf,reqdf,how='right')
+                # print(mergedf)
+                
+                mergedf.fillna(0,inplace=True)
+                # print('fil0 : ',mergedf)
+                
+                mergedf['stockavail']=mergedf['stockbox']-mergedf['reqbox']
+                # print('calc',mergedf)
+                
+                # Replace skuname IDs with actual skuname names
+                skunames = {skuname.id: skuname.skuname for skuname in skunamedetails.objects.all()}
+                mergedf['skuname'] = mergedf['skuname'].map(skunames)
+            else:
+                context['error'] = "Dispatch requirement not updated"
+        else:
+            context['error'] = 'Evening Stock not updated' 
+        # Generate Excel file
+        response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+        response['Content-Disposition'] = f'attachment; filename="Dispatch_ReqvsStock_{today}.xlsx"'
         
-        
-        return render(request,'Packing/dispatchreqvsstockview.html')
-        pass
+        with pd.ExcelWriter(response, engine='xlsxwriter') as writer:
+            mergedf.to_excel(writer, index=False, sheet_name='Dispatch_ReqVsStock')
+
+        return response             
+@method_decorator(login_required,name='dispatch')
 class DispatchReqVsStockUpdate(View):
     def get(self,request):
         form = DispatchReqForm()
@@ -1951,6 +2064,9 @@ class DispatchReqVsStockUpdate(View):
         form = DispatchReqForm()
         return render(request, 'Packing/dispatchreqform.html', {'form': form,'user':userdetails})  # Redirect to a success page or another view
 
+class CalenderView(View):
+    def get(self,request):
+        return render(request,'Packing/calendar.html')
 # class GenericListView(ListView):
 #     template_name = 'Packing/generictemplate.html'
 

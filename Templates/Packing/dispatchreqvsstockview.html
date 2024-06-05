@@ -9,25 +9,48 @@
 
             <!-- Row start -->
             <div class="row">
-                <div class="col-xxl-6 col-md-4 col-sm-12 col-12">
+                <div class="col-xxl-8 col-md-12 col-sm-12 col-12">
                     <!-- Card start -->
                     <div class="card">
-                        <div class="card-header">
-                            <h4 class="card-title">Dispatch Req Vs Stock Summary</h4><a class="btn btn-primary" href="{% url 'dispatchreqvsstockupdate' %}">+Add</a><small>Last updated date is {{lastentrydate}} - updatedby {{updatedby}}</small>
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h4 class="card-title mb-0">Dispatch Req Vs Stock Summary</h4><small class="text-muted">Last updated date is {{ lastentrydate }} - updated by {{ updatedby }}</small>
+                            <div>
+                                <a class="btn btn-primary" href="{% url 'dispatchreqvsstockupdate' %}">+Add</a>
+                                
+                            </div>
                         </div>
-                        <div class="card-body">               
-                            
-                            <form method="post">
-                                {% csrf_token %}
-                                {{ form.as_p }}
-                                {{ child_formset.management_form }}
-                                {% for form in child_formset %}
-                                    {{ form.as_p }}
-                                {% endfor %}
-                                <button type="submit">Save</button>
-                            </form>  
-                           
+                        <div class="card-body">
+                            <div class="border border-dark rounded-3">
+                                <div class="table-responsive">
+                                    <table class="table align-middle custom-table m-0">
+                                        <thead>
+                                            <tr>
+                                                
+                                                <th>SKU Name</th>
+                                                <th>Stock Box</th>
+                                                <th>Required Box</th>
+                                                <th>Balanace Box</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% if error %}
+                                            {{error}}
+                                            {% else %}
+                                            {% for item in plandata %}
+                                                <tr>
+                                                    <td>{{ item.skuname }}</td>
+                                                    <td>{{ item.stockbox }}</td>
+                                                    <td>{{ item.reqbox }}</td>
+                                                    <td>{{ item.stockavail }}</td>
+                                                </tr>
+                                            {% endfor %}
+                                            {% endif %}
+                                        </tbody>
+                                    </table>    
+                                </div>
+                            </div>                           
                         </div>
+                        <a type="button" class="btn btn-primary" href="{% url 'dispatchreqvsstockview' %}?download=true">Download</a> 
                     </div>
                     <!-- Card end -->
                 </div>
