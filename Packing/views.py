@@ -2025,8 +2025,10 @@ class DispatchReqVsStockView(View):
                 mergedf['skuname'] = mergedf['skuname'].map(skunames)
             else:
                 context['error'] = "Dispatch requirement not updated"
+                mergedf = pd.DataFrame(columns=['skuname', 'stockbox', 'reqbox', 'stockavail'])
         else:
-            context['error'] = 'Evening Stock not updated' 
+            context['error'] = 'Evening Stock not updated'
+            mergedf = pd.DataFrame(columns=['skuname', 'stockbox', 'reqbox', 'stockavail']) 
         # Generate Excel file
         response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
         response['Content-Disposition'] = f'attachment; filename="Dispatch_ReqvsStock_{today}.xlsx"'

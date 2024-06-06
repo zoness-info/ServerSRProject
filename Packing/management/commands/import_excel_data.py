@@ -37,12 +37,15 @@ class Command(BaseCommand):
 
             # Process each sheet for the corresponding model
             self.import_brand_details(wb['brandname'])
+            self.import_oil_category_details(wb['oilcategory'])
             self.import_godown_details(wb['godown'])
+            self.import_sku_name_details(wb['sku'])
+            
+            
             self.import_day_night_shift(wb['shift'])
             self.import_packing_section(wb['packingsection'])
-            self.import_operator_name_details(wb['operatorname'])
-            self.import_oil_category_details(wb['oilcategory'])
-            self.import_sku_name_details(wb['sku'])
+            self.import_operator_name_details(wb['operatorname'])            
+            
             self.import_packing_machine_details(wb['packmachine'])
             self.import_maintank(wb['maintank'])
             self.import_subtank(wb['subtank'])
@@ -63,6 +66,7 @@ class Command(BaseCommand):
         self.stdout.write(self.style.SUCCESS('Brand Name imported successfully'))
         
     def import_godown_details(self, sheet):
+        self.stdout.write(self.style.SUCCESS('Godown Details Start'))
         for row in sheet.iter_rows(min_row=2, values_only=True):
             GodownDetails.objects.create(godownname=row[0])  # Adjust fields accordingly
         self.stdout.write(self.style.SUCCESS('Godown Details imported successfully'))
@@ -86,6 +90,7 @@ class Command(BaseCommand):
         self.stdout.write(self.style.SUCCESS('Operator Details imported successfully'))
     
     def import_oil_category_details(self, sheet):
+        self.stdout.write(self.style.SUCCESS('Oil Category Details Start'))
         for row in sheet.iter_rows(min_row=2, values_only=True):
             brandname_str = row[0]
             brandname, createdat = branddetails.objects.get_or_create(brandname=brandname_str)
@@ -93,18 +98,17 @@ class Command(BaseCommand):
         self.stdout.write(self.style.SUCCESS('Oil Category Details imported successfully'))
         
     def import_sku_name_details(self, sheet):
+        self.stdout.write(self.style.SUCCESS('SKU Details Start'))
         for row in sheet.iter_rows(min_row=2, values_only=True):
+            #print('rowno:', row)
             category_id_str = row[0]
             godownname_str = row[5] 
             # print(category_id_str)
-            try:
-                category, created = oilcategorydetails.objects.get_or_create(oilcategoryname=category_id_str)
-                godownname, created = GodownDetails.objects.get_or_create(godownname = godownname_str)
-                # print(category.id,category.brandname,category.oilcategoryname)
-                
-                skunamedetails.objects.create(category_name=category,skuname=row[1],skutype=row[2],skucode_m=row[3],skucode_c=row[4],godownname=godownname)  # Adjust fields accordingly
-            except oilcategorydetails.DoesNotExist:
-                self.stdout.write(self.style.ERROR(f"OilCategoryDetails with id {category_id_str} does not exist"))        
+
+            category, created = oilcategorydetails.objects.get_or_create(oilcategoryname=category_id_str)
+            godownname, created = GodownDetails.objects.get_or_create(godownname = godownname_str)
+            #print(category.id,category.brandname,category.oilcategoryname)                
+            skunamedetails.objects.create(category_name=category,skuname=row[1],skutype=row[2],skucode_m=row[3],skucode_c=row[4],godownname=godownname)  # Adjust fields accordingly        
         self.stdout.write(self.style.SUCCESS('SKU Details imported successfully'))
         
     def import_packing_machine_details(self, sheet):
