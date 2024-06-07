@@ -1,0 +1,159 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+
+					<!-- App body starts -->
+					<div class="app-body">
+
+						<!-- Container starts -->
+						<div class="container-fluid">
+
+							<!-- Row start -->
+							<div class="row gx-3">
+							<!-- current month line chart -->
+								<div class="col-xxl-6 col-xl-12">								
+									<div class="card mb-3">
+										<div class="card-header">
+											<h5 class="card-title">This Month: <span id="current-month"></span> - <span id="current-year"></span></h5>
+										</div>
+										<div class="card-body">											
+											<div id="chart11"></div>
+										</div>
+									</div>
+								</div>
+								<div class="col-xxl-6 col-xl-12">								
+									<div class="card mb-3">
+										<div class="card-header">
+											<h5 class="card-title">Month Wise</h5>
+										</div>
+										<div class="card-body">											
+											<div id="chart_month"></div>
+										</div>
+									</div>
+								</div>
+								<!-- <div class="col-xxl-6 col-xl-12">
+									<div class="card mb-3">
+										<div class="card-header">
+											<h5 class="card-title">Line Graph</h5>
+										</div>
+										<div class="card-body">
+											<div id="barGraph"></div>
+										</div>
+									</div>
+								</div>
+								<div class="col-xxl-6 col-xl-12">
+									<div class="card mb-3">
+										<div class="card-header">
+											<h5 class="card-title">Column Area Graph</h5>
+										</div>
+										<div class="card-body">
+											<div id="columnArea"></div>
+										</div>
+									</div>
+								</div>
+								<div class="col-xxl-6 col-xl-12">
+									<div class="card mb-3">
+										<div class="card-header">
+											<h5 class="card-title">CandleStick</h5>
+										</div>
+										<div class="card-body">
+											<div id="candleStick"></div>
+										</div>
+									</div>
+								</div>
+								<div class="col-xxl-6 col-xl-12">
+									<div class="card mb-3">
+										<div class="card-header">
+											<h5 class="card-title">Heatmap</h5>
+										</div>
+										<div class="card-body">
+											<div id="heatmap"></div>
+										</div>
+									</div>
+								</div>
+								<div class="col-xl-6 col-lg-12">
+									<div class="card mb-3">
+										<div class="card-header">
+											<h5 class="card-title">Donut</h5>
+										</div>
+										<div class="card-body">
+											<div id="donut" class="auto-align-graph"></div>
+										</div>
+									</div>
+								</div>
+								<div class="col-xl-6 col-lg-12">
+									<div class="card mb-3">
+										<div class="card-header">
+											<h5 class="card-title">Pie</h5>
+										</div>
+										<div class="card-body">
+											<div id="pie" class="auto-align-graph"></div>
+										</div>
+									</div>
+								</div> -->
+							</div>
+							<!-- Row end -->
+
+						</div>
+						<!-- Container ends -->
+						<pre id="raw-json-data" style="display:none;">
+							{{ chart_day|safe }}
+						</pre>
+						<pre id="raw-json-month" style="display:none;">
+							{{ chart_month|safe }}
+						</pre>
+					
+					</div>
+					<!-- App body ends -->
+
+
+					<script src="{% static 'assets/vendor/apex/custom/graphs/expvsactchart.js' %}"></script>
+{% endblock %}
+
+					<!-- App footer start -->
+					<div class="app-footer">
+						<span>© Bootstrap Gallery 2023</span>
+					</div>
+					<!-- App footer end -->
+
+				</div>
+				<!-- App container ends -->
+
+			</div>
+			<!-- Main container end -->
+
+		</div>
+		<!-- Page wrapper end -->
+
+		<!-- *************
+			************ JavaScript Files *************
+		************* -->
+		<!-- Required jQuery first, then Bootstrap Bundle JS -->
+		<script src="assets/js/jquery.min.js"></script>
+		<script src="assets/js/bootstrap.bundle.min.js"></script>
+
+		<!-- *************
+			************ Vendor Js Files *************
+		************* -->
+
+		<!-- Overlay Scroll JS -->
+		<script src="assets/vendor/overlay-scroll/jquery.overlayScrollbars.min.js"></script>
+		<script src="assets/vendor/overlay-scroll/custom-scrollbar.js"></script>
+
+		<!-- Apex Charts -->
+		<script src="assets/vendor/apex/apexcharts.min.js"></script>
+		<script src="assets/vendor/apex/custom/graphs/area.js"></script>
+		<script src="assets/vendor/apex/custom/graphs/line.js"></script>
+		<script src="assets/vendor/apex/custom/graphs/bar.js"></script>
+		<script src="assets/vendor/apex/custom/graphs/column-area.js"></script>
+		<script src="assets/vendor/apex/custom/graphs/candlestick.js"></script>
+		<script src="assets/vendor/apex/custom/graphs/heatmap.js"></script>
+		<script src="assets/vendor/apex/custom/graphs/donut.js"></script>
+		<script src="assets/vendor/apex/custom/graphs/pie.js"></script>
+
+		<!-- Custom JS files -->
+		<script src="assets/js/custom.js"></script>
+	</body>
+
+</html>

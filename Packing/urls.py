@@ -10,7 +10,7 @@ from .views import ( home,
                     autocomplete_skuname,toggle,
                     download_printingrolltable,download_productionrolltable,download_oilpumpingtable,download_pouchcuttingtable,download_manualleakchangetable,
                     chart_data,chart_view,download_expvsacttable,
-                    ExpVsActDetailsListView,ExpVsActDetailsCreateView,ExpVsActDetailsUpdateView,ExpVsActDetailsDeleteView,
+                    ExpVsActDetailsListView,ExpVsActDetailsCreateView,ExpVsActDetailsUpdateView,ExpVsActDetailsDeleteView,ExpVsActChartListView,
                     ppsr_details_view,ppsr_details_edit,PPSRDetailsListView,PPSRDetailsCreateView,PPSRDetailsUpdateView,PPSRDetailsDeleteView,
                     SRDailyStockPETJARUpdateView,DailyPETJARstocklist,
                     DailystockPouchList,DailystockPouchUpdate,DailyStockSRFull,
@@ -95,7 +95,8 @@ urlpatterns = [
     path('expvsacttable/newentry',ExpVsActDetailsCreateView.as_view(),name='expvsacttable_entry'),
     path('expvsacttable/<pk>/edit',ExpVsActDetailsUpdateView.as_view(),name='expvsacttable_update'),
     path('expvsacttable/<pk>/delete',ExpVsActDetailsDeleteView.as_view(),name='expvsacttable_delete'),
-    path('expvsacttable/download_expvsacttable', download_expvsacttable, name='download_expvsacttable'),    
+    path('expvsacttable/download_expvsacttable', download_expvsacttable, name='download_expvsacttable'),
+    path('expvsacttable/chartview', ExpVsActChartListView.as_view(), name='expvsacttablechart'),   
     #__________________________________________________________________________________________________________
     
     #--------------------------------------------------Stock-------------------------------------------------------

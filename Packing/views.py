@@ -1525,6 +1525,53 @@ class ExpVsActDetailsDeleteView(DeleteView):
         userdetails = CustomUser.objects.get(id=userid)
         context['user'] = userdetails
         return context
+class ExpVsActChartListView(ListView):
+    model = ExpVsActDetails
+    template_name='Packing/expvsactchart.html'
+    context_object_name = 'datatable'
+    
+    def get_context_data(self, **kwargs):
+        context =  super().get_context_data(**kwargs)
+        userid = self.request.session.get('userdata')
+        userdetails = CustomUser.objects.get(id=userid)
+        # Retrieve data for the chart
+        chart_data = list(ExpVsActDetails.objects.values('date', 'expbox', 'actbox'))
+        
+    #Month -------------------
+        # Convert dates to string
+        for item in chart_data:
+            item['date'] = item['date'].strftime('%d-%m-%Y')
+        
+        # Organize data by month and calculate totals
+        data_by_month = {}
+        for item in chart_data:
+            month = item['date'][3:10]  # Extract month and year (MM-YYYY)
+            if month not in data_by_month:
+                data_by_month[month] = {'exp_total': 0, 'act_total': 0}
+            data_by_month[month]['exp_total'] += item['expbox']
+            data_by_month[month]['act_total'] += item['actbox']
+        
+        # Convert data_by_month to a list of dictionaries
+        chart_month_data = [{'month': month, 'exp_total': data['exp_total'], 'act_total': data['act_total']} for month, data in data_by_month.items()]
+        context['chart_month'] = json.dumps(chart_month_data)  # Convert to JSON string for monthly totals
+        
+        
+    #____________________________________________________________________________
+    
+    #Current month--------------------------------------------------------------
+        # Get the current month and year
+        current_month = datetime.now().month
+        current_year = datetime.now().year
+        
+        # Filter data for the current month
+        chart_data = ExpVsActDetails.objects.filter(date__month=current_month, date__year=current_year).order_by('date')
+        
+        # Convert queryset to list of dictionaries
+        chart_data_list = [{'date': item.date.strftime('%d-%m-%Y'), 'expbox': item.expbox, 'actbox': item.actbox} for item in chart_data]
+        context['chart_day'] = json.dumps(chart_data_list)  # Convert to JSON string
+    
+        # print(chart_data)
+        return context
 
 @login_required()    
 def ppsr_details_view(request):
