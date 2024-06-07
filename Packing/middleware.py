@@ -11,5 +11,5 @@ class CurrentUserMiddleware(MiddlewareMixin):
 
 def get_current_user():
     user = getattr(_user, 'value', None)
-    print(f"get_current_user: {user}")
+    #print(f"get_current_user: {user}")
     return user

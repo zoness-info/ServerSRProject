@@ -64,19 +64,19 @@ class home(View):
             userid = request.session['userdata']
             if userid:
                 userdetails = CustomUser.objects.get(id=userid)
-                #print(userdetails.Pack_dashboard_access)
+                ##print(userdetails.Pack_dashboard_access)
                 context['user'] = userdetails
             else:
                 # Handle case where user ID is not in session
-                print('No user ID in session')
+                #print('No user ID in session')
                 return redirect(reverse_lazy('login'))
         except KeyError:
             # Handle KeyError when 'userdata_pk' is not in session
-            print('No user ID in session (KeyError)')
+            #print('No user ID in session (KeyError)')
             return redirect(reverse_lazy('login'))
         except CustomUser.DoesNotExist:
             # Handle case where the user does not exist
-            print('User not found')
+            #print('User not found')
             return redirect(reverse_lazy('login'))
 
         return render(request, 'Packing/dashboard.html', context)
@@ -106,10 +106,10 @@ class skudetails(ListView):
         
         try:
             userid = self.request.session.get('userdata')
-            print('User ID' , userid)
+            #print('User ID' , userid)
             if userid:
                 userdetails = CustomUser.objects.get(id=userid)
-                print(userdetails.Pack_sku_access)
+                #print(userdetails.Pack_sku_access)
                 context['user'] = userdetails
             else:
                 context['user'] = None              
@@ -123,12 +123,12 @@ class skudetails(ListView):
 
         # Paginate skunamedetails
         skunamelists = skunamedetails.objects.all()
-        print(skunamelists)
+        #print(skunamelists)
         context['skunamelists'] = self.paginate_custom_queryset(skunamelists, self.paginate_by, 'page_sku')
 
         # Paginate branddetails
         brandlists = branddetails.objects.all()
-        #print("brandlists", brandlists)
+        ##print("brandlists", brandlists)
         context['brandlists'] = self.paginate_custom_queryset(brandlists, self.paginate_by, 'page_brand')
 
         context['brandcount'] = brandlists.count()
@@ -149,7 +149,7 @@ class filmrolltable(View):
         userid = request.session['userdata']
         try:
             userdetails = CustomUser.objects.get(id=userid)
-            print(userdetails.Pack_printing_access)
+            #print(userdetails.Pack_printing_access)
             context['user'] = userdetails
         except:
             context['user'] = None
@@ -183,7 +183,7 @@ def filmrollentry(request):
         userid = request.session['userdata']
         try:
             userdetails = CustomUser.objects.get(id=userid)
-            print(userdetails.Pack_printing_access)            
+            #print(userdetails.Pack_printing_access)            
         except:
             userdetails = None
         printing_rolldetails_form = prinitingrolldetailsform(request.POST)
@@ -207,7 +207,7 @@ def filmrollentry(request):
         userid = request.session['userdata']
         try:
             userdetails = CustomUser.objects.get(id=userid)
-            print(userdetails.Pack_printing_access)
+            #print(userdetails.Pack_printing_access)
         except:
             userdetails
         printing_rolldetails_form = prinitingrolldetailsform()
@@ -254,7 +254,7 @@ class productionrolltableListView(ListView):
         context['breadcrumbs'] = self.breadcrumbs
         
         userid = self.request.session.get('userdata')
-        print('userid',userid)
+        #print('userid',userid)
         userdetails = CustomUser.objects.get(id=userid)
         context['user'] = userdetails
         return context
@@ -281,7 +281,7 @@ class productionrolltableCreateView(CreateView):
         context['breadcrumbs'] = self.breadcrumbs
         
         userid = self.request.session.get('userdata')
-        print('userid',userid)
+        #print('userid',userid)
         userdetails = CustomUser.objects.get(id=userid)
         context['user'] = userdetails
         return context
@@ -301,7 +301,7 @@ class productionrolltableUpdateView(UpdateView):
         context['breadcrumbs'] = self.breadcrumbs
         
         userid = self.request.session.get('userdata')
-        print('userid',userid)
+        #print('userid',userid)
         userdetails = CustomUser.objects.get(id=userid)
         context['user'] = userdetails
         
@@ -325,7 +325,7 @@ class productionrolltableDeleteView(DeleteView):
         context['breadcrumbs'] = self.breadcrumbs
         
         userid = self.request.session.get('userdata')
-        print('userid',userid)
+        #print('userid',userid)
         userdetails = CustomUser.objects.get(id=userid)
         context['user'] = userdetails
         
@@ -355,24 +355,21 @@ class dispatchstocktableListView(ListView):
         return context
     
     def post(self, request, *args, **kwargs):
-            print("post triggered")
+            #print("post triggered")
             if 'file' in request.FILES:
                 file = request.FILES['file']
-                print("File received:", file)
-                print("File name:", file.name)
-            else:
-                print("No file received in the request.")
-            # Optionally, you can handle this case, e.g., return an error response or message
+                #print("File received:", file)
+                #print("File name:", file.name)
             if not file.name.endswith('.xlsx'):
                 messages.error(request, 'Unsupported file type. Please upload an Excel file') #with .xlsx extension.
                 return redirect('dispatchstocktable')
             
             form = DispatchStockUploadForm(request.POST, request.FILES)
-            print("Form is valid:", form.is_valid())
-            print(form)
+            #print("Form is valid:", form.is_valid())
+            #print(form)
             if form.is_valid():
                 try :
-                    print("File received:", request.FILES['file'])
+                    #print("File received:", request.FILES['file'])
                     file_path = self.handle_uploaded_file(request.FILES['file'])
                     call_command('import_excel_dispatchstock', file_path)
                     os.remove(file_path)  # Remove temporary file after import
@@ -384,14 +381,14 @@ class dispatchstocktableListView(ListView):
                     messages.error(request, f"An unexpected error occurred: {str(e)}")
                 return redirect('dispatchstocktable')  # Redirect to dispatch stock list view    
             else:
-                print("form not valid")
+                #print("form not valid")
                 messages.error(self.reqeust, "File not support")
                 context = self.get_context_data(**kwargs)
                 context['form'] = form
                 return render(request, self.template_name, context)
 
     def handle_uploaded_file(self, file):
-        print("exe start")
+        #print("exe start")
         temp_dir = os.path.join(settings.BASE_DIR, 'temp_files')
         if not os.path.exists(temp_dir):
             os.makedirs(temp_dir)
@@ -632,7 +629,7 @@ class ManualLeakChangeListView(ListView):
     # skuname = printing_roll_batch.skuname
 
     # # Print the skuname (or use it as needed)
-    # print(skuname)
+    # #print(skuname)
     
     
     breadcrumbs = [
@@ -710,14 +707,12 @@ def autocomplete_skuname(request):
     
     if 'term' in request.GET:
         return JsonResponse({'hi':'hi'})
-        print('data received')
+        #print('data received')
         qs = skunamedetails.objects.filter(name__icontains='su')
         names = list()
         for item in qs:
             names.append(item.name)
         return JsonResponse(names, safe=False)
-    else:
-        print("No term received")  # Print to console/log
     return JsonResponse([], safe=False)
 
 logger = logging.getLogger(__name__)
@@ -725,8 +720,8 @@ def toggle(request):
     try:
         btnradio = request.GET.get('btnradio')
         filter_option,dbname = btnradio.split(',')
-        #print("option",filter_option)
-        #print("dbname",dbname)
+        ##print("option",filter_option)
+        ##print("dbname",dbname)
         if dbname == "ProductionRollDetails":   
             today = datetime.now().date()
             if filter_option == 'all':
@@ -735,7 +730,7 @@ def toggle(request):
                 data = ProductionRollDetails.objects.filter(runningdate=today)
             elif filter_option == '7d':
                 seven_days_ago = today - timedelta(days=7)
-                #print(seven_days_ago)
+                ##print(seven_days_ago)
                 data = ProductionRollDetails.objects.filter(runningdate__gte=seven_days_ago)
             elif filter_option == 'last_month':
                 last_month_start = today.replace(day=1) - timedelta(days=1)
@@ -773,7 +768,7 @@ def toggle(request):
             elif filter_option == '7d':
                 seven_days_ago = today - timedelta(days=7)
                 batchdate = PrintingRollBatch.objects.filter(date__gte=seven_days_ago)
-                #print(batchdate)
+                ##print(batchdate)
                 data = PrintingRollDetail.objects.filter(printingrollbatch__in=batchdate)
             elif filter_option == 'last_month':
                 # last_month_start = today.replace(day=1) - timedelta(days=1)
@@ -782,7 +777,7 @@ def toggle(request):
                 last_month_end = today.replace(day=1) - timedelta(days=1)
                 last_month_start = last_month_end.replace(day=1)
                 batchdate = PrintingRollBatch.objects.filter(date__range=[last_month_start, last_month_end])
-                #print(batchdate)
+                ##print(batchdate)
                 data = PrintingRollDetail.objects.filter(printingrollbatch__in=batchdate)
             elif filter_option == 'last_3_months':
                 # three_months_ago = today.replace(day=1) - timedelta(days=1)
@@ -794,8 +789,8 @@ def toggle(request):
     
                 # Filter PrintingRollBatch objects for the last 3 months
                 batchdate = PrintingRollBatch.objects.filter(date__range=[last_3_months_start, last_3_months_end])
-                # print(last_3_months_start)
-                # print(last_3_months_end)
+                # #print(last_3_months_start)
+                # #print(last_3_months_end)
                 
                 # Filter PrintingRollDetail objects based on batchdate
                 data = PrintingRollDetail.objects.filter(printingrollbatch__in=batchdate)
@@ -809,7 +804,7 @@ def toggle(request):
                 
                 # Filter PrintingRollBatch objects for the last year
                 batchdate = PrintingRollBatch.objects.filter(date__range=[last_year_start, last_year_end])
-                #print(batchdate)
+                ##print(batchdate)
                 
                 # Filter PrintingRollDetail objects based on batchdate
                 data = PrintingRollDetail.objects.filter(printingrollbatch__in=batchdate)
@@ -831,7 +826,7 @@ def toggle(request):
                 data = OilPumpingDetails.objects.filter(date=today)
             elif filter_option == '7d':
                 seven_days_ago = today - timedelta(days=7)
-                #print(seven_days_ago)
+                ##print(seven_days_ago)
                 data = OilPumpingDetails.objects.filter(date__gte=seven_days_ago)
             elif filter_option == 'last_month':
                 # last_month_start = today.replace(day=1) - timedelta(days=1)
@@ -840,16 +835,16 @@ def toggle(request):
                 last_month_end = today.replace(day=1) - timedelta(days=1)
                 last_month_start = last_month_end.replace(day=1)
                 batchdate = OilPumpingDetails.objects.filter(date__range=[last_month_start, last_month_end])
-                #print(last_month_end)
-                #print(last_month_start)
+                ##print(last_month_end)
+                ##print(last_month_start)
                 data = OilPumpingDetails.objects.filter(date__range=[last_month_start, last_month_end])
             elif filter_option == 'last_3_months':
                 today = date.today()
                 last_month_end = today.replace(day=1) - timedelta(days=1)
                 last_3_months_start = last_month_end.replace(day=1) - timedelta(days=2*30)  # Assuming 30 days per month
                 last_3_months_end = last_month_end
-                print(last_3_months_start)
-                print(last_3_months_end)
+                #print(last_3_months_start)
+                #print(last_3_months_end)
                 data = OilPumpingDetails.objects.filter(date__gte=last_3_months_start)
             elif filter_option == 'last_year':
                 last_year_start = today.replace(year=today.year - 1, month=1, day=1)
@@ -871,7 +866,7 @@ def toggle(request):
                 data = DailyPouchCuttingDetails.objects.filter(date=today)
             elif filter_option == '7d':
                 seven_days_ago = today - timedelta(days=7)
-                #print(seven_days_ago)
+                ##print(seven_days_ago)
                 data = DailyPouchCuttingDetails.objects.filter(date__gte=seven_days_ago)
             elif filter_option == 'last_month':
                 # last_month_start = today.replace(day=1) - timedelta(days=1)
@@ -880,16 +875,16 @@ def toggle(request):
                 last_month_end = today.replace(day=1) - timedelta(days=1)
                 last_month_start = last_month_end.replace(day=1)
                 batchdate = DailyPouchCuttingDetails.objects.filter(date__range=[last_month_start, last_month_end])
-                #print(last_month_end)
-                #print(last_month_start)
+                ##print(last_month_end)
+                ##print(last_month_start)
                 data = DailyPouchCuttingDetails.objects.filter(date__range=[last_month_start, last_month_end])
             elif filter_option == 'last_3_months':
                 today = date.today()
                 last_month_end = today.replace(day=1) - timedelta(days=1)
                 last_3_months_start = last_month_end.replace(day=1) - timedelta(days=2*30)  # Assuming 30 days per month
                 last_3_months_end = last_month_end
-                # print(last_3_months_start)
-                # print(last_3_months_end)
+                # #print(last_3_months_start)
+                # #print(last_3_months_end)
                 data = DailyPouchCuttingDetails.objects.filter(date__gte=last_3_months_start)
             elif filter_option == 'last_year':
                 last_year_start = today.replace(year=today.year - 1, month=1, day=1)
@@ -905,16 +900,16 @@ def toggle(request):
         if dbname == "ManualLeakChangeRollPouchFS":   
             today = datetime.now().date()
             if filter_option == 'all':
-                print("hi")
+                #print("hi")
                 data = ManualLeakChangeRollPouchFS.objects.all()
             elif filter_option == 'today':
                 manpowerdetails = ManualLeakChangeManpower.objects.filter(date=today)
-                #print(leakchangedate)
+                ##print(leakchangedate)
                 data = ManualLeakChangeRollPouchFS.objects.filter(manpower__in=manpowerdetails)
             elif filter_option == '7d':
                 seven_days_ago = today - timedelta(days=7)
                 manpowerdetails = ManualLeakChangeManpower.objects.filter(date__gte=seven_days_ago)
-                #print(batchdate)
+                ##print(batchdate)
                 data = ManualLeakChangeRollPouchFS.objects.filter(manpower__in=manpowerdetails)
             elif filter_option == 'last_month':
                 # last_month_start = today.replace(day=1) - timedelta(days=1)
@@ -923,7 +918,7 @@ def toggle(request):
                 last_month_end = today.replace(day=1) - timedelta(days=1)
                 last_month_start = last_month_end.replace(day=1)
                 manpowerdetails = ManualLeakChangeManpower.objects.filter(date__range=[last_month_start, last_month_end])
-                #print(batchdate)
+                ##print(batchdate)
                 data = ManualLeakChangeRollPouchFS.objects.filter(manpower__in=manpowerdetails)
             elif filter_option == 'last_3_months':
                 # three_months_ago = today.replace(day=1) - timedelta(days=1)
@@ -935,8 +930,8 @@ def toggle(request):
     
                 # Filter PrintingRollBatch objects for the last 3 months
                 manpowerdetails = ManualLeakChangeManpower.objects.filter(date__range=[last_3_months_start, last_3_months_end])
-                #print(last_3_months_start)
-                #print(last_3_months_end)
+                ##print(last_3_months_start)
+                ##print(last_3_months_end)
                 
                 # Filter PrintingRollDetail objects based on batchdate
                 data = ManualLeakChangeRollPouchFS.objects.filter(manpower__in=manpowerdetails)
@@ -950,7 +945,7 @@ def toggle(request):
                 
                 # Filter PrintingRollBatch objects for the last year
                 manpowerdetails = ManualLeakChangeManpower.objects.filter(date__range=[last_year_start, last_year_end])
-                #print(batchdate)
+                ##print(batchdate)
                 
                 # Filter PrintingRollDetail objects based on batchdate
                 data = ManualLeakChangeRollPouchFS.objects.filter(manpower__in=manpowerdetails)
@@ -1004,8 +999,8 @@ def download_printingrolltable(request):
         from_date_str = request.GET['fromdate']
         to_date_str = request.GET['todate']
         
-        # print(from_date_str)
-        # print(to_date_str)
+        # #print(from_date_str)
+        # #print(to_date_str)
         
         try:
             from_date = datetime.strptime(from_date_str, '%Y-%m-%d')
@@ -1019,11 +1014,11 @@ def download_printingrolltable(request):
         # batchdate = PrintingRollBatch.objects.filter(date__range=[from_date, to_date])
         
         batchdate = PrintingRollBatch.objects.filter(date__range=[from_date,to_date])
-        # print(dir(batchdate))
+        # #print(dir(batchdate))
         # skuname = skunamedetails.objects.filter(skuname = batchdate)
-        #print(batchdate)
+        ##print(batchdate)
         data = PrintingRollDetail.objects.filter(printingrollbatch__in=batchdate)
-        #print(data)
+        ##print(data)
         
         if data.exists():
         
@@ -1034,7 +1029,7 @@ def download_printingrolltable(request):
             ws.append(headers)
             
             for obj in data:
-                # print(dir(obj))
+                # #print(dir(obj))
                 row = [obj.printingrollbatch.date, obj.printingrollbatch.shift.shifttype,obj.printingrollbatch.skuname.skuname, obj.printingrollbatch.mrp, obj.printingrollbatch.batch_no, obj.filmrollno, obj.filmrolldate, 
                     obj.grosswt,obj.netwt,obj.printingrollbatch.operatorname.operatorname]  # Adjust according to your model fields
                 ws.append(row)
@@ -1054,8 +1049,8 @@ def download_productionrolltable(request):
         from_date_str = request.GET['fromdate']
         to_date_str = request.GET['todate']
         
-        # print(from_date_str)
-        # print(to_date_str)
+        # #print(from_date_str)
+        # #print(to_date_str)
         
         try:
             from_date = datetime.strptime(from_date_str, '%Y-%m-%d')
@@ -1080,7 +1075,7 @@ def download_productionrolltable(request):
             for obj in data:
                 # created_at = obj.createdat.replace(tzinfo=None) if obj.createdat else None
                 updatedat = obj.updatedat.replace(tzinfo=None) if obj.updatedat else None
-                # print(dir(obj))
+                # #print(dir(obj))
                 
                 def make_naive(dt):
                     return dt.replace(tzinfo=None) if dt else None
@@ -1108,8 +1103,8 @@ def download_oilpumpingtable(request):
         from_date_str = request.GET['fromdate']
         to_date_str = request.GET['todate']
         
-        # print(from_date_str)
-        # print(to_date_str)
+        # #print(from_date_str)
+        # #print(to_date_str)
         
         try:
             from_date = datetime.strptime(from_date_str, '%Y-%m-%d')
@@ -1158,8 +1153,8 @@ def download_pouchcuttingtable(request):
         from_date_str = request.GET['fromdate']
         to_date_str = request.GET['todate']
         
-        # print(from_date_str)
-        # print(to_date_str)
+        # #print(from_date_str)
+        # #print(to_date_str)
         
         try:
             from_date = datetime.strptime(from_date_str, '%Y-%m-%d')
@@ -1295,12 +1290,12 @@ def download_manualleakchangetable(request):
     #     return render(request, 'Packing/productionrolltable.html',context)
 def download_expvsacttable(request):
     if request.method == 'GET' and 'fromdate' in request.GET and 'todate' in request.GET:
-        #print("hit")
+        ##print("hit")
         from_date_str = request.GET['fromdate']
         to_date_str = request.GET['todate']
         
-        print(from_date_str)
-        print(to_date_str)
+        #print(from_date_str)
+        #print(to_date_str)
         
         try:
             from_date = datetime.strptime(from_date_str, '%Y-%m-%d')
@@ -1310,7 +1305,7 @@ def download_expvsacttable(request):
             return HttpResponse("Invalid date format. Please use YYYY-MM-DD format.")
         
         data = ExpVsActDetails.objects.filter(date__range=[from_date,to_date])
-        #print(data)
+        ##print(data)
         
         
         
@@ -1325,7 +1320,7 @@ def download_expvsacttable(request):
             for obj in data:
                 # created_at = obj.createdat.replace(tzinfo=None) if obj.createdat else None
                 updatedat = obj.updatedat.replace(tzinfo=None) if obj.updatedat else None
-                # print(dir(obj))
+                # #print(dir(obj))
                 
                 def make_naive(dt):
                     return dt.replace(tzinfo=None) if dt else None
@@ -1344,18 +1339,18 @@ def download_expvsacttable(request):
             
             return response
         else :
-            print("Data not found") 
+            #print("Data not found") 
             return HttpResponseRedirect('expvsacttable')
        
     return HttpResponseRedirect('expvsacttable')
 def download_dispatchstocktable(request):
     if request.method == 'GET' and 'fromdate' in request.GET and 'todate' in request.GET:
-        #print("hit")
+        ##print("hit")
         from_date_str = request.GET['fromdate']
         to_date_str = request.GET['todate']
         
-        print(from_date_str)
-        print(to_date_str)
+        #print(from_date_str)
+        #print(to_date_str)
         
         try:
             from_date = datetime.strptime(from_date_str, '%Y-%m-%d')
@@ -1365,7 +1360,7 @@ def download_dispatchstocktable(request):
             return HttpResponse("Invalid date format. Please use YYYY-MM-DD format.")
         
         data = DispatchOpendingClosingStockDetails.objects.filter(date__range=[from_date,to_date])
-        #print(data)
+        ##print(data)
         
         
         
@@ -1380,7 +1375,7 @@ def download_dispatchstocktable(request):
             for obj in data:
                 # created_at = obj.createdat.replace(tzinfo=None) if obj.createdat else None
                 updatedat = obj.updatedat.replace(tzinfo=None) if obj.updatedat else None
-                # print(dir(obj))
+                # #print(dir(obj))
                 
                 def make_naive(dt):
                     return dt.replace(tzinfo=None) if dt else None
@@ -1395,7 +1390,7 @@ def download_dispatchstocktable(request):
             
             return response
         else :
-            print("Data not found") 
+            #print("Data not found") 
             return HttpResponseRedirect('dispatchstocktable')
        
     return HttpResponseRedirect('dispatchstocktable')
@@ -1414,7 +1409,7 @@ def chart_data(request):
         operators=Count('runningoperatorname', distinct=False),
     ).order_by('runningdate')
     data1 = ProductionRollDetails.objects.values('runningdate').annotate(machines=Count('runningmachine', distinct=True))
-    #print("data Value : ", data)
+    ##print("data Value : ", data)
 
     # Aggregate unique machine and operator names for each date
     for entry in data:
@@ -1422,7 +1417,7 @@ def chart_data(request):
                                       .values_list('runningmachine__machinename', flat=True).distinct())
         entry['operator_list'] = list(ProductionRollDetails.objects.filter(runningdate=entry['runningdate'])
                                       .values_list('runningoperatorname__operatorname', flat=True).distinct())
-    #print(list(data))
+    ##print(list(data))
     
     
     return JsonResponse(list(data), safe=False)
@@ -1538,14 +1533,14 @@ def ppsr_details_view(request):
     if request.method == 'POST':
         formset = PPSRDetailsForm(request.POST)
         if formset.is_valid():
-            print("form valid")
+            #print("form valid")
             formset.save()
             return redirect('ppsr_details')  # Replace with your success URL
     else:
         formset = PPSRDetailsForm()
-        print("form not valid")
+        #print("form not valid")
         userid = request.seesion['userdata']
-        print('userid',userid)
+        #print('userid',userid)
         userdetails = CustomUser.objects.get(id=userid)
     return render(request, 'Packing/template_name.html', {'formset': formset,'user':userdetails})  # Replace with your template name
 @login_required()
@@ -1556,14 +1551,12 @@ def ppsr_details_edit(request):
         userdetails = CustomUser.objects.get(id=userid)
         form = PPSRDetailsForm(request.POST)
         if form.is_valid():
-            print("form valid")
+            #print("form valid")
             form.save()
             return redirect('ppsrtable')  # Replace with your success URL
-        else:
-            print(form.errors)
     else:
         form = PPSRDetailsForm()
-        print("not post")
+        #print("not post")
         userid = request.session['userdata']
         userdetails = CustomUser.objects.get(id=userid)
     return render(request, 'Packing/ppsrtableentry.html',{'form': form,'user':userdetails})
@@ -1585,7 +1578,7 @@ class PPSRDetailsListView(ListView):
         context['breadcrumbs'] = self.breadcrumbs
         
         userid = self.request.session.get('userdata')
-        #print('userid',userid)
+        ##print('userid',userid)
         userdetails = CustomUser.objects.get(id=userid)
         context['user'] = userdetails
         
@@ -1628,7 +1621,7 @@ class SRDailyStockPETJARUpdateView(View):
         skuname = skunamedetails.objects.filter(godownname=2)
         lastentry = SRDailyStockDetails.objects.last()
         userid = self.request.session.get('userdata')
-        #print('userid',userid)
+        ##print('userid',userid)
         userdetails = CustomUser.objects.get(id=userid)
         if lastentry:
             lastupdate = lastentry.date
@@ -1653,7 +1646,7 @@ class SRDailyStockPETJARUpdateView(View):
                 stockdata = form.cleaned_data
                 stockmode = stockdata.get('stockmode')  # Get the value of stockmode from the cleaned data
                 godown = GodownDetails.objects.get(pk=2) # Retrieve the GodownDetails instance with ID 1
-                #print('godown',godown)
+                ##print('godown',godown)
                 for sku in skuname:
                     # Assuming the correct attribute is 'sku_name'
                     stockbox = stockdata.get(sku.skuname)               
@@ -1663,10 +1656,10 @@ class SRDailyStockPETJARUpdateView(View):
                 messages.success(request,"PET Stock Details updated Successful")
                 return redirect('dailypetjarstocklist')
             else:
-                print('form not valid')
+                #print('form not valid')
                 return render(request, 'Packing/dailystockpetjartablenewentry.html', {'form': form})
         else:
-            print('not updated by')
+            #print('not updated by')
             messages.error(request,"Unauthenticated Login")
             return render(request, 'Packing/dailystockpetjartablenewentry.html', {'form': form})
 @method_decorator(login_required,name='dispatch')
@@ -1679,8 +1672,8 @@ class DailyPETJARstocklist(View):
         # Step 2: Separate the records into morning and evening stock tables
         morningstocktable = [record for record in all_stock_records if record.stockmode == 'Morning']
         eveningstocktable = [record for record in all_stock_records if record.stockmode == 'Evening']
-        #print('morningstocktable',morningstocktable)
-        #print('eveningstocktable',eveningstocktable)
+        ##print('morningstocktable',morningstocktable)
+        ##print('eveningstocktable',eveningstocktable)
         morningstockerror=0
         eveningstockerror=0
         if not morningstocktable:
@@ -1713,7 +1706,7 @@ class DailyPETJARstocklist(View):
         gleveningstock = [record for record in eveningstocktable if record.skuname.skuname.startswith('GL')]
         palmeveningstock = [record for record in eveningstocktable if 'PALM' in record.skuname.skuname] 
         
-        # print(eveningstocktable)
+        # #print(eveningstocktable)
         # Step 3: Find the latest date and corresponding updatedby for 'POUCH' stock type
         subquery = SRDailyStockDetails.objects.filter(
             stocktype='PET'
@@ -1726,14 +1719,14 @@ class DailyPETJARstocklist(View):
 
         latestdate = latest_record.date if latest_record else None
         userid = latest_record.updatedby if latest_record else None
-        # print(userid)
+        # #print(userid)
         try:
             updatedby = CustomUser.objects.get(id=userid)
         except:
             updatedby = 'unknown'
         
         userid = self.request.session.get('userdata')
-        #print('userid',userid)
+        ##print('userid',userid)
         userdetails = CustomUser.objects.get(id=userid)
         breadcrumbs = [
         {'label': 'Home', 'url': '/Packing'},
@@ -1782,8 +1775,8 @@ class DailystockPouchList(View):
         # Step 2: Separate the records into morning and evening stock tables
         morningstocktable = [record for record in all_stock_records if record.stockmode == 'Morning']
         eveningstocktable = [record for record in all_stock_records if record.stockmode == 'Evening']
-        #print('morningstocktable',morningstocktable)
-        #print('eveningstocktable',eveningstocktable)
+        ##print('morningstocktable',morningstocktable)
+        ##print('eveningstocktable',eveningstocktable)
         morningstockerror=0
         eveningstockerror=0
         if not morningstocktable:
@@ -1810,7 +1803,7 @@ class DailystockPouchList(View):
         gleveningstock = [record for record in eveningstocktable if record.skuname.skuname.startswith('GL')]
         palmeveningstock = [record for record in eveningstocktable if 'PALM' in record.skuname.skuname] 
         
-        # print(eveningstocktable)
+        # #print(eveningstocktable)
         # Step 3: Find the latest date and corresponding updatedby for 'POUCH' stock type
         subquery = SRDailyStockDetails.objects.filter(
             stocktype='POUCH'
@@ -1823,14 +1816,14 @@ class DailystockPouchList(View):
 
         latestdate = latest_record.date if latest_record else None
         userid = latest_record.updatedby if latest_record else None
-        # print(userid)
+        # #print(userid)
         try:
             updatedby = CustomUser.objects.get(id=userid)
         except:
             updatedby = 'unknown'
         
         userid = self.request.session.get('userdata')
-        #print('userid',userid)
+        ##print('userid',userid)
         userdetails = CustomUser.objects.get(id=userid)
         breadcrumbs = [
         {'label': 'Home', 'url': '/Packing'},
@@ -1874,7 +1867,7 @@ class DailystockPouchUpdate(View):
             lastupdate = ''      
         form = SRDailyStockDetailsForm(skuname)
         userid = self.request.session.get('userdata')
-        #print('userid',userid)
+        ##print('userid',userid)
         userdetails = CustomUser.objects.get(id=userid)
         breadcrumbs = [
         {'label': 'Home', 'url': '/Packing'},
@@ -1901,10 +1894,10 @@ class DailystockPouchUpdate(View):
                 messages.success(request,"Pouch Stock Details updated Successful")
                 return redirect('dailypouchstocklist')
             else:
-                print('form not valid')
+                #print('form not valid')
                 return render(request, 'Packing/dailystockpouchtablenewentry.html', {'form': form})
         else:
-            print('not updated by')
+            #print('not updated by')
             messages.error(request,"Unauthenticated Login")
             return render(request, 'Packing/dailystockpouchtablenewentry.html', {'form': form})
 @method_decorator(login_required,name='dispatch')
@@ -1917,7 +1910,7 @@ class DailyStockSRFull(View):
         eveningstocktable_pouchgodown = [record for record in dayfullstock if record.stockmode == 'Evening' and record.godownname.godownname == "SR-Packing"]
         eveningstocktable_jargodown = [record for record in dayfullstock if record.stockmode == 'Evening' and record.godownname.godownname == "SR-Jar"]
         userid = self.request.session.get('userdata')
-        #print('userid',userid)
+        ##print('userid',userid)
         userdetails = CustomUser.objects.get(id=userid)
         breadcrumbs = [
         {'label': 'Home', 'url': '/Packing'},
@@ -1948,38 +1941,38 @@ class DispatchReqVsStockView(View):
             'error': None
         }
         eveningfullstock = SRDailyStockDetails.objects.filter(date__date=today,stockmode='Evening')
-        # print(eveningfullstock)
+        # #print(eveningfullstock)
         dispatcheveingreq = DispatchReq.objects.filter(date=today)
-        # print(dispatcheveingreq)
+        # #print(dispatcheveingreq)
         if eveningfullstock:
             if dispatcheveingreq:
                 stockdf = pd.DataFrame(list(eveningfullstock.values('skuname','stockbox')))
-                # print(stockdf)
+                # #print(stockdf)
                 reqdf = pd.DataFrame(list(dispatcheveingreq.values('skuname','reqbox')))
-                # print(reqdf)
+                # #print(reqdf)
                 
                 # mergedf = pd.merge(stockdf,reqdf,how='outer')
-                # print(mergedf)
-                # print('InnerJoint')
+                # #print(mergedf)
+                # #print('InnerJoint')
                 # mergedf = pd.merge(stockdf,reqdf,how='inner')
                 mergedf = pd.merge(stockdf,reqdf,how='right')
-                # print(mergedf)
+                # #print(mergedf)
                 
                 mergedf.fillna(0,inplace=True)
-                # print('fil0 : ',mergedf)
+                # #print('fil0 : ',mergedf)
                 
                 mergedf['stockavail']=mergedf['stockbox']-mergedf['reqbox']
-                # print('calc',mergedf)
+                # #print('calc',mergedf)
                 
                 plandata = mergedf.to_dict('records')
-                # print(plandata)
+                # #print(plandata)
                 context['plandata'] = plandata
                 
                 # Replace skuname IDs with actual skuname names
                 skunames = {skuname.id: skuname.skuname for skuname in skunamedetails.objects.all()}
                 for item in plandata:
                     item['skuname'] = skunames.get(item['skuname'], 'Unknown')
-                    # print(item['skuname'])
+                    # #print(item['skuname'])
             else:
                 context['error'] = "Dispatch requirement not updated"
         else:
@@ -1997,28 +1990,28 @@ class DispatchReqVsStockView(View):
             'error': None
         }
         eveningfullstock = SRDailyStockDetails.objects.filter(date__date=today,stockmode='Evening')
-        # print(eveningfullstock)
+        # #print(eveningfullstock)
         dispatcheveingreq = DispatchReq.objects.filter(date=today)
-        # print(dispatcheveingreq)
+        # #print(dispatcheveingreq)
         if eveningfullstock:
             if dispatcheveingreq:
                 stockdf = pd.DataFrame(list(eveningfullstock.values('skuname','stockbox')))
-                # print(stockdf)
+                # #print(stockdf)
                 reqdf = pd.DataFrame(list(dispatcheveingreq.values('skuname','reqbox')))
-                # print(reqdf)
+                # #print(reqdf)
                 
                 # mergedf = pd.merge(stockdf,reqdf,how='outer')
-                # print(mergedf)
-                # print('InnerJoint')
+                # #print(mergedf)
+                # #print('InnerJoint')
                 # mergedf = pd.merge(stockdf,reqdf,how='inner')
                 mergedf = pd.merge(stockdf,reqdf,how='right')
-                # print(mergedf)
+                # #print(mergedf)
                 
                 mergedf.fillna(0,inplace=True)
-                # print('fil0 : ',mergedf)
+                # #print('fil0 : ',mergedf)
                 
                 mergedf['stockavail']=mergedf['stockbox']-mergedf['reqbox']
-                # print('calc',mergedf)
+                # #print('calc',mergedf)
                 
                 # Replace skuname IDs with actual skuname names
                 skunames = {skuname.id: skuname.skuname for skuname in skunamedetails.objects.all()}
@@ -2042,7 +2035,7 @@ class DispatchReqVsStockUpdate(View):
     def get(self,request):
         form = DispatchReqForm()
         userid = self.request.session.get('userdata')
-        #print('userid',userid)
+        ##print('userid',userid)
         userdetails = CustomUser.objects.get(id=userid)
         
         return render(request, 'Packing/dispatchreqform.html', {'form': form,'user':userdetails})
@@ -2050,7 +2043,7 @@ class DispatchReqVsStockUpdate(View):
     def post(self,request):
         forms = []
         userid = self.request.session.get('userdata')
-        #print('userid',userid)
+        ##print('userid',userid)
         userdetails = CustomUser.objects.get(id=userid)
         for i in range(len(request.POST.getlist('skuname'))):
             form = DispatchReqForm({
