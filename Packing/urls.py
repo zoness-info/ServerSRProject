@@ -11,7 +11,7 @@ from .views import ( home,
                     download_printingrolltable,download_productionrolltable,download_oilpumpingtable,download_pouchcuttingtable,download_manualleakchangetable,
                     chart_data,chart_view,download_expvsacttable,
                     ExpVsActDetailsListView,ExpVsActDetailsCreateView,ExpVsActDetailsUpdateView,ExpVsActDetailsDeleteView,ExpVsActChartListView,
-                    ppsr_details_view,ppsr_details_edit,PPSRDetailsListView,PPSRDetailsCreateView,PPSRDetailsUpdateView,PPSRDetailsDeleteView,
+                    ppsr_details_view,ppsr_details_edit,PPSRDetailsListView,PPSRDetailsCreateView,PPSRDetailsUpdateView,PPSRDetailsDeleteView,PPSRChartView,
                     SRDailyStockPETJARUpdateView,DailyPETJARstocklist,
                     DailystockPouchList,DailystockPouchUpdate,DailyStockSRFull,
                     DispatchReqVsStockUpdate,DispatchReqVsStockView,
@@ -48,6 +48,7 @@ urlpatterns = [
     #path('productionrolltable/ppsrtable/newentry',PPSRDetailsCreateView.as_view(),name='ppsrtable_entry'),
     path('MIS/ppsrtable/<pk>/edit',PPSRDetailsUpdateView.as_view(),name='ppsrtable_update'),
     path('MIS/ppsrtable/<pk>/delete',PPSRDetailsDeleteView.as_view(),name='ppsrtable_delete'),
+    path('MIS/ppsrtable/ppsrchartview',PPSRChartView.as_view(),name='ppsrtable_chart'),
     
     #___________________________________________________________________________________________________________
     

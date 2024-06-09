@@ -34,6 +34,7 @@ ALLOWED_HOSTS = ['zoness.pythonanywhere.com','*']
 # Application definition
 
 INSTALLED_APPS = [
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -83,23 +84,23 @@ WSGI_APPLICATION = 'SRProject.wsgi.application'
 from decouple import Config, Csv
 
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': 'SRProject', 
-#         'USER': 'postgres',
-#         'PASSWORD': 'password',
-#         'HOST': 'localhost', 
-#         'PORT': '5432',
-#     }
-# }
-
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'SRProject', 
+        'USER': 'postgres',
+        'PASSWORD': 'password',
+        'HOST': 'localhost', 
+        'PORT': '5432',
     }
 }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
 # # Replace the DATABASES section of your settings.py with this
 # DATABASES = {
 #   'default': {

@@ -52,6 +52,9 @@ document.addEventListener('DOMContentLoaded', function() {
             },
             xaxis: {
                 categories: dates
+            },
+            stroke: {
+                curve: 'smooth' // Curved line between points
             }
         };
 

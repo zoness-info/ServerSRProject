@@ -1661,7 +1661,21 @@ class PPSRDetailsDeleteView(DeleteView):
     model = PPSRDetails
     template_name = 'ppsr_details_confirm_delete.html'
     success_url = reverse_lazy('ppsr_details_list')
-
+class PPSRChartView(ListView):
+    model = PPSRDetails
+    template_name = 'Packing/ppsrchartview.html'
+    context_object_name = 'datatable'
+    
+    def get_context_data(self, **kwargs):
+        today = date.today()
+        # print(today)
+        context = super().get_context_data(**kwargs)
+        # hptqueryfull = PPSRDetails.objects.filter(date__date=today).values()
+        hptquerylast = PPSRDetails.objects.filter(date__date=today).last()
+        context['hptdic'] = hptquerylast
+        print(hptquerylast)
+        return context
+        
 @method_decorator(login_required,name='dispatch')
 class SRDailyStockPETJARUpdateView(View):
     def get(self,request):
