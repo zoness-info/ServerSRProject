@@ -81,7 +81,7 @@ WSGI_APPLICATION = 'SRProject.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
-from decouple import Config, Csv
+#from decouple import Config, Csv
 
 
 DATABASES = {
@@ -199,7 +199,9 @@ LOGOUT_REDIRECT_URL = 'login'
 SESSION_COOKIE_SECURE = True
 SESSION_COOKIE_HTTPONLY = True
 CSRF_COOKIE_SECURE = True
+# Optionally, ensure that the session is renewed on each request
+SESSION_SAVE_EVERY_REQUEST = True
 
 # Session settings
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'
-SESSION_COOKIE_AGE = 1209600  # Two weeks, adjust as needed
+SESSION_COOKIE_AGE = 3600  # One Hour, adjust as needed

@@ -3,3 +3,71 @@
 {% block content %}
 content here
 {% endblock %}
+
+
+<!-- PVR-5 & PVR-6  -->    
+<div class="col-xxl-3 border border-black">
+    <div class="row">                                                                         
+        <div class="col-6"><h3>PVR-5</h3><div>Plan - {{total_ipk5_plan}} box</div><div>Pouch - {{ total_ipk5_pouchcount }}</div><div id="PVR5Chart" data-chartpercentage5="{{total_ipk5_ratio}}"></div>
+            {% if hptdic.ipk5_status == 'ON' %}                                        
+            <div class="row"><button type="button" class="btn btn-success rounded-pill">{{hptdic.ipk5_status}}</button></div>
+            {% else %}
+            <div class="row"><button type="button" class="btn btn-danger rounded-pill">{{hptdic.ipk5_status}}</button></div>
+            {% endif %}
+            <div class="row" style="height: 50px;"><h5>{{hptdic.ipk5_runningsku.skuname}}</h5></div>
+            <div class="row d-flex ms-2">Plus</div>
+            <div class="row d-flex ms-2">Good</div>
+            <div class="row d-flex ms-2">Minus</div>
+            <div class="row d-flex ms-2">Special</div>
+            <div class="row d-flex ms-2">Total Box</div>
+            <div class="row">
+                <div class="row">Pouch Count - {{total_ipk5_pouchcount}}</div>
+            </div>
+            <div class="row">skuname/Pouch</div>
+            <div class="row d-flex ms-2">Complaint Box</div>
+            <div class="row d-flex ms-2">Stock Box</div>
+            <div class="row d-flex ms-2">Missing Box</div>
+            <div class="row">{{hptdic.ipk5_operatorname.operatorname}}</div>
+            <div class="row"><b>Champion</b></div>
+            <div class="row d-flex ms-2">{{hptdic.ipk5_championname}}</div>
+            <div class="row"><b>Wt.Checker</b></div>
+            <div class="row d-flex ms-2">{{ hptdic.ipk5_wtcheckername }}</div>
+            <div class="row">Morn.Start - {{hptdic.ipk5_mornstarttime}}</div>
+            <div class="row">Noon.Start - {{hptdic.ipk5_afnoonstarttime}}</div>                                        
+        </div>
+        <div class="col-6"><h3>PVR-6</h3><div>Plan - {{total_ipk6_plan}} box</div><div>Pouch - {{ total_ipk6_pouchcount }}</div><div id="PVR5Chart" data-chartpercentage6="{{total_ipk6_ratio}}"></div>
+            {% if hptdic.ipk6_status == 'ON' %}                                        
+            <div class="row"><button type="button" class="btn btn-success rounded-pill">{{hptdic.ipk6_status}}</button></div>
+            {% else %}
+            <div class="row"><button type="button" class="btn btn-danger rounded-pill">{{hptdic.ipk6_status}}</button></div>
+            {% endif %}
+            <div class="row" style="height: 50px;"><h5>{{hptdic.ipk6_runningsku.skuname}}</h5></div>
+            <div class="row">{{hptdic.wtmachine3_plus}}</div>
+            <div class="row">{{hptdic.wtmachine3_good}}</div>
+            <div class="row">{{hptdic.wtmachine3_minus}}</div>
+            <div class="row">{{hptdic.wtmachine3_special}}</div>
+            {% totalbox hptdic.wtmachine3_plus hptdic.wtmachine3_good hptdic.wtmachine3_minus hptdic.wtmachine3_special as prottlbox %}
+            <div class="row">{{ prottlbox }}</div>
+            <div class="row">
+                <div class="row">Pouch Count - {{total_ipk6_pouchcount}}</div>
+            </div>
+            <div class="row">skuname/Pouch</div>
+            {% complaintbox  hptdic.wtmachine3_plus hptdic.wtmachine3_minus hptdic.wtmachine3_special as cbox %}
+            <div class="row">{{cbox}}</div>
+            <div class="row">{{ hptdic.wtmachine3_stockbox }}</div>
+            {% missingbox cbox hptdic.wtmachine3_stockbox as missingboxvalue %}
+            {% if missingboxvalue < 0%}
+            <div class="row" style="color:red"><b>{{missingboxvalue}}</b></div>
+            {% else %}
+            <div class="row">{{missingboxvalue}}</div>
+            {% endif %}
+            <div class="row">{{hptdic.ipk6_operatorname.operatorname}}</div>
+            <div class="row"><b>Champion</b></div>
+            <div class="row">{{hptdic.ipk6_championname}}</div>
+            <div class="row"><b>Wt.Checker</b></div>
+            <div class="row">{{ hptdic.ipk6_wtcheckername }}</div>
+            <div class="row">Morn.Start - {{hptdic.ipk6_mornstarttime}}</div>
+            <div class="row">Noon.Start - {{hptdic.ipk6_afnoonstarttime}}</div>                                            
+        </div>
+    </div>
+</div>

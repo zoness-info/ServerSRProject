@@ -15,11 +15,34 @@ document.addEventListener('DOMContentLoaded', function() {
     //     const dates = chartData.map(item => item.date);
     //     const expectedValues = chartData.map(item => item.expbox);
     //     const actualValues = chartData.map(item => item.actbox);
+    const chartElement1 = document.querySelector("#PVR1Chart");
+    const chartpercentage = parseFloat(chartElement1.getAttribute("data-chartpercentage"));
+    const chartElement2 = document.querySelector("#PVR2Chart");
+    const chartpercentage2 = parseFloat(chartElement2.getAttribute("data-chartpercentage2"));
+    const chartElement3 = document.querySelector("#PVR3Chart");
+    const chartpercentage3 = parseFloat(chartElement3.getAttribute("data-chartpercentage3"));
+    // console.log('PVR3 Percentage',chartpercentage3)    
+    const chartElement4 = document.querySelector("#PVR4Chart");
+    const chartpercentage4 = parseFloat(chartElement4.getAttribute("data-chartpercentage4"));
+    // console.log('PVR4 Percentage',chartpercentage4)
+    const chartElement5 = document.querySelector("#PVR5Chart");
+    const chartpercentage5 = parseFloat(chartElement5.getAttribute("data-chartpercentage5"));
+    // console.log('PVR5 Percentage',chartpercentage5)    
+    const chartElement6 = document.querySelector("#PVR6Chart");
+    const chartpercentage6 = parseFloat(chartElement6.getAttribute("data-chartpercentage6"));
+    // console.log('PVR6 Percentage',chartpercentage6)
 
+    const chartElement7 = document.querySelector("#PVR7Chart");
+    const chartpercentage7 = parseFloat(chartElement7.getAttribute("data-chartpercentage7"));
+    console.log('PVR7 Percentage',chartpercentage7)    
+    const chartElement8 = document.querySelector("#PVR8Chart");
+    const chartpercentage8 = parseFloat(chartElement8.getAttribute("data-chartpercentage8"));
+    console.log('PVR8 Percentage',chartpercentage8)
+      
         const options1 = {
-            series: [67],
+            series: [parseFloat(chartpercentage)],
             chart: {
-            height: 100,
+            height: 150,
             type: 'radialBar',
             offsetY: -10
           },
@@ -40,7 +63,7 @@ document.addEventListener('DOMContentLoaded', function() {
                   fontSize: '15px',
                   color: undefined,
                   formatter: function (val) {
-                    return val + "%";
+                    return parseFloat(val) + "%";
                   }
                 }
               }
@@ -67,10 +90,11 @@ document.addEventListener('DOMContentLoaded', function() {
           chart1.render();
 
 // PVR-2 Chart
+
 const options2 = {
-    series: [35],
+    series: [parseFloat(chartpercentage2)],
     chart: {
-    height: 100,
+    height: 150,
     type: 'radialBar',
     offsetY: -10
   },
@@ -91,7 +115,7 @@ const options2 = {
           fontSize: '15px',
           color: undefined,
           formatter: function (val) {
-            return val + "%";
+            return parseFloat(val) + "%";
           }
         }
       }
@@ -117,9 +141,319 @@ const options2 = {
 const chart2 = new ApexCharts(document.querySelector("#PVR2Chart"), options2);
   chart2.render();
 
+
+  // PVR-3 Chart
+const options3 = {
+  series: [parseFloat(chartpercentage3)],
+  chart: {
+  height: 150,
+  type: 'radialBar',
+  offsetY: -10
+},
+plotOptions: {
+  radialBar: {
+    startAngle: -135,
+    endAngle: 135,
+    dataLabels: {
+      name: {
+        fontSize: '16px',
+        color: undefined,
+        offsetY: 120,
+        offsetX: 0
+      },
+      value: {
+        offsetY: -10,
+        offsetX: 0,
+        fontSize: '15px',
+        color: undefined,
+        formatter: function (val) {
+          return parseFloat(val) + "%";
+        }
+      }
+    }
+  }
+},
+fill: {
+  type: 'gradient',
+  gradient: {
+      shade: 'dark',
+      shadeIntensity: 0.15,
+      inverseColors: false,
+      opacityFrom: 1,
+      opacityTo: 1,
+      stops: [0, 50, 65, 91]
+  },
+},
+stroke: {
+  dashArray: 4
+},
+//   labels: ['1'],
+};
+
+const chart3 = new ApexCharts(document.querySelector("#PVR3Chart"), options3);
+// console.log('3 chart render')
+chart3.render();
+
+
+// PVR-4 Chart
+const options4 = {
+  series: [parseFloat(chartpercentage4)],
+  chart: {
+  height: 150,
+  type: 'radialBar',
+  offsetY: -10
+},
+plotOptions: {
+  radialBar: {
+    startAngle: -135,
+    endAngle: 135,
+    dataLabels: {
+      name: {
+        fontSize: '16px',
+        color: undefined,
+        offsetY: 120,
+        offsetX: 0
+      },
+      value: {
+        offsetY: -10,
+        offsetX: 0,
+        fontSize: '15px',
+        color: undefined,
+        formatter: function (val) {
+          return parseFloat(val) + "%";
+        }
+      }
+    }
+  }
+},
+fill: {
+  type: 'gradient',
+  gradient: {
+      shade: 'dark',
+      shadeIntensity: 0.15,
+      inverseColors: false,
+      opacityFrom: 1,
+      opacityTo: 1,
+      stops: [0, 50, 65, 91]
+  },
+},
+stroke: {
+  dashArray: 4
+},
+//   labels: ['1'],
+};
+
+const chart4 = new ApexCharts(document.querySelector("#PVR4Chart"), options4);
+chart4.render();
+
+
+// PVR-5 Chart
+const options5 = {
+                  series: [parseFloat(chartpercentage5)],
+                  chart: {
+                  height: 150,
+                  type: 'radialBar',
+                  offsetY: -10
+                },
+                plotOptions: {
+                  radialBar: {
+                    startAngle: -135,
+                    endAngle: 135,
+                    dataLabels: {
+                      name: {
+                        fontSize: '16px',
+                        color: undefined,
+                        offsetY: 120,
+                        offsetX: 0
+                      },
+                      value: {
+                        offsetY: -10,
+                        offsetX: 0,
+                        fontSize: '15px',
+                        color: undefined,
+                        formatter: function (val) {
+                          return parseFloat(val) + "%";
+                        }
+                      }
+                    }
+                  }
+                },
+                fill: {
+                  type: 'gradient',
+                  gradient: {
+                      shade: 'dark',
+                      shadeIntensity: 0.15,
+                      inverseColors: false,
+                      opacityFrom: 1,
+                      opacityTo: 1,
+                      stops: [0, 50, 65, 91]
+                  },
+                },
+                stroke: {
+                  dashArray: 4
+                },
+                //   labels: ['1'],
+                };
+
+const chart5 = new ApexCharts(document.querySelector("#PVR5Chart"), options5);
+chart5.render();
+
+// PVR-6 Chart
+const options6 = {
+  series: [parseFloat(chartpercentage6)],
+  chart: {
+  height: 150,
+  type: 'radialBar',
+  offsetY: -10
+},
+plotOptions: {
+  radialBar: {
+    startAngle: -135,
+    endAngle: 135,
+    dataLabels: {
+      name: {
+        fontSize: '16px',
+        color: undefined,
+        offsetY: 120,
+        offsetX: 0
+      },
+      value: {
+        offsetY: -10,
+        offsetX: 0,
+        fontSize: '15px',
+        color: undefined,
+        formatter: function (val) {
+          return parseFloat(val) + "%";
+        }
+      }
+    }
+  }
+},
+fill: {
+  type: 'gradient',
+  gradient: {
+      shade: 'dark',
+      shadeIntensity: 0.15,
+      inverseColors: false,
+      opacityFrom: 1,
+      opacityTo: 1,
+      stops: [0, 50, 65, 91]
+  },
+},
+stroke: {
+  dashArray: 4
+},
+//   labels: ['1'],
+};
+
+const chart6 = new ApexCharts(document.querySelector("#PVR6Chart"), options6);
+chart6.render();
+
+// PVR-7 Chart
+const options7 = {
+  series: [parseFloat(chartpercentage7)],
+  chart: {
+  height: 150,
+  type: 'radialBar',
+  offsetY: -10
+},
+plotOptions: {
+  radialBar: {
+    startAngle: -135,
+    endAngle: 135,
+    dataLabels: {
+      name: {
+        fontSize: '16px',
+        color: undefined,
+        offsetY: 120,
+        offsetX: 0
+      },
+      value: {
+        offsetY: -10,
+        offsetX: 0,
+        fontSize: '15px',
+        color: undefined,
+        formatter: function (val) {
+          return parseFloat(val) + "%";
+        }
+      }
+    }
+  }
+},
+fill: {
+  type: 'gradient',
+  gradient: {
+      shade: 'dark',
+      shadeIntensity: 0.15,
+      inverseColors: false,
+      opacityFrom: 1,
+      opacityTo: 1,
+      stops: [0, 50, 65, 91]
+  },
+},
+stroke: {
+  dashArray: 4
+},
+//   labels: ['1'],
+};
+
+const chart7 = new ApexCharts(document.querySelector("#PVR7Chart"), options7);
+chart7.render();
+
+// PVR-8 Chart
+const options8 = {
+  series: [parseFloat(chartpercentage8)],
+  chart: {
+  height: 150,
+  type: 'radialBar',
+  offsetY: -10
+},
+plotOptions: {
+  radialBar: {
+    startAngle: -135,
+    endAngle: 135,
+    dataLabels: {
+      name: {
+        fontSize: '16px',
+        color: undefined,
+        offsetY: 120,
+        offsetX: 0
+      },
+      value: {
+        offsetY: -10,
+        offsetX: 0,
+        fontSize: '15px',
+        color: undefined,
+        formatter: function (val) {
+          return parseFloat(val) + "%";
+        }
+      }
+    }
+  }
+},
+fill: {
+  type: 'gradient',
+  gradient: {
+      shade: 'dark',
+      shadeIntensity: 0.15,
+      inverseColors: false,
+      opacityFrom: 1,
+      opacityTo: 1,
+      stops: [0, 50, 65, 91]
+  },
+},
+stroke: {
+  dashArray: 4
+},
+//   labels: ['1'],
+};
+
+const chart8 = new ApexCharts(document.querySelector("#PVR8Chart"), options8);
+chart8.render();
      
     });
 
+    
 
 // document.addEventListener('DOMContentLoaded', function() {
 //     const monthNames = [

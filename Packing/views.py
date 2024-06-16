@@ -1616,7 +1616,7 @@ class PPSRDetailsListView(ListView):
     
     breadcrumbs = [
         {'label': 'Home', 'url': '/Packing'},
-        {'label': 'Production', 'url': '/Packing/productionrolltable'},
+        {'label': 'Production', 'url': '/Packing/MIS/productionrolltable'},
         {'label': 'PPSR Details', 'url': None},  # Assuming current page doesn't have a URL
         ] 
     
@@ -1629,7 +1629,9 @@ class PPSRDetailsListView(ListView):
         userdetails = CustomUser.objects.get(id=userid)
         context['user'] = userdetails
         
-        return context   
+        return context
+    def get_queryset(self):
+        return PPSRDetails.objects.all().order_by('-date')   
 class PPSRDetailsCreateView(CreateView):
     model = PPSRDetails
     #form_class = PPSRDetailsFormSet
@@ -1670,10 +1672,119 @@ class PPSRChartView(ListView):
         today = date.today()
         # print(today)
         context = super().get_context_data(**kwargs)
-        # hptqueryfull = PPSRDetails.objects.filter(date__date=today).values()
+        hptqueryfull = PPSRDetails.objects.filter(date__date=today).values()
         hptquerylast = PPSRDetails.objects.filter(date__date=today).last()
+        breadcrumbs = [
+        {'label': 'Home', 'url': '/Packing'},
+        {'label': 'PPSR', 'url': '/Packing/MIS/ppsrtable'},
+        {'label': 'PPSR Chart', 'url': None},  # Assuming current page doesn't have a URL
+        ]
+        # print(hptqueryfull)
+        datadf = {}
+        if hptqueryfull:
+             # Create a DataFrame directly from the list of dictionaries
+            datadf = pd.DataFrame(hptqueryfull)
+            
+            
+            # Replace None values with 0 for the summation
+            datadf['ipk1_plan'] = datadf['ipk1_plan'].fillna(0).infer_objects(copy=False).astype(int)
+            datadf['ipk2_plan'] = datadf['ipk2_plan'].fillna(0).infer_objects(copy=False).astype(int)
+            datadf['ipk3_plan'] = datadf['ipk3_plan'].fillna(0).infer_objects(copy=False).astype(int)
+            datadf['ipk4_plan'] = datadf['ipk4_plan'].fillna(0).infer_objects(copy=False).astype(int)
+            datadf['ipk5_plan'] = datadf['ipk5_plan'].fillna(0).infer_objects(copy=False).astype(int)
+            datadf['ipk6_plan'] = datadf['ipk6_plan'].fillna(0).infer_objects(copy=False).astype(int)
+            datadf['ipk7_plan'] = datadf['ipk7_plan'].fillna(0).infer_objects(copy=False).astype(int)
+            datadf['ipk8_plan'] = datadf['ipk8_plan'].fillna(0).infer_objects(copy=False).astype(int)
+            datadf['ipk1_pouchcount'] = datadf['ipk1_pouchcount'].fillna(0).infer_objects(copy=False).astype(int)
+            datadf['ipk2_pouchcount'] = datadf['ipk2_pouchcount'].fillna(0).infer_objects(copy=False).astype(int)
+            datadf['ipk3_pouchcount'] = datadf['ipk3_pouchcount'].fillna(0).infer_objects(copy=False).astype(int)
+            datadf['ipk4_pouchcount'] = datadf['ipk4_pouchcount'].fillna(0).infer_objects(copy=False).astype(int)
+            datadf['ipk5_pouchcount'] = datadf['ipk5_pouchcount'].fillna(0).infer_objects(copy=False).astype(int)
+            datadf['ipk6_pouchcount'] = datadf['ipk6_pouchcount'].fillna(0).infer_objects(copy=False).astype(int)
+            datadf['ipk7_pouchcount'] = datadf['ipk7_pouchcount'].fillna(0).infer_objects(copy=False).astype(int)
+            datadf['ipk8_pouchcount'] = datadf['ipk8_pouchcount'].fillna(0).infer_objects(copy=False).astype(int)
+            # print(datadf['ipk1_pouchcount'])
+            # print(datadf['ipk2_pouchcount'])
+            
+            # Calculate the totals for ipk1_plan and ipk2_plan
+            total_ipk1_plan = datadf['ipk1_plan'].sum()
+            total_ipk2_plan = round(datadf['ipk2_plan'].sum(),0)
+            total_ipk3_plan = datadf['ipk3_plan'].sum()
+            total_ipk4_plan = round(datadf['ipk4_plan'].sum(),0)
+            total_ipk5_plan = datadf['ipk5_plan'].sum()
+            total_ipk6_plan = round(datadf['ipk6_plan'].sum(),0)
+            total_ipk7_plan = datadf['ipk7_plan'].sum()
+            total_ipk8_plan = round(datadf['ipk8_plan'].sum(),0)
+            total_ipk1_pouchcount = datadf['ipk1_pouchcount'].sum()
+            total_ipk2_pouchcount = datadf['ipk2_pouchcount'].sum()
+            total_ipk3_pouchcount = datadf['ipk3_pouchcount'].sum()
+            total_ipk4_pouchcount = datadf['ipk4_pouchcount'].sum()
+            total_ipk5_pouchcount = datadf['ipk5_pouchcount'].sum()
+            total_ipk6_pouchcount = datadf['ipk6_pouchcount'].sum()
+            total_ipk7_pouchcount = datadf['ipk7_pouchcount'].sum()
+            total_ipk8_pouchcount = datadf['ipk8_pouchcount'].sum()
+            print('PVR-1 Plan : ',total_ipk1_plan)
+            print('PVR-2 Plan : ',total_ipk1_plan)
+            # print(total_ipk2_plan)
+            # print(total_ipk1_pouchcount)
+            # print(total_ipk2_pouchcount)
+            
+            # # Calculate the ratio of pouchcount to plan for ipk1 and ipk2 as integers
+            # datadf['ipk1_ratio'] = datadf.apply(lambda row: row['ipk1_pouchcount'] // row['ipk1_plan'] if row['ipk1_plan'] != 0 else 0, axis=1)
+            # datadf['ipk2_ratio'] = datadf.apply(lambda row: row['ipk2_pouchcount'] // row['ipk2_plan'] if row['ipk2_plan'] != 0 else 0, axis=1)
+            # print(datadf['ipk2_ratio'])
+            
+            total_ipk1_ratio = (total_ipk1_pouchcount / total_ipk1_plan) * 10 if total_ipk1_plan != 0 else 0
+            total_ipk2_ratio = (total_ipk2_pouchcount / total_ipk2_plan) * 10 if total_ipk2_plan != 0 else 0
+            total_ipk3_ratio = (total_ipk3_pouchcount / total_ipk3_plan) * 10 if total_ipk3_plan != 0 else 0
+            total_ipk4_ratio = (total_ipk4_pouchcount / total_ipk4_plan) * 10 if total_ipk4_plan != 0 else 0
+            total_ipk5_ratio = (total_ipk5_pouchcount / total_ipk5_plan) * 10 if total_ipk5_plan != 0 else 0
+            total_ipk6_ratio = (total_ipk6_pouchcount / total_ipk6_plan) * 10 if total_ipk6_plan != 0 else 0
+            total_ipk7_ratio = (total_ipk7_pouchcount / total_ipk7_plan) * 10 if total_ipk7_plan != 0 else 0
+            total_ipk8_ratio = (total_ipk8_pouchcount / total_ipk8_plan) * 10 if total_ipk8_plan != 0 else 0
+            # print('PVR3 ratio : ',total_ipk3_ratio)
+            # print('PVR4 ratio : ',total_ipk4_ratio)
+            
+            # # Sum the ratios for ipk1 and ipk2
+            # total_ipk1_ratio = datadf['ipk1_ratio'].sum()
+            # total_ipk2_ratio = datadf['ipk2_ratio'].sum()
+            
+            
+            
+            # Store the results in a dictionary or print them
+            context['total_ipk1_plan']  = total_ipk1_plan
+            context['total_ipk2_plan']  = total_ipk2_plan
+            context['total_ipk3_plan']  = total_ipk3_plan
+            context['total_ipk4_plan']  = total_ipk4_plan
+            context['total_ipk5_plan']  = total_ipk5_plan
+            context['total_ipk6_plan']  = total_ipk6_plan
+            context['total_ipk7_plan']  = total_ipk7_plan
+            context['total_ipk8_plan']  = total_ipk8_plan
+            context['total_ipk1_pouchcount'] =  total_ipk1_pouchcount
+            context['total_ipk2_pouchcount']= total_ipk2_pouchcount
+            context['total_ipk3_pouchcount'] =  total_ipk3_pouchcount
+            context['total_ipk4_pouchcount']= total_ipk4_pouchcount
+            context['total_ipk5_pouchcount'] =  total_ipk5_pouchcount
+            context['total_ipk6_pouchcount']= total_ipk6_pouchcount
+            context['total_ipk7_pouchcount'] =  total_ipk7_pouchcount
+            context['total_ipk8_pouchcount']= total_ipk8_pouchcount
+            context['total_ipk1_ratio'] = round(total_ipk1_ratio,0)
+            context['total_ipk2_ratio'] =  round(total_ipk2_ratio,0)
+            context['total_ipk3_ratio'] = round(total_ipk3_ratio,0)
+            context['total_ipk4_ratio'] =  round(total_ipk4_ratio,0)
+            context['total_ipk5_ratio'] = round(total_ipk5_ratio,0)
+            context['total_ipk6_ratio'] =  round(total_ipk6_ratio,0)
+            context['total_ipk7_ratio'] = round(total_ipk7_ratio,0)
+            context['total_ipk8_ratio'] =  round(total_ipk8_ratio,0)
+                    
+        else:
+            context['error'] = True
+        #print(context['total_ipk3_pouchcount'])
+        #print(context['total_ipk3_plan'])
+        #print(context['total_ipk3_ratio'])
         context['hptdic'] = hptquerylast
-        print(hptquerylast)
+        context['breadcrumbs'] = breadcrumbs
+        # print(hptquerylast)
         return context
         
 @method_decorator(login_required,name='dispatch')
