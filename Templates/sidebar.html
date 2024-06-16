@@ -179,6 +179,16 @@
                     </li>
                 </ul>
             </li>
+            <li>
+                <div class="d-grid p-3 py-2">
+                    <form method="post" action="{% url 'logout' %}">
+                        {% csrf_token %}
+                    <!-- <a class="btn btn-danger" href="{% url 'logout' %}">Logout</a> -->
+                    <button type="submit" class="btn btn-danger">Logout</button>
+                        
+                    </form>
+                </div>
+            </li>
         <!-- Calender -- but not working, page fully hanged
             <li>
                 <a href="#">
@@ -186,34 +196,34 @@
                     <span class="menu-text">Calendar</span>
                 </a>
             </li> -->
-            <li>
+            <!-- <li>
                 <a href="{% static 'sales.html' %}">
                     <i class="bi bi-bar-chart-line"></i>
                     <span class="menu-text">Sales</span>
                     <span class="badge border border-danger text-danger rounded-5 ms-2">New</span>
                 </a>
-            </li>
-            <li>
+            </li> -->
+            <!-- <li>
                 <a href="{% static 'subscribers.html' %}">
                     <i class="bi bi-check-circle"></i>
                     <span class="menu-text">Subscribers</span>
                 </a>
-            </li>
-            <li>
+            </li> -->
+            <!-- <li>
                 <a href="{% static 'contacts.html' %}">
                     <i class="bi bi-telephone"></i>
                     <span class="menu-text">Contacts</span>
                 </a>
-            </li>
-            <li>
+            </li> -->
+            <!-- <li>
                 <a href="{% static 'faq.html' %}">
                     <i class="bi bi-box"></i>
                     <span class="menu-text">FAQ's</span>
                     <span class="badge border border-success text-success rounded-5 ms-2">New</span>
                 </a>
-            </li>
+            </li> -->
             
-            <li class="treeview">
+            <!-- <li class="treeview">
                 <a href="#!">
                     <i class="bi bi-stickies"></i>
                     <span class="menu-text">Components</span>
@@ -247,8 +257,8 @@
                         <a href="{% static 'tooltips.html' %}">Tooltips</a>
                     </li>
                 </ul>
-            </li>
-            <li class="treeview">
+            </li> -->
+            <!-- <li class="treeview">
                 <a href="#!">
                     <i class="bi bi-ui-checks-grid"></i>
                     <span class="menu-text">Forms</span>
@@ -273,32 +283,32 @@
                         <a href="{% static 'form-layouts.html' %}">Form Layouts</a>
                     </li>
                 </ul>
-            </li>
-            <li>
+            </li> -->
+            <!-- <li>
                 <a href="{% static 'tables.html' %}">
                     <i class="bi bi-border-all"></i>
                     <span class="menu-text">Tables</span>
                 </a>
-            </li>
-            <li>
+            </li> -->
+            <!-- <li>
                 <a href="{% static 'settings.html' %}">
                     <i class="bi bi-gear"></i>
                     <span class="menu-text">Settings</span>
                 </a>
-            </li>
-            <li>
+            </li> -->
+            <!-- <li>
                 <a href="{% static 'profile.html' %}">
                     <i class="bi bi-postcard"></i>
                     <span class="menu-text">Profile</span>
                 </a>
-            </li>
-            <li>
+            </li> -->
+            <!-- <li>
                 <a href="{% static 'starter-page.html' %}">
                     <i class="bi bi-layout-text-window-reverse"></i>
                     <span class="menu-text">Starter Page</span>
                 </a>
-            </li>
-            <li class="treeview">
+            </li> -->
+            <!-- <li class="treeview">
                 <a href="#!">
                     <i class="bi bi-code-square"></i>
                     <span class="menu-text">Cards</span>
@@ -311,8 +321,8 @@
                         <a href="{% static 'advanced-cards.html' %}">Advanced Cards</a>
                     </li>
                 </ul>
-            </li>
-            <li class="treeview">
+            </li> -->
+            <!-- <li class="treeview">
                 <a href="#!">
                     <i class="bi bi-pie-chart"></i>
                     <span class="menu-text">Graphs</span>
@@ -325,38 +335,38 @@
                         <a href="{% static 'morris.html' %}">Morris</a>
                     </li>
                 </ul>
-            </li>
-            <li>
+            </li> -->
+            <!-- <li>
                 <a href="{% static 'maps.html' %}">
                     <i class="bi bi-pin-map"></i>
                     <span class="menu-text">Maps</span>
                 </a>
-            </li>
-            <li>
+            </li> -->
+            <!-- <li>
                 <a href="{% static 'tabs.html' %}">
                     <i class="bi bi-slash-square"></i>
                     <span class="menu-text">Tabs</span>
                 </a>
-            </li>
-            <li>
+            </li> -->
+            <!-- <li>
                 <a href="{% static 'modals.html' %}">
                     <i class="bi bi-terminal"></i>
                     <span class="menu-text">Modals</span>
                 </a>
-            </li>
-            <li>
+            </li> -->
+            <!-- <li>
                 <a href="{% static 'icons.html' %}">
                     <i class="bi bi-textarea"></i>
                     <span class="menu-text">Icons</span>
                 </a>
-            </li>
-            <li>
+            </li> -->
+            <!-- <li>
                 <a href="{% static 'typography.html' %}">
                     <i class="bi bi-explicit"></i>
                     <span class="menu-text">Typography</span>
                 </a>
-            </li>
-            <li class="treeview">
+            </li> -->
+            <!-- <li class="treeview">
                 <a href="#!">
                     <i class="bi bi-upc-scan"></i>
                     <span class="menu-text">Login/Signup</span>
@@ -372,20 +382,20 @@
                         <a href="{% static 'forgot-password.html' %}">Forgot Password</a>
                     </li>
                 </ul>
-            </li>
-            <li>
+            </li> -->
+            <!-- <li>
                 <a href="{% static 'page-not-found.html' %}">
                     <i class="bi bi-exclamation-diamond"></i>
                     <span class="menu-text">Page Not Found</span>
                 </a>
-            </li>
-            <li>
+            </li> -->
+            <!-- <li>
                 <a href="{% static 'maintenance.html' %}">
                     <i class="bi bi-exclamation-octagon"></i>
                     <span class="menu-text">Maintenance</span>
                 </a>
-            </li>
-            <li class="treeview">
+            </li> -->
+            <!-- <li class="treeview">
                 <a href="#!">
                     <i class="bi bi-code-square"></i>
                     <span class="menu-text">Multi Level</span>
@@ -422,9 +432,18 @@
                         <a href="#!">Level One Link</a>
                     </li>
                 </ul>
-            </li>
+            </li> -->
         </ul>
+        
     </div>
+    <!-- <div class="d-grid p-3 py-2">
+        <form method="post" action="{% url 'logout' %}">
+            {% csrf_token %}
+        <a class="btn btn-danger" href="{% url 'logout' %}">Logout</a>
+        <button type="submit" class="btn btn-danger">Logout</button>
+            
+        </form>
+    </div> -->
     <!-- Sidebar menu ends -->
 
 </nav>
