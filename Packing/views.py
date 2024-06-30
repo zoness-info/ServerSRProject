@@ -27,10 +27,10 @@ from django.db.models import Max, Subquery, OuterRef, Q
 import pandas as pd
 
 
-from .models import (branddetails, oilcategorydetails, skunamedetails, 
-                    PrintingRollBatch, PrintingRollDetail, 
+from .models import (branddetails, oilcategorydetails, skunamedetails,
+                    PrintingRollBatch, PrintingRollDetail,
                     ProductionRollDetails,DispatchOpendingClosingStockDetails,
-                    OilPumpingDetails, 
+                    OilPumpingDetails,
                     ChangeLog,
                     DailyPouchCuttingDetails,
                     ManualLeakChangeManpower,ManualLeakChangeRollPouchFS,
@@ -41,7 +41,7 @@ from .models import (branddetails, oilcategorydetails, skunamedetails,
                     DispatchReq,
                     )
 from .forms import (branddetailsform,
-                    prinitingrolldetailsform,RollDetailsFormset, 
+                    prinitingrolldetailsform,RollDetailsFormset,
                     ProductionRollDetailsForm,
                     OilPumpingDetailsForm,
                     DailyPouchCuttingDetailsForm,
@@ -80,11 +80,11 @@ class home(View):
             return redirect(reverse_lazy('login'))
 
         return render(request, 'Packing/dashboard.html', context)
-  
-@method_decorator(login_required,name='dispatch')   
+
+@method_decorator(login_required,name='dispatch')
 class skudetails(ListView):
     model = branddetails
-    template_name = 'Packing/skulist.html' 
+    template_name = 'Packing/skulist.html'
     paginate_by = 10
     def paginate_custom_queryset(self, queryset, page_size,page_param):
         paginator = Paginator(queryset, page_size)
@@ -103,7 +103,7 @@ class skudetails(ListView):
             {'label': 'SKU\'s', 'url': None},
             {'label': 'SKU List', 'url': None},
         ]
-        
+
         try:
             userid = self.request.session.get('userdata')
             #print('User ID' , userid)
@@ -112,7 +112,7 @@ class skudetails(ListView):
                 #print(userdetails.Pack_sku_access)
                 context['user'] = userdetails
             else:
-                context['user'] = None              
+                context['user'] = None
         except KeyError:
             return reverse_lazy('login')
         except CustomUser.DoesNotExist:
@@ -136,16 +136,16 @@ class skudetails(ListView):
         context['skucount'] = skunamelists.count()
 
         return context
-@method_decorator(login_required, name='dispatch')  
+@method_decorator(login_required, name='dispatch')
 class filmrolltable(View):
     def get(self, request):
         breadcrumbs = [
         {'label': 'Home', 'url': '/Packing'},
         {'label': 'Printing', 'url': None},
         {'label': 'Film Roll Table', 'url': None},  # Assuming current page doesn't have a URL
-        ] 
-        context = {'breadcrumbs': breadcrumbs}  
-        
+        ]
+        context = {'breadcrumbs': breadcrumbs}
+
         userid = request.session['userdata']
         try:
             userdetails = CustomUser.objects.get(id=userid)
@@ -153,7 +153,7 @@ class filmrolltable(View):
             context['user'] = userdetails
         except:
             context['user'] = None
-            
+
         query = PrintingRollDetail.objects.all().order_by('-updatedat')  # Order by the updated at in descending order
         paginator = Paginator(query, 10)  # Paginate by 10 items per page
         page = request.GET.get('page')
@@ -165,9 +165,9 @@ class filmrolltable(View):
         except EmptyPage:
             # If page is out of range (e.g. 9999), deliver last page of results.
             datatable = paginator.page(paginator.num_pages)
-        context['datatable'] = datatable     
-        
-        return render(request, 'Packing/printingfilmrolltable.html',context)    
+        context['datatable'] = datatable
+
+        return render(request, 'Packing/printingfilmrolltable.html',context)
 class filmrolltableUpdateView(CreateView):
    pass
 class filmrolltableDeleteView(DeleteView):
@@ -178,12 +178,12 @@ def filmrollentry(request):
         {'label': 'Home', 'url': '/Packing'},
         {'label': 'Printing', 'url': None},
         {'label': 'Film Roll Entry', 'url': None},  # Assuming current page doesn't have a URL
-    ] 
+    ]
     if request.method == 'POST':
         userid = request.session['userdata']
         try:
             userdetails = CustomUser.objects.get(id=userid)
-            #print(userdetails.Pack_printing_access)            
+            #print(userdetails.Pack_printing_access)
         except:
             userdetails = None
         printing_rolldetails_form = prinitingrolldetailsform(request.POST)
@@ -202,7 +202,7 @@ def filmrollentry(request):
                 messages.warning(request, 'No roll details were provided.')
         else:
             messages.error(request, 'There was an error submitting the formset.')
-        
+
     else:
         userid = request.session['userdata']
         try:
@@ -214,15 +214,15 @@ def filmrollentry(request):
         roll_detail_formset = RollDetailsFormset()
     return render(request, 'Packing/printingfilmrollentry.html',{'printingrolldetailsform1':printing_rolldetails_form, 'rolldetailsformset':roll_detail_formset, 'breadcrumbs': breadcrumbs, 'user':userdetails},)#
 def printingfilmrollavailability(request):
-    
+
     userid = request.session['userdata']
-    userdetails = CustomUser.objects.get(id=userid)    
-    return render(request,'Packing/printingfilmrolltableavail.html',{'user':userdetails})    
+    userdetails = CustomUser.objects.get(id=userid)
+    return render(request,'Packing/printingfilmrolltableavail.html',{'user':userdetails})
 def filmrollavilcheck(request):
     if request.method == 'GET' and 'rollno' in request.GET:
         rollno = request.GET['rollno']
-        
-        if rollno:        
+
+        if rollno:
             # Check if the roll number exists in the database
             if PrintingRollDetail.objects.filter(filmrollno=rollno).exists():
                 result = {'message': 'Roll number already available'}
@@ -231,13 +231,13 @@ def filmrollavilcheck(request):
             return JsonResponse(result)
         else:
             result = {'message':'Enter valid Roll number'}
-            return JsonResponse(result)    
+            return JsonResponse(result)
     else:
         # If roll_number is not provided or method is not GET, return error
         result = {'message':'Enter valid Roll number'}
         return JsonResponse(result)
-    
-@method_decorator(login_required,name='dispatch')        
+
+@method_decorator(login_required,name='dispatch')
 class productionrolltableListView(ListView):
     model = ProductionRollDetails
     template_name = 'Packing/productionrolltable.html'
@@ -247,12 +247,12 @@ class productionrolltableListView(ListView):
         {'label': 'Home', 'url': '/Packing'},
         {'label': 'Production', 'url': '/Packing/MIS/productionrolltable'},
         {'label': 'Production Table', 'url': None},  # Assuming current page doesn't have a URL
-        ] 
-    
+        ]
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['breadcrumbs'] = self.breadcrumbs
-        
+
         userid = self.request.session.get('userdata')
         #print('userid',userid)
         userdetails = CustomUser.objects.get(id=userid)
@@ -263,23 +263,23 @@ class productionrolltableCreateView(CreateView):
     form_class = ProductionRollDetailsForm
     template_name = 'Packing/productionrolltableentry.html'
     success_url = reverse_lazy('productionrolltable')
-    
+
     breadcrumbs = [
         {'label': 'Home', 'url': '/Packing'},
         {'label': 'Production', 'url': '/Packing/MIS/productionrolltable'},
         {'label': 'Production Table Add', 'url': None},  # Assuming current page doesn't have a URL
-        ] 
-    
+        ]
+
     def form_valid(self, form):
         messages.success(self.request, 'Production roll details have been successfully created.')
         return super().form_valid(form)
-        
+
     pass
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['breadcrumbs'] = self.breadcrumbs
-        
+
         userid = self.request.session.get('userdata')
         #print('userid',userid)
         userdetails = CustomUser.objects.get(id=userid)
@@ -294,19 +294,19 @@ class productionrolltableUpdateView(UpdateView):
         {'label': 'Home', 'url': '/Packing'},
         {'label': 'Production', 'url': '/Packing/MIS/productionrolltable'},
         {'label': 'Film roll Update', 'url': None},  # Assuming current page doesn't have a URL
-        ] 
-    
+        ]
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['breadcrumbs'] = self.breadcrumbs
-        
+
         userid = self.request.session.get('userdata')
         #print('userid',userid)
         userdetails = CustomUser.objects.get(id=userid)
         context['user'] = userdetails
-        
+
         return context
-    
+
     def form_valid(self, form):
         messages.success(self.request, 'Production roll details have been successfully Updated.')
         return super().form_valid(form)
@@ -318,19 +318,19 @@ class productionrolltableDeleteView(DeleteView):
         {'label': 'Home', 'url': '/Packing'},
         {'label': 'Production', 'url': '/Packing/MIS/productionrolltable'},
         {'label': 'Film Roll Delete', 'url': None},  # Assuming current page doesn't have a URL
-        ] 
-    
+        ]
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['breadcrumbs'] = self.breadcrumbs
-        
+
         userid = self.request.session.get('userdata')
         #print('userid',userid)
         userdetails = CustomUser.objects.get(id=userid)
         context['user'] = userdetails
-        
+
         return context
-    
+
     def form_valid(self, form):
         messages.info(self.request, "Production roll details have been successfully Deleted.")
         return super().form_valid(form)
@@ -343,8 +343,8 @@ class dispatchstocktableListView(ListView):
         {'label': 'Home', 'url': '/Packing'},
         {'label': 'Production', 'url': '/Packing/MIS/productionrolltable'},
         {'label': 'Dispatch Stock', 'url': None},  # Assuming current page doesn't have a URL
-        ] 
-    
+        ]
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['breadcrumbs'] = self.breadcrumbs
@@ -353,7 +353,7 @@ class dispatchstocktableListView(ListView):
         userdetails = CustomUser.objects.get(id=userid)
         context['user'] = userdetails
         return context
-    
+
     def post(self, request, *args, **kwargs):
             #print("post triggered")
             if 'file' in request.FILES:
@@ -363,7 +363,7 @@ class dispatchstocktableListView(ListView):
             if not file.name.endswith('.xlsx'):
                 messages.error(request, 'Unsupported file type. Please upload an Excel file') #with .xlsx extension.
                 return redirect('dispatchstocktable')
-            
+
             form = DispatchStockUploadForm(request.POST, request.FILES)
             #print("Form is valid:", form.is_valid())
             #print(form)
@@ -374,12 +374,12 @@ class dispatchstocktableListView(ListView):
                     call_command('import_excel_dispatchstock', file_path)
                     os.remove(file_path)  # Remove temporary file after import
                     messages.success(self.request, 'File have been successfully upload.')
-                    
+
                 except CommandError as e:
                     messages.error(request, str(e))
                 except Exception as e:
                     messages.error(request, f"An unexpected error occurred: {str(e)}")
-                return redirect('dispatchstocktable')  # Redirect to dispatch stock list view    
+                return redirect('dispatchstocktable')  # Redirect to dispatch stock list view
             else:
                 #print("form not valid")
                 messages.error(self.reqeust, "File not support")
@@ -399,20 +399,20 @@ class dispatchstocktableListView(ListView):
         return file_path
 
 
-@method_decorator(login_required,name='dispatch')  
+@method_decorator(login_required,name='dispatch')
 class oilpumpListView(ListView):
     model = OilPumpingDetails
     template_name = 'Packing/oilpumpingtable.html'
     context_object_name = 'datatable'
     paginate_by = 10
-    
-    
+
+
     breadcrumbs = [
         {'label': 'Home', 'url': '/Packing'},
         {'label': 'Oil Pumping', 'url': '/Packing/oilpumpingtable'},
         {'label': 'Oil Pumping Table', 'url': None},  # Assuming current page doesn't have a URL
-        ] 
-    
+        ]
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['breadcrumbs'] = self.breadcrumbs
@@ -420,7 +420,7 @@ class oilpumpListView(ListView):
         userdetails = CustomUser.objects.get(id=userid)
         context['user'] = userdetails
         return context
-    pass   
+    pass
 class oilpumpCreateView(CreateView):
     model = OilPumpingDetails
     form_class = OilPumpingDetailsForm
@@ -430,8 +430,8 @@ class oilpumpCreateView(CreateView):
         {'label': 'Home', 'url': '/Packing'},
         {'label': 'Oil Pumping', 'url': '/Packing/oilpumpingtable'},
         {'label': 'Oil Pumping Table - Add', 'url': None},  # Assuming current page doesn't have a URL
-        ] 
-    
+        ]
+
     def form_valid(self, form):
         messages.success(self.request, 'Oil Pumping details have been successfully created.')
         return super().form_valid(form)
@@ -442,7 +442,7 @@ class oilpumpCreateView(CreateView):
         userdetails = CustomUser.objects.get(id=userid)
         context['user'] = userdetails
         return context
-    pass 
+    pass
 class oilpumpUpdateView(UpdateView):
     model = OilPumpingDetails
     form_class = OilPumpingDetailsForm
@@ -452,18 +452,18 @@ class oilpumpUpdateView(UpdateView):
         {'label': 'Home', 'url': '/Packing'},
         {'label': 'Oil Pumping', 'url': '/Packing/oilpumpingtable'},
         {'label': 'Oil Pumping Edit', 'url': None},  # Assuming current page doesn't have a URL
-        ] 
-    
+        ]
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['breadcrumbs'] = self.breadcrumbs
         return context
-    
+
     def form_valid(self, form):
         messages.success(self.request, 'Oil Pumping details have been successfully Updated.')
         return super().form_valid(form)
-    
-    pass 
+
+    pass
 class oilpumpDeleteView(DeleteView):
     model = OilPumpingDetails
     template_name = 'Packing/oilpumpingtabledelete.html'
@@ -472,18 +472,18 @@ class oilpumpDeleteView(DeleteView):
         {'label': 'Home', 'url': '/Packing'},
         {'label': 'Oil Pumping', 'url': '/Packing/oilpumpingtable'},
         {'label': 'Oil Pumping Delete', 'url': None},  # Assuming current page doesn't have a URL
-        ] 
-    
+        ]
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['breadcrumbs'] = self.breadcrumbs
         return context
-    
+
     def form_valid(self, form):
         messages.info(self.request, "Oil Pumping details have been successfully Deleted.")
         return super().form_valid(form)
-    
-    pass 
+
+    pass
 
 @method_decorator(login_required,name='dispatch')
 class DailyPouchCuttingDetailsListView(ListView):
@@ -495,8 +495,8 @@ class DailyPouchCuttingDetailsListView(ListView):
         {'label': 'Home', 'url': '/Packing'},
         {'label': 'Pouch Cutting', 'url': '/Packing/pouchcuttingtable'},
         {'label': 'Pouch Cutting Table', 'url': None},  # Assuming current page doesn't have a URL
-        ] 
-    
+        ]
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['breadcrumbs'] = self.breadcrumbs
@@ -504,7 +504,7 @@ class DailyPouchCuttingDetailsListView(ListView):
         userdetails = CustomUser.objects.get(id=userid)
         context['user'] = userdetails
         return context
-    
+
     pass
 class DailyPouchCuttingDetailsCreateView(CreateView):
     model = DailyPouchCuttingDetails
@@ -515,8 +515,8 @@ class DailyPouchCuttingDetailsCreateView(CreateView):
         {'label': 'Home', 'url': '/Packing'},
         {'label': 'Pouch Cutting', 'url': '/Packing/pouchcuttingtable'},
         {'label': 'Pouch Cutting Add', 'url': None},  # Assuming current page doesn't have a URL
-        ] 
-    
+        ]
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['breadcrumbs'] = self.breadcrumbs
@@ -524,7 +524,7 @@ class DailyPouchCuttingDetailsCreateView(CreateView):
         userdetails = CustomUser.objects.get(id=userid)
         context['user'] = userdetails
         return context
-    
+
     def form_valid(self, form):
         messages.success(self.request, 'Pouch Cutting details have been successfully created.')
         return super().form_valid(form)
@@ -537,8 +537,8 @@ class DailyPouchCuttingDetailsUpdateView(UpdateView):
         {'label': 'Home', 'url': '/Packing'},
         {'label': 'Pouch Cutting', 'url': '/Packing/pouchcuttingtable'},
         {'label': 'Pouch Cutting Update', 'url': None},  # Assuming current page doesn't have a URL
-        ] 
-    
+        ]
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['breadcrumbs'] = self.breadcrumbs
@@ -546,11 +546,11 @@ class DailyPouchCuttingDetailsUpdateView(UpdateView):
         userdetails = CustomUser.objects.get(id=userid)
         context['user'] = userdetails
         return context
-    
+
     def form_valid(self, form):
         messages.success(self.request, "Pouch Cutting details have been successfully Updated.")
         return super().form_valid(form)
-    
+
     pass
 class DailyPouchCuttingDetailsDeleteView(DeleteView):
     model = DailyPouchCuttingDetails
@@ -560,8 +560,8 @@ class DailyPouchCuttingDetailsDeleteView(DeleteView):
         {'label': 'Home', 'url': '/Packing'},
         {'label': 'Pouch Cutting', 'url': '/Packing/pouchcuttingtable'},
         {'label': 'Pouch Cutting Delete', 'url': None},  # Assuming current page doesn't have a URL
-        ] 
-    
+        ]
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['breadcrumbs'] = self.breadcrumbs
@@ -569,11 +569,11 @@ class DailyPouchCuttingDetailsDeleteView(DeleteView):
         userdetails = CustomUser.objects.get(id=userid)
         context['user'] = userdetails
         return context
-    
+
     def form_valid(self, form):
         messages.info(self.request, "Pouch Cutting details have been successfully Deleted.")
         return super().form_valid(form)
-    pass   
+    pass
 
 @method_decorator(login_required, name='dispatch')
 class ManualLeakChangeCreateView(CreateView):
@@ -598,8 +598,8 @@ class ManualLeakChangeCreateView(CreateView):
         userdetails = CustomUser.objects.get(id=userid)
         data['user'] = userdetails
         return data
-    
-   
+
+
     def form_valid(self, form):
         context = self.get_context_data()
         child_formset = context['child_formset']
@@ -616,7 +616,7 @@ class ManualLeakChangeListView(ListView):
     template_name = 'Packing/manualleakchangetable.html'
     context_object_name = 'datatable'
     paginate_by = 10
-    
+
     # obj = ManualLeakChangeRollPouchFS.objects.first()  # or filter by specific criteria
 
     # # Access the related PrintingRollDetail object
@@ -630,18 +630,18 @@ class ManualLeakChangeListView(ListView):
 
     # # Print the skuname (or use it as needed)
     # #print(skuname)
-    
-    
+
+
     breadcrumbs = [
         {'label': 'Home', 'url': '/Packing'},
         {'label': 'Manual Leak Change', 'url': '/Packing/manualleakchangetable'},
         {'label': 'Leak Change Table', 'url': None},  # Assuming current page doesn't have a URL
         ]
-    
+
     def get_queryset(self):
         # Order by updatedat field in descending order
-        return ManualLeakChangeRollPouchFS.objects.all().order_by('-updatedat') 
-    
+        return ManualLeakChangeRollPouchFS.objects.all().order_by('-updatedat')
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['breadcrumbs'] = self.breadcrumbs
@@ -693,7 +693,7 @@ class ManualLeakChangeDeleteView(DeleteView):
         {'label': 'Manual Leak Change', 'url': '/Packing/manualleakchangetable'},
         {'label': 'Leak Change Table Update', 'url': None},  # Assuming current page doesn't have a URL
         ]
-    
+
     def form_valid(self, form):
         messages.info(self.request, "Pouch Leak Change details have been successfully Deleted.")
         return super().form_valid(form)
@@ -704,7 +704,7 @@ class ManualLeakChangeDeleteView(DeleteView):
         context['user'] = userdetails
         context['breadcrumbs'] = self.breadcrumbs
 def autocomplete_skuname(request):
-    
+
     if 'term' in request.GET:
         return JsonResponse({'hi':'hi'})
         #print('data received')
@@ -722,7 +722,7 @@ def toggle(request):
         filter_option,dbname = btnradio.split(',')
         ##print("option",filter_option)
         ##print("dbname",dbname)
-        if dbname == "ProductionRollDetails":   
+        if dbname == "ProductionRollDetails":
             today = datetime.now().date()
             if filter_option == 'all':
                 data = ProductionRollDetails.objects.all().order_by('-updatedat')
@@ -746,12 +746,12 @@ def toggle(request):
                 data = ProductionRollDetails.objects.filter(runningdate__range=[last_year_start, last_year_end])
             else:
                 # Handle invalid filter options
-                data = ProductionRollDetails.objects.none()            
+                data = ProductionRollDetails.objects.none()
             # Log the data for debugging
             logger.info(f'Filtered data: {data}')
             return render(request, 'Packing/productionrolltable_data.html', {'datatable': data})
-        
-        if dbname == "PrintingRollDetail":   
+
+        if dbname == "PrintingRollDetail":
             today = datetime.now().date()
             if filter_option == 'all':
                 data = PrintingRollDetail.objects.all()
@@ -760,10 +760,10 @@ def toggle(request):
                 # data = PrintingRollDetail.objects.filter(printingrollbatch=batchdate)
                  # Filter PrintingRollBatch for the date range
                 batchdate = PrintingRollBatch.objects.filter(date__range=[today, today])
-                        
+
                 # Get all instances if any
                 batch_instances = batchdate.all()
-                
+
                 data = PrintingRollDetail.objects.filter(printingrollbatch__in=batch_instances)
             elif filter_option == '7d':
                 seven_days_ago = today - timedelta(days=7)
@@ -786,12 +786,12 @@ def toggle(request):
                 last_month_end = today.replace(day=1) - timedelta(days=1)
                 last_3_months_start = last_month_end.replace(day=1) - timedelta(days=2*30)  # Assuming 30 days per month
                 last_3_months_end = last_month_end
-    
+
                 # Filter PrintingRollBatch objects for the last 3 months
                 batchdate = PrintingRollBatch.objects.filter(date__range=[last_3_months_start, last_3_months_end])
                 # #print(last_3_months_start)
                 # #print(last_3_months_end)
-                
+
                 # Filter PrintingRollDetail objects based on batchdate
                 data = PrintingRollDetail.objects.filter(printingrollbatch__in=batchdate)
             elif filter_option == 'last_year':
@@ -801,28 +801,28 @@ def toggle(request):
                 today = date.today()
                 last_year_start = today.replace(year=today.year - 1, month=1, day=1)
                 last_year_end = last_year_start.replace(month=12, day=31)
-                
+
                 # Filter PrintingRollBatch objects for the last year
                 batchdate = PrintingRollBatch.objects.filter(date__range=[last_year_start, last_year_end])
                 ##print(batchdate)
-                
+
                 # Filter PrintingRollDetail objects based on batchdate
                 data = PrintingRollDetail.objects.filter(printingrollbatch__in=batchdate)
             else:
                 # Handle invalid filter options
                 data = PrintingRollDetail.objects.none()
-            
+
             # Log the data for debugging
             logger.info(f'Filtered data: {data}')
 
             return render(request, 'Packing/printingfilmrolltable_data.html', {'datatable': data})
-        
-        if dbname == "OilPumpingDetails":   
+
+        if dbname == "OilPumpingDetails":
             today = datetime.now().date()
             if filter_option == 'all':
                 data = OilPumpingDetails.objects.all()
             elif filter_option == 'today':
-                
+
                 data = OilPumpingDetails.objects.filter(date=today)
             elif filter_option == '7d':
                 seven_days_ago = today - timedelta(days=7)
@@ -852,17 +852,17 @@ def toggle(request):
                 data = OilPumpingDetails.objects.filter(date__range=[last_year_start, last_year_end])
             else:
                 # Handle invalid filter options
-                data = OilPumpingDetails.objects.none()            
+                data = OilPumpingDetails.objects.none()
             # Log the data for debugging
             logger.info(f'Filtered data: {data}')
             return render(request, 'Packing/oilpumpingtable_data.html', {'datatable': data})
-        
-        if dbname == "DailyPouchCuttingDetails":   
+
+        if dbname == "DailyPouchCuttingDetails":
             today = datetime.now().date()
             if filter_option == 'all':
                 data = DailyPouchCuttingDetails.objects.all()
             elif filter_option == 'today':
-                
+
                 data = DailyPouchCuttingDetails.objects.filter(date=today)
             elif filter_option == '7d':
                 seven_days_ago = today - timedelta(days=7)
@@ -892,12 +892,12 @@ def toggle(request):
                 data = DailyPouchCuttingDetails.objects.filter(date__range=[last_year_start, last_year_end])
             else:
                 # Handle invalid filter options
-                data = DailyPouchCuttingDetails.objects.none()            
+                data = DailyPouchCuttingDetails.objects.none()
             # Log the data for debugging
             logger.info(f'Filtered data: {data}')
             return render(request, 'Packing/dailypouchcuttingtable_data.html', {'datatable': data})
-        
-        if dbname == "ManualLeakChangeRollPouchFS":   
+
+        if dbname == "ManualLeakChangeRollPouchFS":
             today = datetime.now().date()
             if filter_option == 'all':
                 #print("hi")
@@ -927,12 +927,12 @@ def toggle(request):
                 last_month_end = today.replace(day=1) - timedelta(days=1)
                 last_3_months_start = last_month_end.replace(day=1) - timedelta(days=2*30)  # Assuming 30 days per month
                 last_3_months_end = last_month_end
-    
+
                 # Filter PrintingRollBatch objects for the last 3 months
                 manpowerdetails = ManualLeakChangeManpower.objects.filter(date__range=[last_3_months_start, last_3_months_end])
                 ##print(last_3_months_start)
                 ##print(last_3_months_end)
-                
+
                 # Filter PrintingRollDetail objects based on batchdate
                 data = ManualLeakChangeRollPouchFS.objects.filter(manpower__in=manpowerdetails)
             elif filter_option == 'last_year':
@@ -942,22 +942,22 @@ def toggle(request):
                 today = date.today()
                 last_year_start = today.replace(year=today.year - 1, month=1, day=1)
                 last_year_end = last_year_start.replace(month=12, day=31)
-                
+
                 # Filter PrintingRollBatch objects for the last year
                 manpowerdetails = ManualLeakChangeManpower.objects.filter(date__range=[last_year_start, last_year_end])
                 ##print(batchdate)
-                
+
                 # Filter PrintingRollDetail objects based on batchdate
                 data = ManualLeakChangeRollPouchFS.objects.filter(manpower__in=manpowerdetails)
             else:
                 # Handle invalid filter options
                 data = ManualLeakChangeRollPouchFS.objects.none()
-            
+
             # Log the data for debugging
             logger.info(f'Filtered data: {data}')
 
             return render(request, 'Packing/manualleakchangetable_data.html', {'datatable': data})
-        if dbname == "ExpVsActDetails":   
+        if dbname == "ExpVsActDetails":
             today = datetime.now().date()
             if filter_option == 'all':
                 data = ExpVsActDetails.objects.all()
@@ -983,7 +983,7 @@ def toggle(request):
                 data = ExpVsActDetails.objects.filter(date__range=[last_year_start, last_year_end])
             else:
                 # Handle invalid filter options
-                data = ExpVsActDetails.objects.none()            
+                data = ExpVsActDetails.objects.none()
             # Log the data for debugging
             logger.info(f'Filtered data: {data}')
             return render(request, 'Packing/expvsacttable_data.html', {'datatable': data})
@@ -991,229 +991,229 @@ def toggle(request):
         logger.error(f'Error in toggle view: {e}')
         # Handle exceptions, e.g., log the error
         return render(request, 'Packing/expvsacttable_data.html', {'datatable': []})
-    
-    
+
+
 def download_printingrolltable(request):
     if request.method == 'GET' and 'fromdate' in request.GET and 'todate' in request.GET:
-        
+
         from_date_str = request.GET['fromdate']
         to_date_str = request.GET['todate']
-        
+
         # #print(from_date_str)
         # #print(to_date_str)
-        
+
         try:
             from_date = datetime.strptime(from_date_str, '%Y-%m-%d')
             to_date = datetime.strptime(to_date_str, '%Y-%m-%d')
         except ValueError:
             # Handle invalid date format
             return HttpResponse("Invalid date format. Please use YYYY-MM-DD format.")
-        
-        # printingbatch = PrintingRollBatch.objects.filter(date__range=(from_date,to_date))        
+
+        # printingbatch = PrintingRollBatch.objects.filter(date__range=(from_date,to_date))
         # queryset = PrintingRollDetail.objects.filter(printingrollbatch__in=printingbatch)
         # batchdate = PrintingRollBatch.objects.filter(date__range=[from_date, to_date])
-        
+
         batchdate = PrintingRollBatch.objects.filter(date__range=[from_date,to_date])
         # #print(dir(batchdate))
         # skuname = skunamedetails.objects.filter(skuname = batchdate)
         ##print(batchdate)
         data = PrintingRollDetail.objects.filter(printingrollbatch__in=batchdate)
         ##print(data)
-        
+
         if data.exists():
-        
+
             wb = Workbook()
             ws = wb.active
-            
+
             headers = ['Date', 'Shift','SKU Name', 'MRP','Batch No','Roll No','Film Roll Date','Gross Wt','Net Wt','Operator Name']  # Adjust according to your model fields
             ws.append(headers)
-            
+
             for obj in data:
                 # #print(dir(obj))
-                row = [obj.printingrollbatch.date, obj.printingrollbatch.shift.shifttype,obj.printingrollbatch.skuname.skuname, obj.printingrollbatch.mrp, obj.printingrollbatch.batch_no, obj.filmrollno, obj.filmrolldate, 
+                row = [obj.printingrollbatch.date, obj.printingrollbatch.shift.shifttype,obj.printingrollbatch.skuname.skuname, obj.printingrollbatch.mrp, obj.printingrollbatch.batch_no, obj.filmrollno, obj.filmrolldate,
                     obj.grosswt,obj.netwt,obj.printingrollbatch.operatorname.operatorname]  # Adjust according to your model fields
                 ws.append(row)
-            
+
             response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
             response['Content-Disposition'] = 'attachment; filename="Printingfilmroll_table.xlsx"'
             wb.save(response)
-            
+
             return response
-        else : 
+        else :
             return HttpResponseRedirect('printingfilmrolltable')
-       
+
     return HttpResponseRedirect('printingfilmrolltable')
 def download_productionrolltable(request):
     if request.method == 'GET' and 'fromdate' in request.GET and 'todate' in request.GET:
-        
+
         from_date_str = request.GET['fromdate']
         to_date_str = request.GET['todate']
-        
+
         # #print(from_date_str)
         # #print(to_date_str)
-        
+
         try:
             from_date = datetime.strptime(from_date_str, '%Y-%m-%d')
             to_date = datetime.strptime(to_date_str, '%Y-%m-%d')
         except ValueError:
             # Handle invalid date format
             return HttpResponse("Invalid date format. Please use YYYY-MM-DD format.")
-        
+
         data = ProductionRollDetails.objects.filter(runningdate__range=[from_date,to_date])
-        
-        
-        
+
+
+
         if data.exists():
-        
+
             wb = Workbook()
             ws = wb.active
-            
+
             headers = ['Date', 'Shift','Machine No', 'SKU Name','Roll Type','Roll Start Time','Roll Stop Time',
                        'Batch No','MRP','Roll No','Operator Name','Pouch Count']  # Adjust according to your model fields
             ws.append(headers)
-            
+
             for obj in data:
                 # created_at = obj.createdat.replace(tzinfo=None) if obj.createdat else None
                 updatedat = obj.updatedat.replace(tzinfo=None) if obj.updatedat else None
                 # #print(dir(obj))
-                
+
                 def make_naive(dt):
                     return dt.replace(tzinfo=None) if dt else None
 
                 runningrollstarttime = make_naive(obj.runningrollstarttime) if hasattr(obj, 'runningrollstarttime') else None
                 runningrollstoptime = make_naive(obj.runningrollstoptime) if hasattr(obj,'runningrollstoptime') else None
-                
-                
-                row = [obj.runningdate, obj.runningshift.shifttype,obj.runningmachine.machinename,obj.runningskuname.skuname, obj.runningrolltype.rolltype, runningrollstarttime,runningrollstoptime, 
+
+
+                row = [obj.runningdate, obj.runningshift.shifttype,obj.runningmachine.machinename,obj.runningskuname.skuname, obj.runningrolltype.rolltype, runningrollstarttime,runningrollstoptime,
                        obj.runningbatchno,obj.runningmrp,obj.runningrollno, obj.runningoperatorname.operatorname]  # Adjust according to your model fields
                 ws.append(row)
-            
+
             response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
             response['Content-Disposition'] = 'attachment; filename="Productionfilroll_table.xlsx"'
             wb.save(response)
-            
+
             return response
-        else : 
+        else :
             return HttpResponseRedirect('productionrolltable')
-       
+
     return HttpResponseRedirect('productionrolltable')
 def download_oilpumpingtable(request):
     if request.method == 'GET' and 'fromdate' in request.GET and 'todate' in request.GET:
-        
+
         from_date_str = request.GET['fromdate']
         to_date_str = request.GET['todate']
-        
+
         # #print(from_date_str)
         # #print(to_date_str)
-        
+
         try:
             from_date = datetime.strptime(from_date_str, '%Y-%m-%d')
             to_date = datetime.strptime(to_date_str, '%Y-%m-%d')
         except ValueError:
             # Handle invalid date format
             return HttpResponse("Invalid date format. Please use YYYY-MM-DD format.")
-        
+
         data = OilPumpingDetails.objects.filter(date__range=[from_date,to_date])
-        
-        
-        
+
+
+
         if data.exists():
-        
+
             wb = Workbook()
             ws = wb.active
-            
+
             headers = ['Date', 'Shift','Motor ON Time', 'Motor OFF Time','Main Tank','Sub Tank','Vitamin',
                        'TMPS','TBHQ','Operator Name','QC Name', 'Manager']  # Adjust according to your model fields
             ws.append(headers)
-            
-            for obj in data:                
+
+            for obj in data:
                 def make_naive(dt):
                     return dt.replace(tzinfo=None) if dt else None
 
                 motorontime = make_naive(obj.motorontime) if hasattr(obj, 'motorontime') else None
                 motorofftime = make_naive(obj.motorofftime) if hasattr(obj,'motorofftime') else None
-                
-                
-                row = [obj.date, obj.shift.shifttype,motorontime,motorofftime, obj.maintank.maintankname, obj.subtank.subtankname,obj.vitaminunits.units, 
+
+
+                row = [obj.date, obj.shift.shifttype,motorontime,motorofftime, obj.maintank.maintankname, obj.subtank.subtankname,obj.vitaminunits.units,
                        obj.tmpsunits.units,obj.tbhqunits.units,obj.operatorname.operatorname,obj.qcname.qcname,obj.manager.managername]  # Adjust according to your model fields
                 ws.append(row)
-            
+
             response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
             response['Content-Disposition'] = 'attachment; filename="OilPumping_table.xlsx"'
             wb.save(response)
-            
+
             return response
-        else : 
+        else :
             return HttpResponseRedirect('oilpumpingtable')
-       
+
     return HttpResponseRedirect('oilpumpingtable')
 def download_pouchcuttingtable(request):
     if request.method == 'GET' and 'fromdate' in request.GET and 'todate' in request.GET:
-        
+
         from_date_str = request.GET['fromdate']
         to_date_str = request.GET['todate']
-        
+
         # #print(from_date_str)
         # #print(to_date_str)
-        
+
         try:
             from_date = datetime.strptime(from_date_str, '%Y-%m-%d')
             to_date = datetime.strptime(to_date_str, '%Y-%m-%d')
         except ValueError:
             # Handle invalid date format
             return HttpResponse("Invalid date format. Please use YYYY-MM-DD format.")
-        
+
         data = DailyPouchCuttingDetails.objects.filter(date__range=[from_date,to_date])
-        
+
         if data.exists():
-        
+
             wb = Workbook()
             ws = wb.active
-            
+
             headers = ['Date', 'Shift','Operator Name','SF Leak in MT', 'GN Leak in MT','GNR Leak in MT','RB Leak in MT','Palm Leak in MT',
                        'GIN Leak in MT']  # Adjust according to your model fields
             ws.append(headers)
-            
-            for obj in data:                
+
+            for obj in data:
                 def make_naive(dt):
                     return dt.replace(tzinfo=None) if dt else None
-       
-                row = [obj.date, obj.shift.shifttype,obj.operatorname.operatorname, obj.sfleakinmt, obj.gnleakinmt,obj.gnrleakinmt, 
+
+                row = [obj.date, obj.shift.shifttype,obj.operatorname.operatorname, obj.sfleakinmt, obj.gnleakinmt,obj.gnrleakinmt,
                        obj.rbleakinmt,obj.palmleakinmt,obj.ginleakinmt]  # Adjust according to your model fields
                 ws.append(row)
-            
+
             response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
             response['Content-Disposition'] = 'attachment; filename="PouchCutting_table.xlsx"'
             wb.save(response)
-            
+
             return response
-        else : 
+        else :
             return HttpResponseRedirect('download_pouchcuttingtable')
-       
+
     return HttpResponseRedirect('download_pouchcuttingtable')
-def download_manualleakchangetable(request):  
+def download_manualleakchangetable(request):
     if request.method == 'GET' and 'fromdate' in request.GET and 'todate' in request.GET:
-        
+
         from_date_str = request.GET['fromdate']
         to_date_str = request.GET['todate']
-        
+
         try:
             from_date = datetime.strptime(from_date_str, '%Y-%m-%d').date()
             to_date = datetime.strptime(to_date_str, '%Y-%m-%d').date()
         except ValueError:
             return HttpResponse("Invalid date format. Please use YYYY-MM-DD format.")
-        
+
         # Filter by date range
         manpowers = ManualLeakChangeManpower.objects.filter(date__range=[from_date, to_date])
         if manpowers.exists():
             wb = Workbook()
             ws = wb.active
-            
+
             headers = ['Date', 'Shift', 'SKU Name', 'Changed Box', 'Roll No', 'Total Pouch', 'Mistake', 'Total Manpower']
             ws.append(headers)
-            
+
             column_widths = [len(header) for header in headers]
-            
+
             for obj in manpowers:
                 data = ManualLeakChangeRollPouchFS.objects.filter(manpower=obj)
                 first_row = True
@@ -1225,10 +1225,10 @@ def download_manualleakchangetable(request):
                         skuname = 'N/A'
 
                     totalmanpower = obj.hindimanpower + obj.ladiesmanpower
-                    
+
                     rollno = detail.rollno.filmrollno
                     mistakename = detail.mistakename.mistakename
-                    
+
                     row = [
                         obj.date,
                         obj.shift.shifttype,
@@ -1240,7 +1240,7 @@ def download_manualleakchangetable(request):
                         totalmanpower
                     ]
                     ws.append(row)
-                    
+
                     # Update the maximum column widths
                     for i, cell_value in enumerate(row):
                         column_widths[i] = max(column_widths[i], len(str(cell_value)))
@@ -1248,7 +1248,7 @@ def download_manualleakchangetable(request):
             for i, column_width in enumerate(column_widths):
                 column_letter = get_column_letter(i + 1)
                 ws.column_dimensions[column_letter].width = column_width + 2  # Adding extra padding
-            
+
             # Define border style
             thin_border = Border(
                 left=Side(style='thin'),
@@ -1256,20 +1256,20 @@ def download_manualleakchangetable(request):
                 top=Side(style='thin'),
                 bottom=Side(style='thin')
             )
-            
+
             # Apply border to all cells
             for row in ws.iter_rows():
                 for cell in row:
                     cell.border = thin_border
-            
+
             response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
             response['Content-Disposition'] = 'attachment; filename="ManualPouchLeakChange_table.xlsx"'
             wb.save(response)
-            
+
             return response
         else:
             return HttpResponse("No data found for the given date range.")
-       
+
     return HttpResponseRedirect('manualleakchangetable')
 
     # Return the HTML fragment as JSON response
@@ -1281,118 +1281,118 @@ def download_manualleakchangetable(request):
     #     {'label': 'Home', 'url': '/Packing'},
     #     {'label': 'Production', 'url': None},
     #     {'label': 'Production Roll Table', 'url': None},  # Assuming current page doesn't have a URL
-    # ] 
+    # ]
     #     context = {
     #         'breadcrumbs':breadcrumbs,
     #         'datatable': query
     #     }
-            
+
     #     return render(request, 'Packing/productionrolltable.html',context)
 def download_expvsacttable(request):
     if request.method == 'GET' and 'fromdate' in request.GET and 'todate' in request.GET:
         ##print("hit")
         from_date_str = request.GET['fromdate']
         to_date_str = request.GET['todate']
-        
+
         #print(from_date_str)
         #print(to_date_str)
-        
+
         try:
             from_date = datetime.strptime(from_date_str, '%Y-%m-%d')
             to_date = datetime.strptime(to_date_str, '%Y-%m-%d')
         except ValueError:
             # Handle invalid date format
             return HttpResponse("Invalid date format. Please use YYYY-MM-DD format.")
-        
+
         data = ExpVsActDetails.objects.filter(date__range=[from_date,to_date])
         ##print(data)
-        
-        
-        
+
+
+
         if data.exists():
-        
+
             wb = Workbook()
             ws = wb.active
-            
+
             headers = ['Date', 'Expected Production Box','Actual Production Box', 'Different','Percentage %','Remarks']  # Adjust according to your model fields
             ws.append(headers)
-            
+
             for obj in data:
                 # created_at = obj.createdat.replace(tzinfo=None) if obj.createdat else None
                 updatedat = obj.updatedat.replace(tzinfo=None) if obj.updatedat else None
                 # #print(dir(obj))
-                
+
                 def make_naive(dt):
                     return dt.replace(tzinfo=None) if dt else None
 
                 #date = make_naive(obj.date) if hasattr(obj, 'date') else None
-                
-                different = obj.actbox - obj.expbox       
+
+                different = obj.actbox - obj.expbox
                 percentage = (obj.actbox / obj.expbox) * 100
-                percentage = round(percentage, 2)        
+                percentage = round(percentage, 2)
                 row = [obj.date, obj.expbox,obj.actbox,different,str(percentage) + '%',obj.remarks]  # Adjust according to your model fields
                 ws.append(row)
-            
+
             response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
             response['Content-Disposition'] = 'attachment; filename="ExpectedVsActualProduction_table.xlsx"'
             wb.save(response)
-            
+
             return response
         else :
-            #print("Data not found") 
+            #print("Data not found")
             return HttpResponseRedirect('expvsacttable')
-       
+
     return HttpResponseRedirect('expvsacttable')
 def download_dispatchstocktable(request):
     if request.method == 'GET' and 'fromdate' in request.GET and 'todate' in request.GET:
         ##print("hit")
         from_date_str = request.GET['fromdate']
         to_date_str = request.GET['todate']
-        
+
         #print(from_date_str)
         #print(to_date_str)
-        
+
         try:
             from_date = datetime.strptime(from_date_str, '%Y-%m-%d')
             to_date = datetime.strptime(to_date_str, '%Y-%m-%d')
         except ValueError:
             # Handle invalid date format
             return HttpResponse("Invalid date format. Please use YYYY-MM-DD format.")
-        
+
         data = DispatchOpendingClosingStockDetails.objects.filter(date__range=[from_date,to_date])
         ##print(data)
-        
-        
-        
+
+
+
         if data.exists():
-        
+
             wb = Workbook()
             ws = wb.active
-            
+
             headers = ['Date', 'SKU Code','Category', 'SKU Name','Opening stock','Sales','Closing Stock','Production','No of Empty Box']  # Adjust according to your model fields
             ws.append(headers)
-            
+
             for obj in data:
                 # created_at = obj.createdat.replace(tzinfo=None) if obj.createdat else None
                 updatedat = obj.updatedat.replace(tzinfo=None) if obj.updatedat else None
                 # #print(dir(obj))
-                
+
                 def make_naive(dt):
                     return dt.replace(tzinfo=None) if dt else None
 
-                #date = make_naive(obj.date) if hasattr(obj, 'date') else None  
+                #date = make_naive(obj.date) if hasattr(obj, 'date') else None
                 row = [obj.date, obj.skucode,obj.categoryname,obj.skuname,obj.openingstock,obj.sales,obj.closingstock,obj.production,obj.noofemptycottonbox]  # Adjust according to your model fields
                 ws.append(row)
-            
+
             response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
             response['Content-Disposition'] = 'attachment; filename="DispatchSalesSheet_table.xlsx"'
             wb.save(response)
-            
+
             return response
         else :
-            #print("Data not found") 
+            #print("Data not found")
             return HttpResponseRedirect('dispatchstocktable')
-       
+
     return HttpResponseRedirect('dispatchstocktable')
     pass
 def chart_data(request):
@@ -1418,8 +1418,8 @@ def chart_data(request):
         entry['operator_list'] = list(ProductionRollDetails.objects.filter(runningdate=entry['runningdate'])
                                       .values_list('runningoperatorname__operatorname', flat=True).distinct())
     ##print(list(data))
-    
-    
+
+
     return JsonResponse(list(data), safe=False)
 
 def chart_view(request):
@@ -1451,15 +1451,15 @@ class ExpVsActDetailsListView(ListView):
         {'label': 'Home', 'url': '/Packing'},
         {'label': 'Exp Vs Act', 'url': '/Packing/expvsacttable'},
         {'label': 'Exp Vs Act Table', 'url': None},  # Assuming current page doesn't have a URL
-        ] 
-    
+        ]
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['breadcrumbs'] = self.breadcrumbs
         userid = self.request.session.get('userdata')
         userdetails = CustomUser.objects.get(id=userid)
         context['user'] = userdetails
-        
+
         return context
 class ExpVsActDetailsCreateView(CreateView):
     model = ExpVsActDetails
@@ -1471,7 +1471,7 @@ class ExpVsActDetailsCreateView(CreateView):
         {'label': 'Exp Vs Act', 'url': '/Packing/expvsacttable'},
         {'label': 'Exp Vs Act Table Add', 'url': None},  # Assuming current page doesn't have a URL
         ]
-    
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['breadcrumbs'] = self.breadcrumbs
@@ -1479,7 +1479,7 @@ class ExpVsActDetailsCreateView(CreateView):
         userdetails = CustomUser.objects.get(id=userid)
         context['user'] = userdetails
         return context
-    
+
     def form_valid(self, form):
         messages.success(self.request, 'Expected Vs Actual Production have been successfully created.')
         return super().form_valid(form)
@@ -1493,7 +1493,7 @@ class ExpVsActDetailsUpdateView(UpdateView):
         {'label': 'Exp Vs Act', 'url': '/Packing/expvsacttable'},
         {'label': 'Exp Vs Act Table Edit', 'url': None},  # Assuming current page doesn't have a URL
         ]
-    
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['breadcrumbs'] = self.breadcrumbs
@@ -1501,7 +1501,7 @@ class ExpVsActDetailsUpdateView(UpdateView):
         userdetails = CustomUser.objects.get(id=userid)
         context['user'] = userdetails
         return context
-    
+
     def form_valid(self, form):
         messages.success(self.request, 'Expected Vs Actual Production details have been successfully updated.')
         return super().form_valid(form)
@@ -1517,7 +1517,7 @@ class ExpVsActDetailsDeleteView(DeleteView):
     def form_valid(self, form):
         messages.info(self.request, "Expected Vs Actual details have been successfully Deleted.")
         return super().form_valid(form)
-    
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['breadcrumbs'] = self.breadcrumbs
@@ -1529,19 +1529,19 @@ class ExpVsActChartListView(ListView):
     model = ExpVsActDetails
     template_name='Packing/expvsactchart.html'
     context_object_name = 'datatable'
-    
+
     def get_context_data(self, **kwargs):
         context =  super().get_context_data(**kwargs)
         userid = self.request.session.get('userdata')
         userdetails = CustomUser.objects.get(id=userid)
         # Retrieve data for the chart
         chart_data = list(ExpVsActDetails.objects.values('date', 'expbox', 'actbox'))
-        
+
     #Month -------------------
         # Convert dates to string
         for item in chart_data:
             item['date'] = item['date'].strftime('%d-%m-%Y')
-        
+
         # Organize data by month and calculate totals
         data_by_month = {}
         for item in chart_data:
@@ -1550,30 +1550,30 @@ class ExpVsActChartListView(ListView):
                 data_by_month[month] = {'exp_total': 0, 'act_total': 0}
             data_by_month[month]['exp_total'] += item['expbox']
             data_by_month[month]['act_total'] += item['actbox']
-        
+
         # Convert data_by_month to a list of dictionaries
         chart_month_data = [{'month': month, 'exp_total': data['exp_total'], 'act_total': data['act_total']} for month, data in data_by_month.items()]
         context['chart_month'] = json.dumps(chart_month_data)  # Convert to JSON string for monthly totals
-        
-        
+
+
     #____________________________________________________________________________
-    
+
     #Current month--------------------------------------------------------------
         # Get the current month and year
         current_month = datetime.now().month
         current_year = datetime.now().year
-        
+
         # Filter data for the current month
         chart_data = ExpVsActDetails.objects.filter(date__month=current_month, date__year=current_year).order_by('date')
-        
+
         # Convert queryset to list of dictionaries
         chart_data_list = [{'date': item.date.strftime('%d-%m-%Y'), 'expbox': item.expbox, 'actbox': item.actbox} for item in chart_data]
         context['chart_day'] = json.dumps(chart_data_list)  # Convert to JSON string
-    
+
         # print(chart_data)
         return context
 
-@login_required()    
+@login_required()
 def ppsr_details_view(request):
     userid = request.seesion['userdata']
     userdetails = CustomUser.objects.get(id=userid)
@@ -1591,7 +1591,7 @@ def ppsr_details_view(request):
         userdetails = CustomUser.objects.get(id=userid)
     return render(request, 'Packing/template_name.html', {'formset': formset,'user':userdetails})  # Replace with your template name
 @login_required()
-def ppsr_details_edit(request):    
+def ppsr_details_edit(request):
     form = PPSRDetailsForm()
     if request.method == 'POST':
         userid = request.session['userdata']
@@ -1613,31 +1613,31 @@ class PPSRDetailsListView(ListView):
     model = PPSRDetails
     template_name = 'Packing/ppsrtable.html'
     context_object_name = 'datatable'
-    
+
     breadcrumbs = [
         {'label': 'Home', 'url': '/Packing'},
         {'label': 'Production', 'url': '/Packing/MIS/productionrolltable'},
         {'label': 'PPSR Details', 'url': None},  # Assuming current page doesn't have a URL
-        ] 
-    
+        ]
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['breadcrumbs'] = self.breadcrumbs
-        
+
         userid = self.request.session.get('userdata')
         ##print('userid',userid)
         userdetails = CustomUser.objects.get(id=userid)
         context['user'] = userdetails
-        
+
         return context
     def get_queryset(self):
-        return PPSRDetails.objects.all().order_by('-date')   
+        return PPSRDetails.objects.all().order_by('-date')
 class PPSRDetailsCreateView(CreateView):
     model = PPSRDetails
     #form_class = PPSRDetailsFormSet
     template_name = 'Packing/template_name.html'
     success_url = reverse_lazy('ppsrtable')
-    
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         if self.request.POST:
@@ -1667,7 +1667,7 @@ class PPSRChartView(ListView):
     model = PPSRDetails
     template_name = 'Packing/ppsrchartview.html'
     context_object_name = 'datatable'
-    
+
     def get_context_data(self, **kwargs):
         today = date.today()
         # print(today)
@@ -1684,28 +1684,28 @@ class PPSRChartView(ListView):
         if hptqueryfull:
              # Create a DataFrame directly from the list of dictionaries
             datadf = pd.DataFrame(hptqueryfull)
-            
-            
+
+
             # Replace None values with 0 for the summation
-            datadf['ipk1_plan'] = datadf['ipk1_plan'].fillna(0).infer_objects(copy=False).astype(int)
-            datadf['ipk2_plan'] = datadf['ipk2_plan'].fillna(0).infer_objects(copy=False).astype(int)
-            datadf['ipk3_plan'] = datadf['ipk3_plan'].fillna(0).infer_objects(copy=False).astype(int)
-            datadf['ipk4_plan'] = datadf['ipk4_plan'].fillna(0).infer_objects(copy=False).astype(int)
-            datadf['ipk5_plan'] = datadf['ipk5_plan'].fillna(0).infer_objects(copy=False).astype(int)
-            datadf['ipk6_plan'] = datadf['ipk6_plan'].fillna(0).infer_objects(copy=False).astype(int)
-            datadf['ipk7_plan'] = datadf['ipk7_plan'].fillna(0).infer_objects(copy=False).astype(int)
-            datadf['ipk8_plan'] = datadf['ipk8_plan'].fillna(0).infer_objects(copy=False).astype(int)
-            datadf['ipk1_pouchcount'] = datadf['ipk1_pouchcount'].fillna(0).infer_objects(copy=False).astype(int)
-            datadf['ipk2_pouchcount'] = datadf['ipk2_pouchcount'].fillna(0).infer_objects(copy=False).astype(int)
-            datadf['ipk3_pouchcount'] = datadf['ipk3_pouchcount'].fillna(0).infer_objects(copy=False).astype(int)
-            datadf['ipk4_pouchcount'] = datadf['ipk4_pouchcount'].fillna(0).infer_objects(copy=False).astype(int)
-            datadf['ipk5_pouchcount'] = datadf['ipk5_pouchcount'].fillna(0).infer_objects(copy=False).astype(int)
-            datadf['ipk6_pouchcount'] = datadf['ipk6_pouchcount'].fillna(0).infer_objects(copy=False).astype(int)
-            datadf['ipk7_pouchcount'] = datadf['ipk7_pouchcount'].fillna(0).infer_objects(copy=False).astype(int)
-            datadf['ipk8_pouchcount'] = datadf['ipk8_pouchcount'].fillna(0).infer_objects(copy=False).astype(int)
+            datadf['ipk1_plan'] = datadf['ipk1_plan'].fillna(0).infer_objects().astype(int)
+            datadf['ipk2_plan'] = datadf['ipk2_plan'].fillna(0).infer_objects().astype(int)
+            datadf['ipk3_plan'] = datadf['ipk3_plan'].fillna(0).infer_objects().astype(int)
+            datadf['ipk4_plan'] = datadf['ipk4_plan'].fillna(0).infer_objects().astype(int)
+            datadf['ipk5_plan'] = datadf['ipk5_plan'].fillna(0).infer_objects().astype(int)
+            datadf['ipk6_plan'] = datadf['ipk6_plan'].fillna(0).infer_objects().astype(int)
+            datadf['ipk7_plan'] = datadf['ipk7_plan'].fillna(0).infer_objects().astype(int)
+            datadf['ipk8_plan'] = datadf['ipk8_plan'].fillna(0).infer_objects().astype(int)
+            datadf['ipk1_pouchcount'] = datadf['ipk1_pouchcount'].fillna(0).infer_objects().astype(int)
+            datadf['ipk2_pouchcount'] = datadf['ipk2_pouchcount'].fillna(0).infer_objects().astype(int)
+            datadf['ipk3_pouchcount'] = datadf['ipk3_pouchcount'].fillna(0).infer_objects().astype(int)
+            datadf['ipk4_pouchcount'] = datadf['ipk4_pouchcount'].fillna(0).infer_objects().astype(int)
+            datadf['ipk5_pouchcount'] = datadf['ipk5_pouchcount'].fillna(0).infer_objects().astype(int)
+            datadf['ipk6_pouchcount'] = datadf['ipk6_pouchcount'].fillna(0).infer_objects().astype(int)
+            datadf['ipk7_pouchcount'] = datadf['ipk7_pouchcount'].fillna(0).infer_objects().astype(int)
+            datadf['ipk8_pouchcount'] = datadf['ipk8_pouchcount'].fillna(0).infer_objects().astype(int)
             # print(datadf['ipk1_pouchcount'])
             # print(datadf['ipk2_pouchcount'])
-            
+
             # Calculate the totals for ipk1_plan and ipk2_plan
             total_ipk1_plan = datadf['ipk1_plan'].sum()
             total_ipk2_plan = round(datadf['ipk2_plan'].sum(),0)
@@ -1728,12 +1728,12 @@ class PPSRChartView(ListView):
             # print(total_ipk2_plan)
             # print(total_ipk1_pouchcount)
             # print(total_ipk2_pouchcount)
-            
+
             # # Calculate the ratio of pouchcount to plan for ipk1 and ipk2 as integers
             # datadf['ipk1_ratio'] = datadf.apply(lambda row: row['ipk1_pouchcount'] // row['ipk1_plan'] if row['ipk1_plan'] != 0 else 0, axis=1)
             # datadf['ipk2_ratio'] = datadf.apply(lambda row: row['ipk2_pouchcount'] // row['ipk2_plan'] if row['ipk2_plan'] != 0 else 0, axis=1)
             # print(datadf['ipk2_ratio'])
-            
+
             total_ipk1_ratio = (total_ipk1_pouchcount / total_ipk1_plan) * 10 if total_ipk1_plan != 0 else 0
             total_ipk2_ratio = (total_ipk2_pouchcount / total_ipk2_plan) * 10 if total_ipk2_plan != 0 else 0
             total_ipk3_ratio = (total_ipk3_pouchcount / total_ipk3_plan) * 10 if total_ipk3_plan != 0 else 0
@@ -1744,13 +1744,13 @@ class PPSRChartView(ListView):
             total_ipk8_ratio = (total_ipk8_pouchcount / total_ipk8_plan) * 10 if total_ipk8_plan != 0 else 0
             # print('PVR3 ratio : ',total_ipk3_ratio)
             # print('PVR4 ratio : ',total_ipk4_ratio)
-            
+
             # # Sum the ratios for ipk1 and ipk2
             # total_ipk1_ratio = datadf['ipk1_ratio'].sum()
             # total_ipk2_ratio = datadf['ipk2_ratio'].sum()
-            
-            
-            
+
+
+
             # Store the results in a dictionary or print them
             context['total_ipk1_plan']  = total_ipk1_plan
             context['total_ipk2_plan']  = total_ipk2_plan
@@ -1776,7 +1776,7 @@ class PPSRChartView(ListView):
             context['total_ipk6_ratio'] =  round(total_ipk6_ratio,0)
             context['total_ipk7_ratio'] = round(total_ipk7_ratio,0)
             context['total_ipk8_ratio'] =  round(total_ipk8_ratio,0)
-                    
+
         else:
             context['error'] = True
         #print(context['total_ipk3_pouchcount'])
@@ -1786,7 +1786,7 @@ class PPSRChartView(ListView):
         context['breadcrumbs'] = breadcrumbs
         # print(hptquerylast)
         return context
-        
+
 @method_decorator(login_required,name='dispatch')
 class SRDailyStockPETJARUpdateView(View):
     def get(self,request):
@@ -1798,7 +1798,7 @@ class SRDailyStockPETJARUpdateView(View):
         if lastentry:
             lastupdate = lastentry.date
         else:
-            lastupdate = ''      
+            lastupdate = ''
         form = SRDailyStockDetailsForm(skuname)
         breadcrumbs = [
         {'label': 'Home', 'url': '/Packing'},
@@ -1813,7 +1813,7 @@ class SRDailyStockPETJARUpdateView(View):
         skuname = skunamedetails.objects.filter(godownname=2)
         form = SRDailyStockDetailsForm(skuname=skuname, data=request.POST)
         updatedby = request.session.get('userdata')
-        if updatedby is not None:        
+        if updatedby is not None:
             if form.is_valid():
                 stockdata = form.cleaned_data
                 stockmode = stockdata.get('stockmode')  # Get the value of stockmode from the cleaned data
@@ -1821,8 +1821,8 @@ class SRDailyStockPETJARUpdateView(View):
                 ##print('godown',godown)
                 for sku in skuname:
                     # Assuming the correct attribute is 'sku_name'
-                    stockbox = stockdata.get(sku.skuname)               
-                    
+                    stockbox = stockdata.get(sku.skuname)
+
                     if stockbox is not None:
                         SRDailyStockDetails.objects.create(skuname=sku, stockbox=stockbox,stocktype='PET',stockmode=stockmode,updatedby=updatedby,godownname=godown)
                 messages.success(request,"PET Stock Details updated Successful")
@@ -1836,7 +1836,7 @@ class SRDailyStockPETJARUpdateView(View):
             return render(request, 'Packing/dailystockpetjartablenewentry.html', {'form': form})
 @method_decorator(login_required,name='dispatch')
 class DailyPETJARstocklist(View):
-    def get(self,request): 
+    def get(self,request):
         # Step 1: Fetch all relevant records for today's date and specific stock type
         today_date = date.today()
         all_stock_records = SRDailyStockDetails.objects.filter(date__date=today_date, godownname=2)
@@ -1861,11 +1861,11 @@ class DailyPETJARstocklist(View):
         casmorningstock = [record for record in morningstocktable if record.skuname.skuname.startswith('CAS')]
         glmorningstock = [record for record in morningstocktable if record.skuname.skuname.startswith('GL')]
         palmmorningstock = [record for record in morningstocktable if 'PALM' in record.skuname.skuname]
-        
-            
-            
+
+
+
         if not eveningstocktable:
-            eveningstockerror = 1         
+            eveningstockerror = 1
         sfeveningstock = [record for record in eveningstocktable if record.skuname.skuname.startswith('SF')]
         gneveningstock = [record for record in eveningstocktable if record.skuname.skuname.startswith('GN ')]
         rbeveningstock = [record for record in eveningstocktable if record.skuname.skuname.startswith('RB')]
@@ -1876,8 +1876,8 @@ class DailyPETJARstocklist(View):
         caseveningstock = [record for record in eveningstocktable if record.skuname.skuname.startswith('CAS')]
         gnreveningstock = [record for record in eveningstocktable if record.skuname.skuname.startswith('GNR')]
         gleveningstock = [record for record in eveningstocktable if record.skuname.skuname.startswith('GL')]
-        palmeveningstock = [record for record in eveningstocktable if 'PALM' in record.skuname.skuname] 
-        
+        palmeveningstock = [record for record in eveningstocktable if 'PALM' in record.skuname.skuname]
+
         # #print(eveningstocktable)
         # Step 3: Find the latest date and corresponding updatedby for 'POUCH' stock type
         subquery = SRDailyStockDetails.objects.filter(
@@ -1896,7 +1896,7 @@ class DailyPETJARstocklist(View):
             updatedby = CustomUser.objects.get(id=userid)
         except:
             updatedby = 'unknown'
-        
+
         userid = self.request.session.get('userdata')
         ##print('userid',userid)
         userdetails = CustomUser.objects.get(id=userid)
@@ -1939,7 +1939,7 @@ class DailyPETJARstocklist(View):
         return render(request,'Packing/dailystockpetjartable.html',context)
 @method_decorator(login_required,name='dispatch')
 class DailystockPouchList(View):
-    def get(self,request): 
+    def get(self,request):
         # Step 1: Fetch all relevant records for today's date and specific stock type
         today_date = date.today()
         all_stock_records = SRDailyStockDetails.objects.filter(date__date=today_date, godownname=1)
@@ -1961,11 +1961,11 @@ class DailystockPouchList(View):
         gnrmorningstock = [record for record in morningstocktable if record.skuname.skuname.startswith('GNR')]
         glmorningstock = [record for record in morningstocktable if record.skuname.skuname.startswith('GL')]
         palmmorningstock = [record for record in morningstocktable if 'PALM' in record.skuname.skuname]
-        
-            
-            
+
+
+
         if not eveningstocktable:
-            eveningstockerror = 1         
+            eveningstockerror = 1
         sfeveningstock = [record for record in eveningstocktable if record.skuname.skuname.startswith('SF')]
         gneveningstock = [record for record in eveningstocktable if record.skuname.skuname.startswith('GN ')]
         rbeveningstock = [record for record in eveningstocktable if record.skuname.skuname.startswith('RB')]
@@ -1973,8 +1973,8 @@ class DailystockPouchList(View):
         gineveningstock = [record for record in eveningstocktable if record.skuname.skuname.startswith('GIN')]
         gnreveningstock = [record for record in eveningstocktable if record.skuname.skuname.startswith('GNR')]
         gleveningstock = [record for record in eveningstocktable if record.skuname.skuname.startswith('GL')]
-        palmeveningstock = [record for record in eveningstocktable if 'PALM' in record.skuname.skuname] 
-        
+        palmeveningstock = [record for record in eveningstocktable if 'PALM' in record.skuname.skuname]
+
         # #print(eveningstocktable)
         # Step 3: Find the latest date and corresponding updatedby for 'POUCH' stock type
         subquery = SRDailyStockDetails.objects.filter(
@@ -1993,7 +1993,7 @@ class DailystockPouchList(View):
             updatedby = CustomUser.objects.get(id=userid)
         except:
             updatedby = 'unknown'
-        
+
         userid = self.request.session.get('userdata')
         ##print('userid',userid)
         userdetails = CustomUser.objects.get(id=userid)
@@ -2028,7 +2028,7 @@ class DailystockPouchList(View):
             'breadcrumbs':breadcrumbs
         }
         return render(request,'Packing/dailystockpouchtable.html',context)
-@method_decorator(login_required,name='dispatch')   
+@method_decorator(login_required,name='dispatch')
 class DailystockPouchUpdate(View):
     def get(self,request):
         skuname = skunamedetails.objects.filter(godownname=1)
@@ -2036,7 +2036,7 @@ class DailystockPouchUpdate(View):
         if lastentry:
             lastupdate = lastentry.date
         else:
-            lastupdate = ''      
+            lastupdate = ''
         form = SRDailyStockDetailsForm(skuname)
         userid = self.request.session.get('userdata')
         ##print('userid',userid)
@@ -2047,20 +2047,20 @@ class DailystockPouchUpdate(View):
         {'label': 'Pouch Stock Update', 'url': None},  # Assuming current page doesn't have a URL
         ]
         return render(request,'Packing/dailystockpouchtablenewentry.html',{'form':form,'lastentrydate':lastupdate,'user':userdetails,'breadcrumbs':breadcrumbs})
-    
+
     def post(self,request):
         skuname = skunamedetails.objects.filter(skutype='POUCH')
         form = SRDailyStockDetailsForm(skuname=skuname, data=request.POST)
         updatedby = request.session.get('userdata')
-        if updatedby is not None:        
+        if updatedby is not None:
             if form.is_valid():
                 stockdata = form.cleaned_data
                 stockmode = stockdata.get('stockmode')  # Get the value of stockmode from the cleaned data
                 godown = GodownDetails.objects.get(pk=1) # Retrieve the GodownDetails instance with ID 1
                 for sku in skuname:
                     # Assuming the correct attribute is 'sku_name'
-                    stockbox = stockdata.get(sku.skuname)               
-                    
+                    stockbox = stockdata.get(sku.skuname)
+
                     if stockbox is not None:
                         SRDailyStockDetails.objects.create(skuname=sku, stockbox=stockbox,stocktype='POUCH',stockmode=stockmode,updatedby=updatedby,godownname=godown)
                 messages.success(request,"Pouch Stock Details updated Successful")
@@ -2097,8 +2097,8 @@ class DailyStockSRFull(View):
             'user':userdetails,
             'bradcrumbs':breadcrumbs
         }
-        
-        return render(request, 'Packing/dailystock_sr_stock_full.html', context)    
+
+        return render(request, 'Packing/dailystock_sr_stock_full.html', context)
 
 @method_decorator(login_required,name='dispatch')
 class DispatchReqVsStockView(View):
@@ -2122,24 +2122,24 @@ class DispatchReqVsStockView(View):
                 # #print(stockdf)
                 reqdf = pd.DataFrame(list(dispatcheveingreq.values('skuname','reqbox')))
                 # #print(reqdf)
-                
+
                 # mergedf = pd.merge(stockdf,reqdf,how='outer')
                 # #print(mergedf)
                 # #print('InnerJoint')
                 # mergedf = pd.merge(stockdf,reqdf,how='inner')
                 mergedf = pd.merge(stockdf,reqdf,how='right')
                 # #print(mergedf)
-                
+
                 mergedf.fillna(0,inplace=True)
                 # #print('fil0 : ',mergedf)
-                
+
                 mergedf['stockavail']=mergedf['stockbox']-mergedf['reqbox']
                 # #print('calc',mergedf)
-                
+
                 plandata = mergedf.to_dict('records')
                 # #print(plandata)
                 context['plandata'] = plandata
-                
+
                 # Replace skuname IDs with actual skuname names
                 skunames = {skuname.id: skuname.skuname for skuname in skunamedetails.objects.all()}
                 for item in plandata:
@@ -2148,13 +2148,13 @@ class DispatchReqVsStockView(View):
             else:
                 context['error'] = "Dispatch requirement not updated"
         else:
-            context['error'] = 'Evening Stock not updated' 
+            context['error'] = 'Evening Stock not updated'
         breadcrumbs = [
         {'label': 'Home', 'url': '/Packing'},
         {'label': 'Dispatch Req Vs Stock', 'url': '/Packing/MIS/dispatchreqvsstockview'},
         {'label': 'Req Vs Stock Table', 'url': None},  # Assuming current page doesn't have a URL
         ]
-        context['breadcrumbs'] = breadcrumbs   
+        context['breadcrumbs'] = breadcrumbs
         return render(request,'Packing/dispatchreqvsstockview.html',context)
     def download_excel(self,request):
         today=date.today()
@@ -2171,20 +2171,20 @@ class DispatchReqVsStockView(View):
                 # #print(stockdf)
                 reqdf = pd.DataFrame(list(dispatcheveingreq.values('skuname','reqbox')))
                 # #print(reqdf)
-                
+
                 # mergedf = pd.merge(stockdf,reqdf,how='outer')
                 # #print(mergedf)
                 # #print('InnerJoint')
                 # mergedf = pd.merge(stockdf,reqdf,how='inner')
                 mergedf = pd.merge(stockdf,reqdf,how='right')
                 # #print(mergedf)
-                
+
                 mergedf.fillna(0,inplace=True)
                 # #print('fil0 : ',mergedf)
-                
+
                 mergedf['stockavail']=mergedf['stockbox']-mergedf['reqbox']
                 # #print('calc',mergedf)
-                
+
                 # Replace skuname IDs with actual skuname names
                 skunames = {skuname.id: skuname.skuname for skuname in skunamedetails.objects.all()}
                 mergedf['skuname'] = mergedf['skuname'].map(skunames)
@@ -2193,15 +2193,15 @@ class DispatchReqVsStockView(View):
                 mergedf = pd.DataFrame(columns=['skuname', 'stockbox', 'reqbox', 'stockavail'])
         else:
             context['error'] = 'Evening Stock not updated'
-            mergedf = pd.DataFrame(columns=['skuname', 'stockbox', 'reqbox', 'stockavail']) 
+            mergedf = pd.DataFrame(columns=['skuname', 'stockbox', 'reqbox', 'stockavail'])
         # Generate Excel file
         response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
         response['Content-Disposition'] = f'attachment; filename="Dispatch_ReqvsStock_{today}.xlsx"'
-        
+
         with pd.ExcelWriter(response, engine='xlsxwriter') as writer:
             mergedf.to_excel(writer, index=False, sheet_name='Dispatch_ReqVsStock')
 
-        return response             
+        return response
 @method_decorator(login_required,name='dispatch')
 class DispatchReqVsStockUpdate(View):
     def get(self,request):
@@ -2209,9 +2209,9 @@ class DispatchReqVsStockUpdate(View):
         userid = self.request.session.get('userdata')
         ##print('userid',userid)
         userdetails = CustomUser.objects.get(id=userid)
-        
+
         return render(request, 'Packing/dispatchreqform.html', {'form': form,'user':userdetails})
-        
+
     def post(self,request):
         forms = []
         userid = self.request.session.get('userdata')
