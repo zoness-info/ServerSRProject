@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    #'django_select2', # This package provides enhanced select boxes that support search functionality in templates 
+    #'django_select2', # This package provides enhanced select boxes that support search functionality in templates
     'SR_Plant_I',
     'Packing',
 ]
@@ -87,10 +87,10 @@ WSGI_APPLICATION = 'SRProject.wsgi.application'
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': 'SRProject', 
+#         'NAME': 'SRProject',
 #         'USER': 'postgres',
 #         'PASSWORD': 'password',
-#         'HOST': 'localhost', 
+#         'HOST': 'localhost',
 #         'PORT': '5432',
 #     }
 # }
