@@ -552,12 +552,4 @@ class DispatchReq(models.Model):
     def __str__(self):
         return f'{self.date} - {self.skuname} - {self.reqbox}'
 
-class CSMillskulist(models.Model):
-    csskuname = models.ForeignKey(skunamedetails, on_delete=models.CASCADE)
-    createdat = models.DateTimeField(_("Created At"),auto_now_add=True)
-    updatedat = models.DateTimeField(_("Updated AT"), auto_now=True)
-    isdelete = models.BooleanField(_("Deleted"),default=False)
-
-    def __str__(self):
-        return {self.csskuname}
 
